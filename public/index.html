@@ -1000,7 +1000,7 @@ async function autoPres(p, v, me, live) {
   let selfie = null; try { const bl = await new Promise(rs => cv.toBlob(rs, 'image/jpeg', .7)); selfie = await upFile('foto-anggota', `selfie/${p.id}_${me.id}.jpg`, bl) } catch { }
   const late = Date.now() > t0(p) + (+p.toleransi_menit || 0) * 60000, status = late ? 'Terlambat' : 'Hadir';
   await DB.add('presensi', { pertemuan_id: p.id, anggota_id: me.id, waktu_presensi: new Date().toISOString(), latitude: S.pos.lat, longitude: S.pos.lng, jarak_meter: Math.round(j * 10) / 10, foto_selfie: selfie, skor_wajah: +(1 - dc).toFixed(3), status });
-  S.sm = ''; snd(1);
+  S.sm = ''; snd(1); stopMedia(); // presensi tersimpan: kamera & GPS langsung ditutup, foto tampil 4 detik
   await showRs('ok', `Presensi ${status} • ${me.nama_lengkap}`, `${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }).replace('.', ':')}`, shot);
   if (S.page !== 'presensi') return; await loadAll(); go('presensi');
 }
