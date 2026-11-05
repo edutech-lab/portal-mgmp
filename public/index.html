@@ -956,11 +956,11 @@ HK.presensi = async () => {
   updPres(); try { await loadFace(); S.fr = true } catch (e) { S.ferr = e.message } updPres(); scanStart();
 };
 const wait = ms => new Promise(r => setTimeout(r, ms));
-// hasil tampil 2 detik di atas kamera
+// hasil tampil di atas kamera: foto presensi 4 detik (tanpa keterangan), pesan lain 2 detik
 async function showRs(k, t, sub, img) {
   const e = $('#rs'); if (!e) return;
-  e.className = 'rs on ' + k; e.innerHTML = (img ? `<img class="rp" src="${img}" alt="Foto presensi">` : `<div class="ri">${ic(k === 'er' ? 'alert' : 'check')}</div>`) + `<b>${h(t)}</b><span>${h(sub || '')}</span>`;
-  await wait(2000); const e2 = $('#rs'); if (e2) { e2.className = 'rs'; e2.innerHTML = '' }
+  e.className = 'rs on ' + k; e.innerHTML = img ? `<img class="rp" src="${img}" alt="Foto presensi">` : `<div class="ri">${ic(k === 'er' ? 'alert' : 'check')}</div><b>${h(t)}</b><span>${h(sub || '')}</span>`;
+  await wait(img ? 4000 : 2000); const e2 = $('#rs'); if (e2) { e2.className = 'rs'; e2.innerHTML = '' }
 }
 // rekam wajah pertama kali (satu-satunya tombol di halaman presensi)
 A.pres = async () => {
