@@ -339,6 +339,7 @@
   .lo{padding:9px}
   .ct{padding:14px 12px calc(100px + env(safe-area-inset-bottom,0px))}
   .gr,.gr.two,.pg2{grid-template-columns:1fr}
+  .pg2 .vf{order:-1}
   .bnr{padding:20px}.bt h2{font-size:22px}
   .bn{display:flex;position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));height:64px;border-radius:20px;background:rgba(0,20,85,.93);backdrop-filter:blur(14px);box-shadow:0 12px 30px rgba(0,20,85,.35);z-index:5;padding:6px;gap:4px}
   .bn a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:14px;color:#b9cdf6;font-size:10px;font-weight:600;cursor:pointer}
@@ -915,7 +916,7 @@ PG.presensi = () => {
   const done = S.presensi.find(x => x.pertemuan_id === p.id);
   const info = `<div class="cc"><h3>${ic('calendar')}${h(p.judul)}</h3><dl class="inf"><dt>Tanggal</dt><dd>${tgl(p.tanggal)}</dd><dt>Waktu</dt><dd>${T5(p.jam_mulai)} - ${T5(p.jam_selesai)}</dd><dt>Seragam</dt><dd>${h(p.dresscode || '-')}</dd><dt>Tempat</dt><dd>${h(p.tempat)}</dd><dt>Batas Jarak</dt><dd>${p.radius_meter} meter</dd><dt>Presensi Dibuka</dt><dd>${PRES_AWAL_MENIT} menit sebelum mulai</dd><dt>Toleransi</dt><dd>${p.toleransi_menit} menit (lewat dari itu terlambat)</dd></dl></div>`;
   if (done) return `<div class="pg2">${info}<div class="cc succ"><div class="ck">${ic('check')}</div><h3 style="justify-content:center;font-size:18px">Presensi Berhasil</h3><p>${bg(done.status)}</p><p>${new Date(done.waktu_presensi).toLocaleString('id-ID')}</p><p class="mu">Jarak ${Math.round(done.jarak_meter)} m dari titik lokasi. Presensi cukup dilakukan sekali.</p></div></div>`;
-  return `<div class="pg2"><div style="display:grid;gap:14px">${info}<div class="cc"><h3>${ic('check')}Syarat Presensi</h3><div id="chips"></div></div></div><div class="cc"><h3>${ic('camera')}Verifikasi Wajah</h3><div class="cam"><video id="pv" autoplay playsinline muted></video><div class="rg"></div><div class="rs" id="rs"></div></div><button class="btn y" id="pb" data-act="pres" style="width:100%;margin-top:12px" hidden disabled></button></div></div>`;
+  return `<div class="pg2"><div style="display:grid;gap:14px">${info}<div class="cc"><h3>${ic('check')}Syarat Presensi</h3><div id="chips"></div></div></div><div class="cc vf"><h3>${ic('camera')}Verifikasi Wajah</h3><div class="cam"><video id="pv" autoplay playsinline muted></video><div class="rg"></div><div class="rs" id="rs"></div></div><button class="btn y" id="pb" data-act="pres" style="width:100%;margin-top:12px" hidden disabled></button></div></div>`;
 };
 function updPres() {
   const p = curP(), b = $('#pb'); if (!p || !b) return;
