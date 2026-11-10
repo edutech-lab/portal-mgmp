@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Portal MGMP Informatika</title>
 <meta name="description" content="Portal MGMP Informatika Kota Bandar Lampung: presensi, konten pembelajaran, dan kartu anggota">
-<meta name="theme-color" content="#0147ac">
+<meta name="theme-color" content="#1d4ed8">
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
@@ -13,14 +13,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Portal MGMP">
-<style>html,body{margin:0;padding:0;height:100%;background:#0147ac;overscroll-behavior:none}</style>
+<style>html,body{margin:0;padding:0;height:100%;background:#f8fafc;overscroll-behavior:none}</style>
 </head>
 <body>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
 /* ===== KARTU ANGGOTA (8,56 : 5,39) - global agar bisa dicetak ===== */
-.kd{position:relative;width:428px;height:269.5px;border-radius:14px;overflow:hidden;color:#fff;background:linear-gradient(135deg,#0147ac 0%,#001455 100%);font-family:'Plus Jakarta Sans',system-ui,sans-serif;box-shadow:0 12px 28px rgba(0,20,85,.28);flex:none;text-align:left}
+.kd{position:relative;width:428px;height:269.5px;border-radius:14px;overflow:hidden;color:#fff;background:linear-gradient(135deg,#1e40af 0%,#312e81 100%);font-family:'Plus Jakarta Sans',system-ui,sans-serif;box-shadow:0 12px 28px rgba(0,20,85,.28);flex:none;text-align:left}
 .kd *{box-sizing:border-box}
 .kd .k1{position:absolute;right:-70px;top:-60px;width:230px;height:230px;border-radius:50%;background:rgba(255,255,255,.06)}
 .kd .k1:after{content:'';position:absolute;inset:60px;border-radius:50%;background:linear-gradient(135deg,rgba(254,211,3,.35),rgba(255,179,5,.05))}
@@ -57,7 +57,7 @@
 }
 
 /* ===== APLIKASI ===== */
-#mgmpApp{position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;z-index:999999;font:14px/1.45 'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#0f1b3d;background:#f3f6fc;overflow:hidden;--b1:#0147ac;--b2:#001455;--y1:#fed403;--y2:#ffb305;--mu:#64718f;--bd:#e3e9f5;
+#mgmpApp{position:fixed;top:0;left:0;width:100%;height:100vh;height:100dvh;z-index:999999;font:14px/1.45 Inter,system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;color:#1e293b;background:#f8fafc;overflow:hidden;--b1:#1d4ed8;--b2:#0f172a;--y1:#f59e0b;--y2:#f97316;--mu:#64748b;--bd:#e2e8f0;
  & *{box-sizing:border-box}
  & button,& input,& select,& textarea{font:inherit;color:inherit}
  & h1,& h2,& h3,& h4,& p{margin:0}
@@ -367,6 +367,121 @@
   .gh{padding:16px}.gs2{width:100%}.gs2 div{flex:1;min-width:0}
   .kg{grid-template-columns:1fr}
  }
+
+ /* ===== TEMA AKADEMIA (v6) – putih, biru-indigo, aksen oranye ===== */
+ h1,h2,h3,h4,.st b,.gs2 b{font-family:'Plus Jakarta Sans',Inter,system-ui,sans-serif}
+ .app{background:#f8fafc}
+ .sb{width:287px;background:#fff;color:#334155;padding:0;border-right:1px solid #e2e8f0}
+ .br{height:87px;padding:0 28px;margin:0;gap:12px;border-bottom:1px solid #e2e8f0}
+ .br img{width:42px;height:42px;filter:none}
+ .br b{font-size:13px;font-weight:800;color:#0f172a;letter-spacing:-.2px}
+ .br i{font-style:normal;font-size:11px;color:#64748b;opacity:1}
+ .nv{flex:1;padding:14px 22px;overflow:auto}
+ .nv a{height:40px;padding:0 16px;margin-bottom:4px;border-radius:14px;color:#334155;font-size:13px;font-weight:600}
+ .nv a .ic{width:17px;height:17px;color:#64748b}
+ .nv a:hover{background:#f1f5f9}
+ .nv a.on{background:#1d4ed8;color:#fff;box-shadow:0 6px 14px rgba(29,78,216,.3)}
+ .nv a.on .ic{color:#fff}
+ .sbu{display:flex;align-items:center;gap:12px;padding:16px;border-top:1px solid #e2e8f0}
+ .sbu .av{width:34px;height:34px;background:#dbeafe;color:#1e40af;font-size:11.5px}
+ .sbu .nm{flex:1;min-width:0;line-height:1.2}
+ .sbu .nm b{display:block;font-size:12.5px;color:#0f172a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .sbu .nm small{display:block;margin-top:2px;font-size:10.5px;font-weight:700;letter-spacing:.3px;color:#1d4ed8}
+ .sbu .pw2{width:32px;height:32px;border:0;border-radius:50%;background:#fef2f2;color:#ef4444;display:grid;place-items:center;cursor:pointer}
+ .sbu .pw2 .ic{width:16px;height:16px}
+ .hd{height:75px;padding:0 28px;background:#fff;color:#0f172a;border-bottom:1px solid #e2e8f0}
+ .hd h1{font-size:19px;font-weight:700}
+ .hd small{color:#64748b;opacity:1}
+ .hd .usr,.hd .lo{display:none}
+ .pvb{background:#fef3c7;color:#b45309}
+ .ct{background:#f8fafc;border-radius:0;padding:24px}
+ .ft{background:#fff;color:#64748b;border-top:1px solid #e2e8f0}
+ .ft b{color:#0f172a}
+ .cc,.st{background:#fff;backdrop-filter:none;border:1px solid #e2e8f0;border-radius:18px;box-shadow:none}
+ .cc{padding:22px}
+ .cc h3{font-size:15px;font-weight:700;color:#0f172a}
+ .cc h3 .ic{background:#dbeafe;color:#1d4ed8}
+ .st{flex-direction:row-reverse;justify-content:space-between;align-items:flex-start;padding:20px}
+ .st:hover{transform:none}
+ .st>div:not(.bb){flex:1;min-width:0}
+ .st small{display:block;font-size:11.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase;color:#475569}
+ .st b{margin-top:14px;font-size:26px;font-weight:800;color:#0f172a}
+ .st span:not(.bb){display:block;margin-top:4px;font-size:12.5px;color:#64748b}
+ .st .bb{width:36px;height:36px;border-radius:12px;box-shadow:none}
+ .st .bb .ic{width:18px;height:18px}
+ .bb.b{background:#dbeafe;color:#1d4ed8}.bb.g{background:#d1fae5;color:#047857}.bb.p{background:#e0e7ff;color:#4338ca}.bb.y{background:#fef3c7;color:#b45309}.bb.c{background:#e0f2fe;color:#0369a1}.bb.r{background:#fee2e2;color:#b91c1c}
+ .st-b,.st-g,.st-p,.st-y,.st-c,.st-r{background:#fff;border-color:#e2e8f0}
+ .st-b{background:rgba(239,246,255,.6);border-color:#93c5fd}
+ .bnr,.gh{border-radius:28px;background:linear-gradient(100deg,#1e40af 0%,#2a3a9e 55%,#312e81 100%);box-shadow:0 20px 40px -14px rgba(30,64,175,.4)}
+ .bnr{padding:34px 32px}
+ .bnr:before,.bnr:after{display:none}
+ .bnr .il{display:none}
+ .bt small,.gh small{display:inline-flex;padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.15);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:0}
+ .bt h2{font-size:28px}
+ .bt h2 span{background:none;color:#fff;-webkit-text-fill-color:#fff}
+ .bt p{color:#dbeafe;opacity:1}
+ .bb2 .btn.ow{order:-1;background:#fff;color:#1e40af;border:0}
+ .bnr .btn.y{background:linear-gradient(90deg,#f59e0b,#f97316);color:#fff}
+ .bnr .btn{height:40px;padding:0 16px;font-size:12.5px}
+ .bf{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
+ .bf .ic{color:#fbbf24;background:rgba(255,255,255,.12)}
+ .btn{border-radius:12px;background:#1d4ed8}
+ .btn.y{background:linear-gradient(90deg,#f59e0b,#f97316);color:#fff}
+ .btn.o{background:#fff;color:#1d4ed8;border:1px solid #cbd5e1}
+ .btn.r{background:#fee2e2;color:#b91c1c}
+ .in{border-color:#e2e8f0;border-radius:12px}
+ .in:focus{border-color:#1d4ed8;box-shadow:0 0 0 3px rgba(29,78,216,.14)}
+ .tbw th{background:#f8fafc;color:#64748b}
+ .tbw tr:hover td{background:#f8fafc}
+ .it{background:#f8fafc;border:1px solid #e2e8f0}
+ .it .ib{background:#dbeafe;color:#1d4ed8}
+ .dt{background:linear-gradient(135deg,#1d4ed8,#312e81)}
+ .jc button.on{background:#1d4ed8;border-color:#1d4ed8}
+ .jc button.on i{background:#f59e0b;color:#fff}
+ .kc{box-shadow:none}
+ .mdl,.cfm{background:rgba(15,23,42,.5)}
+ .cfb{border-top-color:#1d4ed8}
+ .lgn{padding:28px;background:linear-gradient(180deg,#fff 0%,#f1f5f9 100%);color:#0f172a}
+ .lgw{zoom:1;max-width:1006px;min-height:642px;border-radius:32px;border:1px solid #e2e8f0;background:#fff;box-shadow:0 30px 60px -20px rgba(15,23,42,.25),0 10px 25px -10px rgba(15,23,42,.1)}
+ .lgl{flex:0 0 42%;padding:36px 36px 28px;background:linear-gradient(150deg,#1e40af 0%,#27389f 55%,#312e81 100%)}
+ .lgl h1{font-size:36px;line-height:1.18;letter-spacing:0;font-weight:800}
+ .lgl .sch{margin-top:12px;font-size:13px;letter-spacing:1px;color:#fbbf24}
+ .lgl .ta{font-size:13.5px;color:#dbeafe}
+ .lgl p{color:#dbeafe;opacity:1;font-size:14.5px;line-height:1.65}
+ .lgo{width:60px;height:60px;border-radius:16px;margin-bottom:22px}
+ .fc{display:flex;gap:14px;align-items:flex-start;margin-top:14px;padding:16px;border-radius:16px;background:rgba(255,255,255,.1)}
+ .fc .ic{width:20px;height:20px;margin-top:2px;color:#fbbf24}
+ .fc b{display:block;font-size:13px}
+ .fc span{display:block;margin-top:2px;font-size:12.5px;line-height:1.4;color:#dbeafe}
+ .lgf{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.2);font-size:12.5px;color:#dbeafe}
+ .lgl .fc:first-of-type{margin-top:28px}
+ .lgf em{font-style:normal;font-weight:600;padding:6px 12px;border-radius:8px;background:rgba(94,234,212,.2);color:#99f6e4}
+ .lgr{padding:44px;color:#0f172a}
+ .lgr h2{font-size:24px;font-weight:800;color:#0f172a}
+ .lgr .sub{margin:6px 0 24px;font-size:13.5px;color:#64748b}
+ .lgr .f label{color:#334155;font-weight:600}
+ .lgr .in{height:48px}
+ .lgr form>.btn{height:50px;font-size:15px;background:#1d4ed8;box-shadow:0 10px 20px -6px rgba(29,78,216,.5)}
+ .seg{background:#f1f5f9;border-radius:16px;padding:6px;margin:0 0 24px}
+ .seg button{padding:12px;border-radius:12px;font-size:13.5px;font-weight:600;color:#64748b}
+ .seg button.on{color:#1e40af;box-shadow:0 1px 3px rgba(15,23,42,.12)}
+ .pvx{border:1px solid #e2e8f0;background:#f8fafc;border-radius:16px;padding:16px;color:#475569}
+ @media(max-width:860px){
+  .hd{height:60px;padding:0 14px}
+  .hd .usr{display:flex}.hd .lo{display:flex;background:#f1f5f9;color:#0f172a}
+  .usr{background:transparent;border:0}
+  .ct{padding:14px 12px calc(100px + env(safe-area-inset-bottom,0px));border-radius:0}
+  .bnr{padding:20px}
+  .bn{background:rgba(255,255,255,.96);border:1px solid #e2e8f0;box-shadow:0 12px 30px rgba(15,23,42,.15)}
+  .bn a{color:#64748b}
+  .bn a.on{background:#1d4ed8;color:#fff}
+  .lgw{flex-direction:column;border-radius:28px;min-height:0}
+  .lgl{flex:none;padding:24px 22px}
+  .lgl h1{font-size:26px}
+  .lgo{width:52px;height:52px;margin-bottom:14px}
+  .fc,.lgf{display:none}
+  .lgr{flex:none;padding:24px 22px 28px}
+ }
 }
 </style>
 
@@ -547,7 +662,7 @@ async function cam(v) {
 }
 
 // ---------- hitung status ----------
-const ST = ['Hadir', 'Terlambat', 'Izin', 'Alpa'], COL = { Hadir: '#0147ac', Terlambat: '#fed403', Izin: '#38bdf8', Alpa: '#ef4444' };
+const ST = ['Hadir', 'Terlambat', 'Izin', 'Alpa'], COL = { Hadir: '#1d4ed8', Terlambat: '#f59e0b', Izin: '#38bdf8', Alpa: '#ef4444' };
 const bg = s => `<span class="bd ${{ Hadir: 'ok', Terlambat: 'wn', Izin: 'bi', Alpa: 'er', Belum: 'mu', Menunggu: 'wn', Disetujui: 'ok', Terjadwal: 'bi', Berlangsung: 'ok', Selesai: 'mu' }[s] || 'mu'}">${h(s)}</span>`;
 function stOf(p, aid) { const pr = S.presensi.find(x => x.pertemuan_id === p.id && x.anggota_id === aid); if (pr) return pr.status; if (S.izin.some(x => x.pertemuan_id === p.id && x.anggota_id === aid)) return 'Izin'; return pSt(p) === 'Selesai' ? 'Alpa' : 'Belum' }
 function rk(p) { const r = { Hadir: 0, Terlambat: 0, Izin: 0, Alpa: 0, Belum: 0 }; S.anggota.forEach(a => r[stOf(p, a.id)]++); return r }
@@ -578,13 +693,12 @@ const reload = async pg => { await busy(loadAll); go(pg || S.page) };
 // ---------- login ----------
 function loginView() {
   stopMedia(); const lg = h(S.set.logo_url || LOGO);
-  root.innerHTML = `<div class="lgn"><div class="lgw"><div class="lgl"><div class="lgo"><img src="${lg}" alt="Logo"></div><h1>${h(S.set.nama_aplikasi)}</h1><b class="sch">KOTA BANDAR LAMPUNG</b><span class="ta">Tahun Ajaran ${h(S.set.tahun_ajaran)}</span><p>Portal kolaborasi guru Informatika: presensi digital dengan pengenalan wajah dan lokasi, berbagi konten pembelajaran, serta rekap kegiatan dalam satu tempat.</p><div class="chips"><span>${ic('camera')}Verifikasi Wajah</span><span>${ic('pin')}Validasi Lokasi</span><span>${ic('chart')}Rekap Otomatis</span><span>${ic('book')}Berbagi Konten</span></div>
-  <svg class="il2" viewBox="0 -8 330 172" fill="none"><circle cx="225" cy="112" r="62" fill="#ffffff14"/><rect x="2" y="48" width="84" height="104" rx="10" fill="#1d4fa0" stroke="#ffffff30"/><rect x="14" y="66" width="60" height="6" rx="3" fill="#c9d6f2"/><rect x="14" y="80" width="40" height="6" rx="3" fill="#c9d6f2"/><rect x="14" y="94" width="50" height="6" rx="3" fill="#c9d6f2"/><path d="M16 134l8 8 14-16" stroke="#fed403" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><rect x="70" y="20" width="182" height="124" rx="12" fill="#f8faff"/><rect x="86" y="36" width="66" height="7" rx="3.5" fill="#c9d6f2"/><rect x="86" y="49" width="40" height="6" rx="3" fill="#dfe7f8"/><rect x="90" y="108" width="20" height="26" rx="3" fill="#0a3f99"/><rect x="118" y="90" width="20" height="44" rx="3" fill="#2f7bf0"/><rect x="146" y="72" width="20" height="62" rx="3" fill="#ffc107"/><rect x="174" y="100" width="20" height="34" rx="3" fill="#0a3f99"/><rect x="202" y="80" width="20" height="54" rx="3" fill="#2f7bf0"/><circle cx="244" cy="18" r="23" fill="#ffc107"/><path d="M233 18l8 8 14-15" stroke="#001455" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-  <div class="lgr"><form id="fl"><input type="hidden" name="role" id="rl" value="admin"><div class="seg"><button type="button" class="on" data-act="role" data-r="admin">Admin</button><button type="button" data-act="role" data-r="anggota">Anggota</button></div>
-  <h2 id="lt">Masuk sebagai Admin</h2><p class="sub" id="ls">Kelola data anggota, pertemuan, konten, dan pengaturan portal.</p>
+  root.innerHTML = `<div class="lgn"><div class="lgw"><div class="lgl"><div class="lgo"><img src="${lg}" alt="Logo"></div><h1>${h(S.set.nama_aplikasi)}</h1><b class="sch">KOTA BANDAR LAMPUNG</b><span class="ta">Tahun Ajaran ${h(S.set.tahun_ajaran)}</span><p>Portal kolaborasi guru Informatika: presensi digital dengan pengenalan wajah dan lokasi, berbagi konten pembelajaran, serta rekap kegiatan dalam satu tempat.</p><div class="fc">${ic('camera')}<div><b>Presensi Wajah &amp; Lokasi</b><span>Sekali presensi otomatis tercatat ke rekap pertemuan.</span></div></div><div class="fc">${ic('book')}<div><b>Galeri Konten &amp; Kartu Digital</b><span>Bagikan media belajar dan tampilkan kartu anggota ber-QR.</span></div></div><div class="lgf"><em>${IS_PREVIEW ? 'Mode: Preview' : 'Mode: Produksi'}</em><span>PWA Ready v3.0</span></div></div>
+  <div class="lgr"><form id="fl"><input type="hidden" name="role" id="rl" value="admin"><h2 id="lt">Masuk sebagai Admin</h2><p class="sub" id="ls">Kelola data anggota, pertemuan, konten, dan pengaturan portal.</p>
+  <div class="seg"><button type="button" class="on" data-act="role" data-r="admin">Admin</button><button type="button" data-act="role" data-r="anggota">Anggota</button></div>
   <div class="f"><label id="ul">${IS_PREVIEW ? 'Username Admin' : 'Email Admin'}</label><input class="in" name="u" required autocomplete="username" placeholder="${IS_PREVIEW ? 'Masukkan username' : 'email@sekolah.sch.id'}"></div>
   <div class="f"><label>Password</label><div class="pw"><input class="in" type="password" name="p" required autocomplete="current-password" placeholder="Password"><button type="button" data-act="eye">${ic('eye')}</button></div></div>
-  <button class="btn y" style="width:100%;margin-top:8px">${ic('lock')}Masuk</button></form>
+  <button class="btn" style="width:100%;margin-top:8px">${ic('lock')}Masuk</button></form>
   ${IS_PREVIEW ? `<div class="pvx"><b>Mode Preview Aktif</b> (data dummy)<br>Admin: <code>admin / edudigital</code><br>Anggota: <code>peserta / edudigital</code><div><button class="btn y sm" data-act="ql" data-r="admin">Quick Login Admin</button><button class="btn o sm" data-act="ql" data-r="anggota">Quick Login Anggota</button></div></div>` : ''}</div></div></div>`;
 }
 async function login(role, u, p) {
@@ -607,7 +721,7 @@ async function login(role, u, p) {
 // ---------- kerangka ----------
 function shell() {
   const nav = NAV[S.role], mob = nav.slice(0, 4), more = nav.slice(4), lg = h(S.set.logo_url || LOGO), adm = S.role === 'admin';
-  return `<div class="app"><div class="shl"><aside class="sb"><div class="br"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA<br>KOTA BANDAR LAMPUNG</b><i>${MOTTO}</i></div></div><nav class="nv">${nav.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</nav></aside>
+  return `<div class="app"><div class="shl"><aside class="sb"><div class="br"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA<br>KOTA BANDAR LAMPUNG</b><i>${MOTTO}</i></div></div><nav class="nv">${nav.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</nav><div class="sbu">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm"><b>${adm ? 'Administrator' : h(S.user.nama_lengkap)}</b><small>${adm ? 'ADMIN' : 'ANGGOTA'} • TA ${h(S.set.tahun_ajaran)}</small></div><button class="pw2" data-act="logout" title="Keluar">${ic('logout')}</button></div></aside>
   <div class="mn"><header class="hd"><img class="lm" src="${lg}" alt=""><div class="tt"><h1 id="pgt">${h(S.set.nama_aplikasi)}</h1><small>${h(S.set.nama_aplikasi)} • Kota Bandar Lampung • TA ${h(S.set.tahun_ajaran)}</small></div>${IS_PREVIEW ? '<span class="pvb">Mode Preview Aktif</span>' : ''}<div class="usr">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm">${adm ? 'Administrator' : h(S.user.nama_lengkap)}<small>${adm ? 'Admin' : 'Anggota'}</small></div></div><button class="lo" data-act="logout">${ic('logout')}<span>Keluar</span></button></header>
   <main class="ct" id="ct"></main></div></div>
   <footer class="ft"><div class="l"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA KOTA BANDAR LAMPUNG</b>${MOTTO}</div></div><div class="c"><b>${h(S.set.nama_aplikasi)}</b>Berbagi • Berinovasi • Berdampak</div><div class="r">© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)}<br>TA ${h(S.set.tahun_ajaran)}</div></footer>
@@ -677,14 +791,14 @@ PG.dash = () => {
 HK.dash = () => {
   if (!window.Chart) return; const D = Chart.defaults;
   D.font.family = "'Plus Jakarta Sans',system-ui,sans-serif"; D.font.size = 11; D.color = '#64718f';
-  Object.assign(D.plugins.tooltip, { backgroundColor: '#001455', padding: 10, cornerRadius: 10, boxPadding: 4, titleFont: { weight: '700', size: 12 } });
+  Object.assign(D.plugins.tooltip, { backgroundColor: '#0f172a', padding: 10, cornerRadius: 10, boxPadding: 4, titleFont: { weight: '700', size: 12 } });
   const ax = { border: { display: false }, ticks: { padding: 6 } }, gx = { color: '#eef2f9', drawTicks: false };
   const ps = S.pertemuan.filter(p => pSt(p) !== 'Terjadwal').slice(-7), rs = ps.map(rk), c1 = $('#c1'), c2 = $('#c2'), c3 = $('#c3'), t = tot();
   if (c1) S.ch.push(new Chart(c1, { type: 'bar', data: { labels: ps.map(p => tgl(p.tanggal).slice(0, -5)), datasets: ST.map(k => ({ label: k, data: rs.map(r => r[k]), backgroundColor: COL[k], borderRadius: 3, borderSkipped: false, maxBarThickness: 18 })) }, options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, boxHeight: 8, usePointStyle: true, padding: 14 } } }, scales: { x: { ...ax, stacked: true, grid: { display: false } }, y: { ...ax, stacked: true, beginAtZero: true, grid: gx, ticks: { precision: 0, padding: 6 } } } } }));
   const ctr = { id: 'ctr', afterDraw(c) { const o = c.options.plugins.ctr; if (!o) return; const { ctx, chartArea: a } = c, x = (a.left + a.right) / 2, y = (a.top + a.bottom) / 2; ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#001455'; ctx.font = "800 22px 'Plus Jakarta Sans',sans-serif"; ctx.fillText(o.v, x, y - 6); ctx.fillStyle = '#64718f'; ctx.font = "600 10px 'Plus Jakarta Sans',sans-serif"; ctx.fillText(o.l, x, y + 14); ctx.restore() } };
   if (c2) S.ch.push(new Chart(c2, { type: 'doughnut', data: { labels: ST, datasets: [{ data: ST.map(k => t[k]), backgroundColor: ST.map(k => COL[k]), borderWidth: 0, spacing: 3, borderRadius: 5, hoverOffset: 4 }] }, options: { maintainAspectRatio: false, cutout: '74%', plugins: { legend: { display: false }, ctr: { v: ST.reduce((s, k) => s + t[k], 0), l: 'Total' } } }, plugins: [ctr] }));
   const tk = topK();
-  if (c3) S.ch.push(new Chart(c3, { type: 'bar', data: { labels: tk.map(x => x.nama.length > 24 ? x.nama.slice(0, 23) + '…' : x.nama), datasets: [{ label: 'Jumlah konten', data: tk.map(x => x.n), borderRadius: 8, borderSkipped: false, maxBarThickness: 20, backgroundColor: cx => { const { ctx, chartArea: a } = cx.chart; if (!a) return '#0147ac'; const g = ctx.createLinearGradient(a.left, 0, a.right, 0), first = cx.dataIndex === 0; g.addColorStop(0, first ? '#fed403' : '#0147ac'); g.addColorStop(1, first ? '#ffb305' : '#3b82f6'); return g } }] }, options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ...ax, beginAtZero: true, grid: gx, ticks: { precision: 0, padding: 6 } }, y: { ...ax, grid: { display: false } } } } }));
+  if (c3) S.ch.push(new Chart(c3, { type: 'bar', data: { labels: tk.map(x => x.nama.length > 24 ? x.nama.slice(0, 23) + '…' : x.nama), datasets: [{ label: 'Jumlah konten', data: tk.map(x => x.n), borderRadius: 8, borderSkipped: false, maxBarThickness: 20, backgroundColor: cx => { const { ctx, chartArea: a } = cx.chart; if (!a) return '#1d4ed8'; const g = ctx.createLinearGradient(a.left, 0, a.right, 0), first = cx.dataIndex === 0; g.addColorStop(0, first ? '#f59e0b' : '#1d4ed8'); g.addColorStop(1, first ? '#ffb305' : '#3b82f6'); return g } }] }, options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ...ax, beginAtZero: true, grid: gx, ticks: { precision: 0, padding: 6 } }, y: { ...ax, grid: { display: false } } } } }));
 };
 
 // ---------- DATA ANGGOTA ----------
