@@ -333,6 +333,8 @@
  @media(max-width:860px){
   .sb,.ft:not(.m),.bnr .il,.bf{display:none}
   .ft.m{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;margin-top:16px;padding:12px 14px;border-radius:16px;font-size:11px}
+  .ch{height:190px}
+  .dn .ch{width:140px;height:140px}
   .bnr{flex-direction:column;align-items:flex-start}
   .bb2{flex-wrap:wrap}
   .sts{grid-template-columns:1fr 1fr;gap:10px}
@@ -499,6 +501,14 @@
  .dxk{margin:22px 0 10px;font-size:12.5px;color:#0f172a}
  .dxr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;margin-bottom:10px;border:1px solid #e2e8f0;border-radius:12px;background:rgba(248,250,252,.6);font-size:12.5px;color:#0f172a}
  .dxr em{font-style:normal;font-weight:700;color:#1d4ed8;background:#dbeafe;padding:2px 8px;border-radius:6px}
+ .cc>.dxs+.ch,.cc>.dxs+.dn{margin-top:18px}
+ .ch{height:230px}
+ .dn{gap:20px}
+ .dn .ch{width:170px;height:170px}
+ .lgd li{padding:9px 0;border-bottom:1px solid #f1f5f9;font-size:12.5px;font-weight:600;color:#334155}
+ .lgd li:last-child{border-bottom:0}
+ .lgd i{width:10px;height:10px;border-radius:4px}
+ .lgd b{color:#0f172a;font-weight:800}
  @media(max-width:860px){
   .hd{height:60px;padding:0 14px}
   .hd .usr{display:flex}.hd .lo{display:flex;background:#f1f5f9;color:#0f172a}
@@ -695,7 +705,7 @@ async function cam(v) {
 }
 
 // ---------- hitung status ----------
-const ST = ['Hadir', 'Terlambat', 'Izin', 'Alpa'], COL = { Hadir: '#1d4ed8', Terlambat: '#f59e0b', Izin: '#38bdf8', Alpa: '#ef4444' };
+const ST = ['Hadir', 'Terlambat', 'Izin', 'Alpa'], COL = { Hadir: '#1d4ed8', Terlambat: '#f59e0b', Izin: '#818cf8', Alpa: '#ef4444' };
 const bg = s => `<span class="bd ${{ Hadir: 'ok', Terlambat: 'wn', Izin: 'bi', Alpa: 'er', Belum: 'mu', Menunggu: 'wn', Disetujui: 'ok', Terjadwal: 'bi', Berlangsung: 'ok', Selesai: 'mu' }[s] || 'mu'}">${h(s)}</span>`;
 function stOf(p, aid) { const pr = S.presensi.find(x => x.pertemuan_id === p.id && x.anggota_id === aid); if (pr) return pr.status; if (S.izin.some(x => x.pertemuan_id === p.id && x.anggota_id === aid)) return 'Izin'; return pSt(p) === 'Selesai' ? 'Alpa' : 'Belum' }
 function rk(p) { const r = { Hadir: 0, Terlambat: 0, Izin: 0, Alpa: 0, Belum: 0 }; S.anggota.forEach(a => r[stOf(p, a.id)]++); return r }
@@ -756,8 +766,7 @@ function shell() {
   const nav = NAV[S.role], mob = nav.slice(0, 4), more = nav.slice(4), lg = h(S.set.logo_url || LOGO), adm = S.role === 'admin';
   return `<div class="app"><div class="shl"><aside class="sb"><div class="br"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA<br>KOTA BANDAR LAMPUNG</b><i>${MOTTO}</i></div></div><nav class="nv">${nav.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</nav><div class="sbu">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm"><b>${adm ? 'Administrator' : h(S.user.nama_lengkap)}</b><small>${adm ? 'ADMIN' : 'ANGGOTA'} • TA ${h(S.set.tahun_ajaran)}</small></div><button class="pw2" data-act="logout" title="Keluar">${ic('logout')}</button></div></aside>
   <div class="mn"><header class="hd"><img class="lm" src="${lg}" alt=""><div class="tt"><h1 id="pgt">${h(S.set.nama_aplikasi)}</h1><small>${h(S.set.nama_aplikasi)} • Kota Bandar Lampung • TA ${h(S.set.tahun_ajaran)}</small></div>${IS_PREVIEW ? '<span class="pvb">Mode Preview Aktif</span>' : ''}<div class="usr">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm">${adm ? 'Administrator' : h(S.user.nama_lengkap)}<small>${adm ? 'Admin' : 'Anggota'}</small></div></div><button class="lo" data-act="logout">${ic('logout')}<span>Keluar</span></button></header>
-  <main class="ct" id="ct"></main></div></div>
-  <footer class="ft"><div class="l"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA KOTA BANDAR LAMPUNG</b>${MOTTO}</div></div><div class="c"><b>${h(S.set.nama_aplikasi)}</b>Berbagi • Berinovasi • Berdampak</div><div class="r">© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)}<br>TA ${h(S.set.tahun_ajaran)}</div></footer>
+  <main class="ct" id="ct"></main><footer class="ft"><div class="l"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA KOTA BANDAR LAMPUNG</b>${MOTTO}</div></div><div class="c"><b>${h(S.set.nama_aplikasi)}</b>Berbagi • Berinovasi • Berdampak</div><div class="r">© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)}<br>TA ${h(S.set.tahun_ajaran)}</div></footer></div></div>
   <nav class="bn">${mob.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[3]}</span></a>`).join('')}${more.length ? `<a data-act="more">${ic('more')}<span>Lainnya</span></a>` : ''}</nav>
   <div class="pop" id="pop">${more.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</div></div>`;
 }
@@ -807,21 +816,19 @@ PG.dash = () => {
   <div class="sts">${cards.map(c => `<div class="st st-${c[3]}"><div class="bb ${c[3]}">${ic(c[0])}</div><div><small>${c[1]}</small><b>${c[2]}</b><span class="${c[5] || ''}">${h(c[4])}</span></div></div>`).join('')}</div>
   <div class="dxg"><div class="cc"><div class="dxh"><div><h3 class="dxn">Pertemuan Mendatang</h3><p class="dxs">Jadwal, lokasi, dan seragam pertemuan MGMP terdekat</p></div><button type="button" class="dxl" data-act="go" data-p="${adm ? 'pertemuan' : 'presensi'}">${adm ? 'Kelola Semua' : 'Buka Presensi'} →</button></div>${ups.map(p => `<div class="dxu"><div class="dxt">${bg(pSt(p))}<b>${h(p.judul)}</b><span class="dxd">${p.tanggal}</span></div><p>${T5(p.jam_mulai)} - ${T5(p.jam_selesai)} WIB • ${h(p.tempat)} • Dresscode: ${h(p.dresscode || '-')}.</p></div>`).join('') || empty('Belum ada pertemuan terjadwal.')}</div>
   <div class="cc"><h3 class="dxn">Komposisi Konten Pembelajaran</h3><p class="dxs">Jumlah konten per jenis</p><div class="dxb">${jl.map(([j, n]) => `<div><div><span>${h(j)}</span><b>${n} Konten</b></div><i><u style="width:${Math.max(6, Math.round(n / jmax * 100))}%"></u></i></div>`).join('') || empty('Belum ada konten.')}</div><h4 class="dxk">Kontributor Konten Teratas:</h4>${tk.slice(0, 3).map(x => `<div class="dxr"><b>${h(x.nama)}</b><em>${x.n}</em></div>`).join('') || empty('Belum ada konten dari anggota.')}</div></div>
-  <div class="gr"><div class="cc"><h3>${ic('chart')}Kehadiran per Pertemuan</h3>${hasP ? '<div class="ch"><canvas id="c1"></canvas></div>' : empty('Belum ada pertemuan yang berlangsung.')}</div>
-  <div class="cc"><h3>${ic('target')}Status Kehadiran</h3>${hasD ? `<div class="dn"><div class="ch"><canvas id="c2"></canvas></div><ul class="lgd">${ST.map(k => `<li><i style="background:${COL[k]}"></i>${k}<b>${t[k]}</b></li>`).join('')}</ul></div>` : empty('Belum ada data kehadiran.')}</div>
-  <div class="cc"><h3>${ic('clock')}Aktivitas Terbaru</h3><div class="ls">${act.map(a => `<div class="it"><div class="ib">${ic(a.i)}</div><div class="tx"><b>${h(a.a)}</b><small>${h(a.n)} • ${new Date(a.t).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</small></div></div>`).join('') || empty('Belum ada aktivitas.')}</div></div></div>
-  <div class="gr two"><div class="cc"><h3>${ic('award')}Kontributor Konten Terbanyak</h3>${tk.length ? '<div class="ch"><canvas id="c3"></canvas></div>' : empty('Belum ada konten dari anggota.')}</div>
-  <div class="cc"><h3>${ic('folder')}Konten Terbaru<button class="btn sm o" style="margin-left:auto" data-act="go" data-p="galeri">Lihat Semua</button></h3><div class="ls">${kt.map(k => `<div class="it"><div class="ib">${ic('book')}</div><div class="tx"><b>${h(k.judul)}</b><small>${h(k.jenis_konten)} • Kelas ${k.kelas} • ${h(knm(k))}</small></div></div>`).join('') || empty('Belum ada konten.')}</div></div></div>`;
+  <div class="gr"><div class="cc"><h3 class="dxn">Kehadiran per Pertemuan</h3><p class="dxs">7 pertemuan terakhir</p>${hasP ? '<div class="ch"><canvas id="c1"></canvas></div>' : empty('Belum ada pertemuan yang berlangsung.')}</div>
+  <div class="cc"><h3 class="dxn">Status Kehadiran</h3><p class="dxs">${adm ? 'Akumulasi seluruh pertemuan' : 'Rekap kehadiran Anda'}</p>${hasD ? `<div class="dn"><div class="ch"><canvas id="c2"></canvas></div><ul class="lgd">${ST.map(k => `<li><i style="background:${COL[k]}"></i>${k}<b>${t[k]}</b></li>`).join('')}</ul></div>` : empty('Belum ada data kehadiran.')}</div>
+  <div class="cc"><h3 class="dxn">Aktivitas Terbaru</h3><p class="dxs">Presensi dan ketidakhadiran terakhir</p><div class="ls">${act.map(a => `<div class="it"><div class="ib">${ic(a.i)}</div><div class="tx"><b>${h(a.a)}</b><small>${h(a.n)} • ${new Date(a.t).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</small></div></div>`).join('') || empty('Belum ada aktivitas.')}</div></div></div>`;
 };
 HK.dash = () => {
   if (!window.Chart) return; const D = Chart.defaults;
-  D.font.family = "'Plus Jakarta Sans',system-ui,sans-serif"; D.font.size = 11; D.color = '#64718f';
-  Object.assign(D.plugins.tooltip, { backgroundColor: '#0f172a', padding: 10, cornerRadius: 10, boxPadding: 4, titleFont: { weight: '700', size: 12 } });
-  const ax = { border: { display: false }, ticks: { padding: 6 } }, gx = { color: '#eef2f9', drawTicks: false };
+  D.font.family = "Inter,system-ui,sans-serif"; D.font.size = 12; D.font.weight = 500; D.color = '#64748b';
+  Object.assign(D.plugins.tooltip, { backgroundColor: '#0f172a', padding: 12, cornerRadius: 12, boxPadding: 5, titleFont: { weight: '700', size: 12, family: 'Inter' }, bodyFont: { size: 12, family: 'Inter' } });
+  const ax = { border: { display: false }, ticks: { padding: 6 } }, gx = { color: '#e2e8f0', drawTicks: false, tickBorderDash: [3, 3] };
   const ps = S.pertemuan.filter(p => pSt(p) !== 'Terjadwal').slice(-7), rs = ps.map(rk), c1 = $('#c1'), c2 = $('#c2'), c3 = $('#c3'), t = tot();
-  if (c1) S.ch.push(new Chart(c1, { type: 'bar', data: { labels: ps.map(p => tgl(p.tanggal).slice(0, -5)), datasets: ST.map(k => ({ label: k, data: rs.map(r => r[k]), backgroundColor: COL[k], borderRadius: 3, borderSkipped: false, maxBarThickness: 18 })) }, options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, boxHeight: 8, usePointStyle: true, padding: 14 } } }, scales: { x: { ...ax, stacked: true, grid: { display: false } }, y: { ...ax, stacked: true, beginAtZero: true, grid: gx, ticks: { precision: 0, padding: 6 } } } } }));
-  const ctr = { id: 'ctr', afterDraw(c) { const o = c.options.plugins.ctr; if (!o) return; const { ctx, chartArea: a } = c, x = (a.left + a.right) / 2, y = (a.top + a.bottom) / 2; ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#001455'; ctx.font = "800 22px 'Plus Jakarta Sans',sans-serif"; ctx.fillText(o.v, x, y - 6); ctx.fillStyle = '#64718f'; ctx.font = "600 10px 'Plus Jakarta Sans',sans-serif"; ctx.fillText(o.l, x, y + 14); ctx.restore() } };
-  if (c2) S.ch.push(new Chart(c2, { type: 'doughnut', data: { labels: ST, datasets: [{ data: ST.map(k => t[k]), backgroundColor: ST.map(k => COL[k]), borderWidth: 0, spacing: 3, borderRadius: 5, hoverOffset: 4 }] }, options: { maintainAspectRatio: false, cutout: '74%', plugins: { legend: { display: false }, ctr: { v: ST.reduce((s, k) => s + t[k], 0), l: 'Total' } } }, plugins: [ctr] }));
+  if (c1) S.ch.push(new Chart(c1, { type: 'bar', data: { labels: ps.map(p => tgl(p.tanggal).slice(0, -5)), datasets: ST.map(k => ({ label: k, data: rs.map(r => r[k]), backgroundColor: COL[k], borderRadius: 6, borderSkipped: false, maxBarThickness: 22 })) }, options: { maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom', labels: { boxWidth: 8, boxHeight: 8, usePointStyle: true, padding: 18, color: '#334155', font: { size: 12, weight: 600 } } } }, scales: { x: { ...ax, stacked: true, grid: { display: false } }, y: { ...ax, stacked: true, beginAtZero: true, grid: gx, ticks: { precision: 0, padding: 6 } } } } }));
+  const ctr = { id: 'ctr', afterDraw(c) { const o = c.options.plugins.ctr; if (!o) return; const { ctx, chartArea: a } = c, x = (a.left + a.right) / 2, y = (a.top + a.bottom) / 2; ctx.save(); ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#0f172a'; ctx.font = "800 26px 'Plus Jakarta Sans',sans-serif"; ctx.fillText(o.v, x, y - 6); ctx.fillStyle = '#64748b'; ctx.font = "600 11px Inter,sans-serif"; ctx.fillText(o.l, x, y + 14); ctx.restore() } };
+  if (c2) S.ch.push(new Chart(c2, { type: 'doughnut', data: { labels: ST, datasets: [{ data: ST.map(k => t[k]), backgroundColor: ST.map(k => COL[k]), borderWidth: 0, spacing: 2, borderRadius: 6, hoverOffset: 4 }] }, options: { maintainAspectRatio: false, cutout: '72%', plugins: { legend: { display: false }, ctr: { v: ST.reduce((s, k) => s + t[k], 0), l: 'Total' } } }, plugins: [ctr] }));
   const tk = topK();
   if (c3) S.ch.push(new Chart(c3, { type: 'bar', data: { labels: tk.map(x => x.nama.length > 24 ? x.nama.slice(0, 23) + '…' : x.nama), datasets: [{ label: 'Jumlah konten', data: tk.map(x => x.n), borderRadius: 8, borderSkipped: false, maxBarThickness: 20, backgroundColor: cx => { const { ctx, chartArea: a } = cx.chart; if (!a) return '#1d4ed8'; const g = ctx.createLinearGradient(a.left, 0, a.right, 0), first = cx.dataIndex === 0; g.addColorStop(0, first ? '#f59e0b' : '#1d4ed8'); g.addColorStop(1, first ? '#ffb305' : '#3b82f6'); return g } }] }, options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { ...ax, beginAtZero: true, grid: gx, ticks: { precision: 0, padding: 6 } }, y: { ...ax, grid: { display: false } } } } }));
 };

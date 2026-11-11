@@ -1,5 +1,5 @@
 /* Service Worker - Portal MGMP. Naikkan VERSION setiap kali index.html diperbarui. */
-const VERSION = 'mgmp-v11';
+const VERSION = 'mgmp-v13';
 const SHELL = `shell-${VERSION}`;
 const RUNTIME = `runtime-${VERSION}`;
 const PRECACHE = [
