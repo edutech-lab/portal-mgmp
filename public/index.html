@@ -333,13 +333,19 @@
  @media(max-width:860px){
   .sb,.ft:not(.m),.bnr .il,.bf{display:none}
   .ft.m{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;margin-top:16px;padding:12px 14px;border-radius:16px;font-size:11px}
+  .bnr{flex-direction:column;align-items:flex-start}
+  .bb2{flex-wrap:wrap}
+  .sts{grid-template-columns:1fr 1fr;gap:10px}
+  .st{padding:14px}
+  .st b{font-size:19px}
+  .dxg{grid-template-columns:1fr}
   .hd{height:60px;padding:0 14px}
   .hd .lm{display:block}
   .usr .nm,.lo span{display:none}
   .lo{padding:9px}
   .ct{padding:14px 12px calc(100px + env(safe-area-inset-bottom,0px))}
   .gr,.gr.two,.pg2{grid-template-columns:1fr}
-  .pg2 .vf{order:-1}
+  .pg2 .rc{order:-1}
   .bnr{padding:20px}.bt h2{font-size:22px}
   .bn{display:flex;position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));height:64px;border-radius:20px;background:rgba(0,20,85,.93);backdrop-filter:blur(14px);box-shadow:0 12px 30px rgba(0,20,85,.35);z-index:5;padding:6px;gap:4px}
   .bn a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:14px;color:#b9cdf6;font-size:10px;font-weight:600;cursor:pointer}
@@ -468,6 +474,31 @@
  .pvx{border:1px solid #e2e8f0;background:#f8fafc;border-radius:16px;padding:16px;color:#475569}
  .lgl,.lgl h1,.lgl b,.lgl .fc b{color:#fff}
  .lgl .sch{color:#fbbf24}
+ .bnr{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+ .bt{max-width:720px}
+ .bb2{display:flex;gap:12px;margin:0;flex-shrink:0}
+ .bt small{align-items:center}
+ .bt small i{width:6px;height:6px;border-radius:50%;background:#5eead4;margin-right:8px}
+ .sts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:16px 0}
+ .st span.ok{color:#059669;font-weight:600}
+ .dxg{display:grid;grid-template-columns:1.42fr 1fr;gap:16px;margin-bottom:16px;align-items:start}
+ .dxn{margin:0;font-size:16px;font-weight:700;color:#0f172a}
+ .dxs{margin:2px 0 0;font-size:12.5px;color:#64748b}
+ .dxh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}
+ .dxl{border:0;background:none;color:#1d4ed8;font:700 12.5px Inter,sans-serif;cursor:pointer;white-space:nowrap}
+ .dxu{padding:16px;margin-bottom:14px;border:1px solid #e2e8f0;border-radius:12px;background:rgba(248,250,252,.6)}
+ .dxt{display:flex;align-items:flex-start;gap:12px}
+ .dxt b{flex:1;font-size:13.5px;line-height:1.35;color:#0f172a}
+ .dxd{padding:6px 12px;border:1px solid #e2e8f0;border-radius:8px;background:#fff;font-size:12.5px;font-weight:500;color:#334155}
+ .dxu p{margin:8px 0 0;font-size:12.5px;line-height:1.4;color:#64748b}
+ .dxb{display:grid;gap:14px;margin-top:18px}
+ .dxb>div>div{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;color:#1e293b}
+ .dxb b{color:#1d4ed8}
+ .dxb i{display:block;height:8px;margin-top:6px;border-radius:99px;background:#e2e8f0}
+ .dxb u{display:block;height:8px;border-radius:99px;background:linear-gradient(90deg,#2563eb,#4338ca)}
+ .dxk{margin:22px 0 10px;font-size:12.5px;color:#0f172a}
+ .dxr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;margin-bottom:10px;border:1px solid #e2e8f0;border-radius:12px;background:rgba(248,250,252,.6);font-size:12.5px;color:#0f172a}
+ .dxr em{font-style:normal;font-weight:700;color:#1d4ed8;background:#dbeafe;padding:2px 8px;border-radius:6px}
  @media(max-width:860px){
   .hd{height:60px;padding:0 14px}
   .hd .usr{display:flex}.hd .lo{display:flex;background:#f1f5f9;color:#0f172a}
@@ -763,32 +794,24 @@ function go(p) {
 // ---------- DASHBOARD ----------
 PG.dash = () => {
   const adm = S.role === 'admin', t = tot(), rp = refP(), r = rp ? rk(rp) : { Hadir: 0, Terlambat: 0, Izin: 0, Alpa: 0 }, rs = rp ? 'Pertemuan ' + tgl(rp.tanggal) : 'Belum ada pertemuan';
-  const cards = adm ? [['users', 'Total Anggota', S.anggota.length, 'b', 'terdaftar'], ['calendar', 'Total Pertemuan', S.pertemuan.length, 'p', 'TA ' + S.set.tahun_ajaran], ['check', 'Hadir', r.Hadir, 'g', rs], ['clock', 'Terlambat', r.Terlambat, 'y', rs], ['file', 'Izin / Tidak Hadir', r.Izin + r.Alpa, 'c', rs], ['folder', 'Total Konten', S.konten.length, 'b', 'dibagikan anggota']]
-    : [['calendar', 'Total Pertemuan', S.pertemuan.length, 'p', 'TA ' + S.set.tahun_ajaran], ['check', 'Hadir', t.Hadir, 'g', 'tepat waktu'], ['clock', 'Terlambat', t.Terlambat, 'y', 'melewati toleransi'], ['file', 'Izin', t.Izin, 'c', 'ketidakhadiran'], ['alert', 'Alpa', t.Alpa, 'r', 'tanpa keterangan'], ['folder', 'Konten Saya', S.konten.filter(k => k.anggota_id === S.user.id).length, 'b', 'konten dibagikan']];
-  const ups = S.pertemuan.filter(p => pSt(p) !== 'Selesai').slice(0, 4);
+  const upAll = S.pertemuan.filter(p => pSt(p) !== 'Selesai'), ups = upAll.slice(0, 4), nJenis = new Set(S.konten.map(k => k.jenis_konten)).size;
+  const rtot = r.Hadir + r.Terlambat + r.Izin + r.Alpa, pct = rtot ? Math.round((r.Hadir + r.Terlambat) / rtot * 100) : 0;
+  const jm = new Map(); S.konten.forEach(k => jm.set(k.jenis_konten, (jm.get(k.jenis_konten) || 0) + 1)); const jl = [...jm].sort((a, b) => b[1] - a[1]).slice(0, 4), jmax = jl[0] ? jl[0][1] : 1;
+  const c4 = ['calendar', 'Pertemuan Mendatang', upAll.length + ' Jadwal', 'y', upAll[0] ? 'Terdekat: ' + tgl(upAll[0].tanggal) + ' • ' + T5(upAll[0].jam_mulai) + ' WIB' : 'Belum ada jadwal'], c3 = ['grid', 'Galeri Konten', S.konten.length + ' Konten', 'p', nJenis + ' Jenis konten'];
+  const cards = adm ? [['users', 'Anggota MGMP', S.anggota.length + ' Guru', 'b', 'Mapel ' + S.set.mapel], ['check', 'Kehadiran Terakhir', r.Hadir + ' Hadir', 'g', 'Tingkat Kehadiran: ' + pct + '% (' + r.Terlambat + ' Terlambat)', 'ok'], c3, c4]
+    : [['calendar', 'Total Pertemuan', S.pertemuan.length + ' Pertemuan', 'b', 'TA ' + S.set.tahun_ajaran], ['check', 'Kehadiran Saya', t.Hadir + ' Hadir', 'g', t.Terlambat + ' terlambat • ' + t.Izin + ' izin • ' + t.Alpa + ' alpa', 'ok'], c3, c4];
   const act = [...S.presensi.map(x => ({ t: x.waktu_presensi, i: 'check', a: 'Presensi ' + x.status, n: anm(x.anggota_id) })), ...S.izin.map(x => ({ t: x.created_at, i: 'file', a: `Ketidakhadiran (${x.jenis})`, n: anm(x.anggota_id) }))].sort((a, b) => String(b.t).localeCompare(String(a.t))).slice(0, 5);
   const tk = topK(), kt = kSort().slice(0, 4);
   const hasD = Object.values(t).some(v => v), hasP = S.pertemuan.some(p => pSt(p) !== 'Terjadwal');
-  return `<div class="bnr"><div class="bt"><small>PORTAL MGMP ${h(S.set.mapel.toUpperCase())} • TA ${h(S.set.tahun_ajaran)}</small><h2>Berbagi Inovasi<br><span>Pembelajaran ${h(S.set.mapel)}</span></h2><p>Satu portal bagi guru ${h(S.set.mapel)} Kota Bandar Lampung untuk berbagi media belajar, bahan ajar, video, E-Book hingga Augmented Reality, sekaligus berkolaborasi dalam kegiatan MGMP.</p><div class="bb2"><button class="btn y" data-act="go" data-p="galeri">${ic('grid')}Jelajahi Galeri Konten</button><button class="btn ow" data-act="go" data-p="konten">${ic('plus')}Bagikan Konten</button></div></div>
-  <svg class="il" viewBox="0 0 300 190" fill="none" aria-hidden="true"><defs><linearGradient id="bgy" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fed403"/><stop offset="1" stop-color="#ffb305"/></linearGradient><linearGradient id="bgs" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a6fe0"/><stop offset="1" stop-color="#001455"/></linearGradient></defs>
-  <circle cx="150" cy="98" r="84" fill="#ffffff10"/><circle cx="150" cy="98" r="58" fill="#ffffff10"/>
-  <rect x="72" y="34" width="156" height="104" rx="10" fill="url(#bgs)" stroke="#ffffff55" stroke-width="2"/><rect x="80" y="42" width="140" height="88" rx="5" fill="#00124a"/>
-  <circle cx="88" cy="50" r="2.5" fill="#f87171"/><circle cx="97" cy="50" r="2.5" fill="#fed403"/><circle cx="106" cy="50" r="2.5" fill="#34d399"/>
-  <rect x="88" y="62" width="46" height="5" rx="2.5" fill="#fed403"/><rect x="96" y="72" width="64" height="5" rx="2.5" fill="#6aa8ff"/><rect x="96" y="82" width="50" height="5" rx="2.5" fill="#ffffff80"/><rect x="88" y="92" width="38" height="5" rx="2.5" fill="#34d399"/><rect x="96" y="102" width="58" height="5" rx="2.5" fill="#6aa8ff"/><rect x="88" y="112" width="30" height="5" rx="2.5" fill="#ffffff55"/>
-  <path d="M184 76l-9 10 9 10M204 76l9 10-9 10M198 72l-8 28" stroke="#fed403" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M58 146h184l-12 12H70z" fill="#ffffff2e"/>
-  <rect x="20" y="46" width="44" height="44" rx="12" fill="url(#bgy)"/><path d="M36 58l16 10-16 10z" fill="#001455"/>
-  <rect x="236" y="26" width="44" height="44" rx="12" fill="#fff"/><path d="M246 62V43h8a5 5 0 0 1 4 2 5 5 0 0 1 4-2h8v19h-8a5 5 0 0 0-4 2 5 5 0 0 0-4-2z" stroke="#0147ac" stroke-width="2.4" stroke-linejoin="round"/>
-  <rect x="236" y="100" width="44" height="44" rx="12" fill="#38bdf8"/><path d="M258 110l12 7v12l-12 7-12-7v-12zM258 124v13M246 117l12 7 12-7" stroke="#fff" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
-  <rect x="24" y="110" width="44" height="44" rx="12" fill="#ffffff22" stroke="#ffffff66"/><path d="M36 132h14M43 125v14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><circle cx="57" cy="130" r="2.6" fill="#fed403"/><circle cx="61" cy="136" r="2.6" fill="#fed403"/></svg>
-  <div class="bf"><div>${ic('bulb')}<span><b>Logic</b>Berpikir komputasional</span></div><div>${ic('users')}<span><b>Innovation</b>Kolaborasi dan kreasi guru</span></div><div>${ic('target')}<span><b>Impact</b>Dampak nyata bagi siswa</span></div></div></div>
-  <div class="sts">${cards.map(c => `<div class="st st-${c[3]}"><div class="bb ${c[3]}">${ic(c[0])}</div><div><small>${c[1]}</small><b>${c[2]}</b><span>${h(c[4])}</span></div></div>`).join('')}</div>
+  return `<div class="bnr"><div class="bt"><small><i></i>Tahun Ajaran ${h(S.set.tahun_ajaran)} • MGMP ${h(S.set.mapel)}</small><h2>Selamat Bekerja, ${adm ? 'Administrator MGMP' : h(S.user.nama_lengkap)}.</h2><p>Satu portal bagi guru ${h(S.set.mapel)} Kota Bandar Lampung untuk berbagi media belajar, bahan ajar, video, E-Book hingga Augmented Reality, sekaligus berkolaborasi dalam kegiatan MGMP.</p></div><div class="bb2"><button class="btn ow" data-act="go" data-p="galeri">${ic('grid')}Buka Galeri Konten</button><button class="btn y" data-act="go" data-p="${adm ? 'pertemuan' : 'konten'}">${ic(adm ? 'calendar' : 'plus')}${adm ? 'Set Pertemuan' : 'Bagikan Konten'}</button></div></div>
+  <div class="sts">${cards.map(c => `<div class="st st-${c[3]}"><div class="bb ${c[3]}">${ic(c[0])}</div><div><small>${c[1]}</small><b>${c[2]}</b><span class="${c[5] || ''}">${h(c[4])}</span></div></div>`).join('')}</div>
+  <div class="dxg"><div class="cc"><div class="dxh"><div><h3 class="dxn">Pertemuan Mendatang</h3><p class="dxs">Jadwal, lokasi, dan seragam pertemuan MGMP terdekat</p></div><button type="button" class="dxl" data-act="go" data-p="${adm ? 'pertemuan' : 'presensi'}">${adm ? 'Kelola Semua' : 'Buka Presensi'} →</button></div>${ups.map(p => `<div class="dxu"><div class="dxt">${bg(pSt(p))}<b>${h(p.judul)}</b><span class="dxd">${p.tanggal}</span></div><p>${T5(p.jam_mulai)} - ${T5(p.jam_selesai)} WIB • ${h(p.tempat)} • Dresscode: ${h(p.dresscode || '-')}.</p></div>`).join('') || empty('Belum ada pertemuan terjadwal.')}</div>
+  <div class="cc"><h3 class="dxn">Komposisi Konten Pembelajaran</h3><p class="dxs">Jumlah konten per jenis</p><div class="dxb">${jl.map(([j, n]) => `<div><div><span>${h(j)}</span><b>${n} Konten</b></div><i><u style="width:${Math.max(6, Math.round(n / jmax * 100))}%"></u></i></div>`).join('') || empty('Belum ada konten.')}</div><h4 class="dxk">Kontributor Konten Teratas:</h4>${tk.slice(0, 3).map(x => `<div class="dxr"><b>${h(x.nama)}</b><em>${x.n}</em></div>`).join('') || empty('Belum ada konten dari anggota.')}</div></div>
   <div class="gr"><div class="cc"><h3>${ic('chart')}Kehadiran per Pertemuan</h3>${hasP ? '<div class="ch"><canvas id="c1"></canvas></div>' : empty('Belum ada pertemuan yang berlangsung.')}</div>
   <div class="cc"><h3>${ic('target')}Status Kehadiran</h3>${hasD ? `<div class="dn"><div class="ch"><canvas id="c2"></canvas></div><ul class="lgd">${ST.map(k => `<li><i style="background:${COL[k]}"></i>${k}<b>${t[k]}</b></li>`).join('')}</ul></div>` : empty('Belum ada data kehadiran.')}</div>
   <div class="cc"><h3>${ic('clock')}Aktivitas Terbaru</h3><div class="ls">${act.map(a => `<div class="it"><div class="ib">${ic(a.i)}</div><div class="tx"><b>${h(a.a)}</b><small>${h(a.n)} • ${new Date(a.t).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</small></div></div>`).join('') || empty('Belum ada aktivitas.')}</div></div></div>
   <div class="gr two"><div class="cc"><h3>${ic('award')}Kontributor Konten Terbanyak</h3>${tk.length ? '<div class="ch"><canvas id="c3"></canvas></div>' : empty('Belum ada konten dari anggota.')}</div>
-  <div class="cc"><h3>${ic('folder')}Konten Terbaru<button class="btn sm o" style="margin-left:auto" data-act="go" data-p="galeri">Lihat Semua</button></h3><div class="ls">${kt.map(k => `<div class="it"><div class="ib">${ic('book')}</div><div class="tx"><b>${h(k.judul)}</b><small>${h(k.jenis_konten)} • Kelas ${k.kelas} • ${h(knm(k))}</small></div></div>`).join('') || empty('Belum ada konten.')}</div></div></div>
-  <div class="cc"><h3>${ic('calendar')}Pertemuan Mendatang</h3><div class="ls">${ups.map(p => { const [y, m, d] = p.tanggal.split('-'); return `<div class="it up"><div class="dt"><b>${+d}</b><small>${BLN[m - 1]}</small></div><div class="tx"><b>${h(p.judul)}</b><small>${ic('clock')} ${T5(p.jam_mulai)}-${T5(p.jam_selesai)} WIB<span class="sp">•</span>${ic('pin')} ${h(p.tempat)}</small><small>Seragam: ${h(p.dresscode || '-')}</small></div>${bg(pSt(p))}</div>` }).join('') || empty('Belum ada pertemuan terjadwal.')}</div></div>`;
+  <div class="cc"><h3>${ic('folder')}Konten Terbaru<button class="btn sm o" style="margin-left:auto" data-act="go" data-p="galeri">Lihat Semua</button></h3><div class="ls">${kt.map(k => `<div class="it"><div class="ib">${ic('book')}</div><div class="tx"><b>${h(k.judul)}</b><small>${h(k.jenis_konten)} • Kelas ${k.kelas} • ${h(knm(k))}</small></div></div>`).join('') || empty('Belum ada konten.')}</div></div></div>`;
 };
 HK.dash = () => {
   if (!window.Chart) return; const D = Chart.defaults;
@@ -1032,7 +1055,7 @@ PG.presensi = () => {
   const done = S.presensi.find(x => x.pertemuan_id === p.id);
   const info = `<div class="cc"><h3>${ic('calendar')}${h(p.judul)}</h3><dl class="inf"><dt>Tanggal</dt><dd>${tgl(p.tanggal)}</dd><dt>Waktu</dt><dd>${T5(p.jam_mulai)} - ${T5(p.jam_selesai)}</dd><dt>Seragam</dt><dd>${h(p.dresscode || '-')}</dd><dt>Tempat</dt><dd>${h(p.tempat)}</dd><dt>Batas Jarak</dt><dd>${p.radius_meter} meter</dd><dt>Presensi Dibuka</dt><dd>${PRES_AWAL_MENIT} menit sebelum mulai</dd><dt>Toleransi</dt><dd>${p.toleransi_menit} menit (lewat dari itu terlambat)</dd></dl></div>`;
   if (done) return `<div class="pg2">${info}<div class="cc succ"><div class="ck">${ic('check')}</div><h3 style="justify-content:center;font-size:18px">Presensi Berhasil</h3><p>${bg(done.status)}</p><p>${new Date(done.waktu_presensi).toLocaleString('id-ID')}</p><p class="mu">Jarak ${Math.round(done.jarak_meter)} m dari titik lokasi. Presensi cukup dilakukan sekali.</p></div></div>`;
-  return `<div class="pg2"><div style="display:grid;gap:14px">${info}<div class="cc"><h3>${ic('check')}Syarat Presensi</h3><div id="chips"></div></div></div><div class="cc vf"><h3>${ic('camera')}Verifikasi Wajah</h3><div class="cam"><video id="pv" autoplay playsinline muted></video><div class="rg"></div><div class="rs" id="rs"></div></div><button class="btn y" id="pb" data-act="pres" style="width:100%;margin-top:12px" hidden disabled></button></div></div>`;
+  return `<div class="pg2">${info}<div class="rc" style="display:grid;gap:14px"><div class="cc vf"><h3>${ic('camera')}Verifikasi Wajah</h3><div class="cam"><video id="pv" autoplay playsinline muted></video><div class="rg"></div><div class="rs" id="rs"></div></div><button class="btn y" id="pb" data-act="pres" style="width:100%;margin-top:12px" hidden disabled></button></div><div class="cc"><h3>${ic('check')}Syarat Presensi</h3><div id="chips"></div></div></div></div>`;
 };
 function updPres() {
   const p = curP(), b = $('#pb'); if (!p || !b) return;
