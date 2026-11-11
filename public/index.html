@@ -505,7 +505,19 @@
  .thm .ic{width:18px;height:18px}
  .thm .sun{display:none}
  .lgt{position:fixed;top:16px;right:16px;z-index:5;background:#fff;box-shadow:0 2px 10px rgba(15,23,42,.18)}
+ .lgk{width:48px;height:48px;margin-bottom:18px;border-radius:14px;display:grid;place-items:center;background:#dbeafe;color:#1d4ed8}
+ .lgk .ic{width:22px;height:22px}
+ .lgr .sub{margin:6px 0 26px;line-height:1.55}
+ .iw{position:relative}
+ .iw>.ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#94a3b8;pointer-events:none;z-index:1}
+ .iw .in{padding-left:44px}
+ .lgh{display:flex;gap:12px;align-items:flex-start;margin-top:22px;padding:14px 16px;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;font-size:12.5px;line-height:1.55;color:#475569}
+ .lgh .ic{width:18px;height:18px;margin-top:1px;flex:none;color:#1d4ed8}
+ .lgh b{color:#0f172a}
+ .lgc{margin:18px 0 0;text-align:center;font-size:11.5px;color:#94a3b8}
  &[data-theme="dark"]{
+  .lgk{background:rgba(34,211,238,.15);color:#22d3ee}
+  .lgh{background:#0f172a;border-color:#1e293b;color:#94a3b8}.lgh .ic{color:#22d3ee}.lgh b{color:#f1f5f9}
   color-scheme:dark;background:#0b1220;color:#e2e8f0;--b1:#0891b2;--b2:#f1f5f9;--mu:#94a3b8;--bd:#1e293b;
   .thm{background:#1e293b;color:#fbbf24}
   .thm .sun{display:block}.thm .moon{display:none}
@@ -705,6 +717,7 @@ fitH(); window.addEventListener('resize', fitH); window.addEventListener('orient
 
 // ---------- ikon SVG ----------
 const P = {
+  user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', info: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z M12 16v-4 M12 8h.01',
   sun: 'M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z M12 2v2 M12 20v2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M2 12h2 M20 12h2 M4.9 19.1l1.4-1.4 M17.7 6.3l1.4-1.4', moon: 'M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z',
   home: 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z', users: 'M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2 M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M21 21v-2a4 4 0 0 0-3-3.9 M16 3.1a4 4 0 0 1 0 7.8',
   calendar: 'M3 5h18v16H3z M3 10h18 M8 3v4 M16 3v4', chart: 'M4 20V10 M10 20V4 M16 20v-7 M22 20H2', file: 'M14 3H6v18h12V7z M14 3v4h4 M9 12h6 M9 16h6',
@@ -859,23 +872,23 @@ const reload = async pg => { await busy(loadAll); go(pg || S.page) };
 function loginView() {
   stopMedia(); const lg = h(S.set.logo_url || LOGO);
   root.innerHTML = `<div class="lgn"><button type="button" class="thm lgt" data-act="theme" title="Ganti tema" aria-label="Ganti tema terang/gelap">${ic('moon', 'moon')}${ic('sun', 'sun')}</button><div class="lgw"><div class="lgl"><div class="lgo"><img src="${lg}" alt="Logo"></div><h1>${h(S.set.nama_aplikasi)}</h1><b class="sch">KOTA BANDAR LAMPUNG</b><span class="ta">Tahun Ajaran ${h(S.set.tahun_ajaran)}</span><p>Portal kolaborasi guru Informatika: presensi digital dengan pengenalan wajah dan lokasi, berbagi konten pembelajaran, serta rekap kegiatan dalam satu tempat.</p><div class="fc">${ic('camera')}<div><b>Presensi Wajah &amp; Lokasi</b><span>Sekali presensi otomatis tercatat ke rekap pertemuan.</span></div></div><div class="fc">${ic('book')}<div><b>Galeri Konten &amp; Kartu Digital</b><span>Bagikan media belajar dan tampilkan kartu anggota ber-QR.</span></div></div><div class="lgf"><em>${IS_PREVIEW ? 'Mode: Preview' : 'Mode: Produksi'}</em><span>PWA Ready v3.0</span></div></div>
-  <div class="lgr"><form id="fl"><input type="hidden" name="role" id="rl" value="admin"><h2 id="lt">Masuk sebagai Admin</h2><p class="sub" id="ls">Kelola data anggota, pertemuan, konten, dan pengaturan portal.</p>
-  <div class="seg"><button type="button" class="on" data-act="role" data-r="admin">Admin</button><button type="button" data-act="role" data-r="anggota">Anggota</button></div>
-  <div class="f"><label id="ul">${IS_PREVIEW ? 'Username Admin' : 'Email Admin'}</label><input class="in" name="u" required autocomplete="username" placeholder="${IS_PREVIEW ? 'Masukkan username' : 'email@sekolah.sch.id'}"></div>
-  <div class="f"><label>Password</label><div class="pw"><input class="in" type="password" name="p" required autocomplete="current-password" placeholder="Password"><button type="button" data-act="eye">${ic('eye')}</button></div></div>
+  <div class="lgr"><form id="fl"><div class="lgk">${ic('lock')}</div><h2>Masuk ke Akun Anda</h2><p class="sub">Gunakan akun yang diberikan admin untuk mengakses presensi, galeri konten, dan kartu anggota.</p>
+  <div class="f"><label>Email atau Username</label><div class="iw">${ic('user')}<input class="in" name="u" required autocomplete="username" placeholder="Masukkan email atau username"></div></div>
+  <div class="f"><label>Password</label><div class="pw iw">${ic('lock')}<input class="in" type="password" name="p" required autocomplete="current-password" placeholder="Masukkan password"><button type="button" data-act="eye">${ic('eye')}</button></div></div>
   <button class="btn" style="width:100%;margin-top:8px">${ic('lock')}Masuk</button></form>
-  ${IS_PREVIEW ? `<div class="pvx"><b>Mode Preview Aktif</b> (data dummy)<br>Admin: <code>admin / edudigital</code><br>Anggota: <code>peserta / edudigital</code><div><button class="btn y sm" data-act="ql" data-r="admin">Quick Login Admin</button><button class="btn o sm" data-act="ql" data-r="anggota">Quick Login Anggota</button></div></div>` : ''}</div></div></div>`;
+  <div class="lgh">${ic('info')}<span><b>Lupa password?</b> Hubungi admin MGMP untuk mengatur ulang password akun Anda.</span></div>
+  ${IS_PREVIEW ? `<div class="pvx"><b>Mode Preview Aktif</b> (data dummy)<br>Admin: <code>admin / edudigital</code><br>Anggota: <code>peserta / edudigital</code><div><button class="btn y sm" data-act="ql" data-r="admin">Quick Login Admin</button><button class="btn o sm" data-act="ql" data-r="anggota">Quick Login Anggota</button></div></div>` : ''}<p class="lgc">© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)} Kota Bandar Lampung</p></div></div></div>`;
 }
 async function login(role, u, p) {
   await busy(async () => {
     if (role === 'admin') {
-      if (IS_PREVIEW) { if (u.trim() !== 'admin' || p !== 'edudigital') throw new Error('Username atau password admin salah'); S.user = { id: 'admin', email: 'admin' } }
-      else { const { data, error } = await sb.auth.signInWithPassword({ email: u.trim(), password: p }); if (error) throw new Error('Email atau password admin salah'); S.user = { id: data.user.id, email: data.user.email } }
+      if (IS_PREVIEW) { if (u.trim() !== 'admin' || p !== 'edudigital') throw new Error('Email/username atau password salah'); S.user = { id: 'admin', email: 'admin' } }
+      else { const { data, error } = await sb.auth.signInWithPassword({ email: u.trim(), password: p }); if (error) throw new Error('Email/username atau password salah'); S.user = { id: data.user.id, email: data.user.email } }
     } else {
       u = u.trim().toLowerCase(); let r;
       if (IS_PREVIEW) r = mem.anggota.find(x => x.username === u && x.password === p);
       else { const { data, error } = await sb.from('anggota').select('*').eq('username', u).eq('password', p).maybeSingle(); if (error) throw error; r = data }
-      if (!r) throw new Error('Username atau password anggota salah');
+      if (!r) throw new Error('Email/username atau password salah');
       S.user = r; try { localStorage.setItem('mgmp_uid', r.id) } catch { }
     }
     S.role = role; await loadAll();
@@ -888,7 +901,7 @@ function shell() {
   const nav = NAV[S.role], mob = nav.slice(0, 4), more = nav.slice(4), lg = h(S.set.logo_url || LOGO), adm = S.role === 'admin';
   return `<div class="app"><div class="shl"><aside class="sb"><div class="br"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA<br>KOTA BANDAR LAMPUNG</b><i>${MOTTO}</i></div></div><nav class="nv">${nav.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</nav><div class="sbu">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm"><b>${adm ? 'Administrator' : h(S.user.nama_lengkap)}</b><small>${adm ? 'ADMIN' : 'ANGGOTA'} • TA ${h(S.set.tahun_ajaran)}</small></div><button class="pw2" data-act="logout" title="Keluar">${ic('logout')}</button></div></aside>
   <div class="mn"><header class="hd"><img class="lm" src="${lg}" alt=""><div class="tt"><h1 id="pgt">${h(S.set.nama_aplikasi)}</h1><small>${h(S.set.nama_aplikasi)} • Kota Bandar Lampung • TA ${h(S.set.tahun_ajaran)}</small></div>${IS_PREVIEW ? '<span class="pvb">Mode Preview Aktif</span>' : ''}<div class="usr">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm">${adm ? 'Administrator' : h(S.user.nama_lengkap)}<small>${adm ? 'Admin' : 'Anggota'}</small></div></div><button type="button" class="thm" data-act="theme" title="Ganti tema" aria-label="Ganti tema terang/gelap">${ic('moon', 'moon')}${ic('sun', 'sun')}</button><button class="lo" data-act="logout">${ic('logout')}<span>Keluar</span></button></header>
-  <main class="ct" id="ct"></main><footer class="ft"><div class="l"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA KOTA BANDAR LAMPUNG</b>${MOTTO}</div></div><div class="c"><b>${h(S.set.nama_aplikasi)}</b>Berbagi • Berinovasi • Berdampak</div><div class="r">© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)}<br>TA ${h(S.set.tahun_ajaran)}</div></footer></div></div>
+  <main class="ct" id="ct"></main><footer class="ft"><div class="l"><div><b>MGMP INFORMATIKA KOTA BANDAR LAMPUNG</b>${MOTTO}</div></div><div class="c"><b>${h(S.set.nama_aplikasi)}</b>Berbagi • Berinovasi • Berdampak</div><div class="r">© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)}<br>TA ${h(S.set.tahun_ajaran)}</div></footer></div></div>
   <nav class="bn">${mob.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[3]}</span></a>`).join('')}${more.length ? `<a data-act="more">${ic('more')}<span>Lainnya</span></a>` : ''}</nav>
   <div class="pop" id="pop">${more.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</div></div>`;
 }
@@ -934,7 +947,7 @@ PG.dash = () => {
   const act = [...S.presensi.map(x => ({ t: x.waktu_presensi, i: 'check', a: 'Presensi ' + x.status, n: anm(x.anggota_id) })), ...S.izin.map(x => ({ t: x.created_at, i: 'file', a: `Ketidakhadiran (${x.jenis})`, n: anm(x.anggota_id) }))].sort((a, b) => String(b.t).localeCompare(String(a.t))).slice(0, 5);
   const tk = topK(), kt = kSort().slice(0, 4);
   const hasD = Object.values(t).some(v => v), hasP = S.pertemuan.some(p => pSt(p) !== 'Terjadwal');
-  return `<div class="bnr"><div class="bt"><small><i></i>Tahun Ajaran ${h(S.set.tahun_ajaran)} • MGMP ${h(S.set.mapel)}</small><h2>Selamat Bekerja, ${adm ? 'Administrator MGMP' : h(S.user.nama_lengkap)}.</h2><p>Satu portal bagi guru ${h(S.set.mapel)} Kota Bandar Lampung untuk berbagi media belajar, bahan ajar, video, E-Book hingga Augmented Reality, sekaligus berkolaborasi dalam kegiatan MGMP.</p></div><div class="bb2"><button class="btn ow" data-act="go" data-p="${adm ? 'rekap' : 'presensi'}">${ic(adm ? 'chart' : 'camera')}Presensi</button><button class="btn y" data-act="go" data-p="${adm ? 'pertemuan' : 'konten'}">${ic(adm ? 'calendar' : 'plus')}${adm ? 'Set Pertemuan' : 'Bagikan Konten'}</button></div></div>
+  return `<div class="bnr"><div class="bt"><small><i></i>Tahun Ajaran ${h(S.set.tahun_ajaran)} • MGMP ${h(S.set.mapel)}</small><h2>${adm ? 'Selamat Bekerja, Administrator MGMP' : 'Selamat Berkolaborasi, ' + h(S.user.nama_lengkap)}.</h2><p>Satu portal bagi guru ${h(S.set.mapel)} Kota Bandar Lampung untuk berbagi media belajar, bahan ajar, video, E-Book hingga Augmented Reality, sekaligus berkolaborasi dalam kegiatan MGMP.</p></div><div class="bb2"><button class="btn ow" data-act="go" data-p="${adm ? 'rekap' : 'presensi'}">${ic(adm ? 'chart' : 'camera')}Presensi</button><button class="btn y" data-act="go" data-p="${adm ? 'pertemuan' : 'konten'}">${ic(adm ? 'calendar' : 'plus')}${adm ? 'Set Pertemuan' : 'Bagikan Konten'}</button></div></div>
   <div class="sts">${cards.map(c => `<div class="st st-${c[3]}"><div class="bb ${c[3]}">${ic(c[0])}</div><div><small>${c[1]}</small><b>${c[2]}</b><span class="${c[5] || ''}">${h(c[4])}</span></div></div>`).join('')}</div>
   <div class="dxg"><div class="cc"><div class="dxh"><div><h3 class="dxn">Pertemuan Mendatang</h3><p class="dxs">Jadwal, lokasi, dan seragam pertemuan MGMP terdekat</p></div><button type="button" class="dxl" data-act="go" data-p="${adm ? 'pertemuan' : 'presensi'}">${adm ? 'Kelola Semua' : 'Buka Presensi'} →</button></div>${ups.map(p => `<div class="dxu"><div class="dxt">${bg(pSt(p))}<b>${h(p.judul)}</b><span class="dxd">${p.tanggal}</span></div><p>${T5(p.jam_mulai)} - ${T5(p.jam_selesai)} WIB • ${h(p.tempat)} • Dresscode: ${h(p.dresscode || '-')}.</p></div>`).join('') || empty('Belum ada pertemuan terjadwal.')}</div>
   <div class="cc"><h3 class="dxn">Komposisi Konten Pembelajaran</h3><p class="dxs">Jumlah konten per jenis</p><div class="dxb">${jl.map(([j, n]) => `<div><div><span>${h(j)}</span><b>${n} Konten</b></div><i><u style="width:${Math.max(6, Math.round(n / jmax * 100))}%"></u></i></div>`).join('') || empty('Belum ada konten.')}</div><h4 class="dxk">Kontributor Konten Teratas:</h4>${tk.slice(0, 3).map(x => `<div class="dxr"><b>${h(x.nama)}</b><em>${x.n}</em></div>`).join('') || empty('Belum ada konten dari anggota.')}</div></div>`;
@@ -1470,10 +1483,6 @@ A.gj = d => { S.gf.jenis = d.v; go('galeri') };
 A.go = d => go(d.p);
 A.more = () => $('#pop').classList.toggle('on');
 A.mclose = () => closeM();
-A.role = (d, t) => { $$('.seg button').forEach(b => b.classList.toggle('on', b === t)); $('#rl').value = d.r; $('#ul').textContent = d.r === 'admin' ? (IS_PREVIEW ? 'Username Admin' : 'Email Admin') : 'Username Anggota';
-  $('#lt').textContent = d.r === 'admin' ? 'Masuk sebagai Admin' : 'Masuk sebagai Anggota';
-  $('#ls').textContent = d.r === 'admin' ? 'Kelola data anggota, pertemuan, konten, dan pengaturan portal.' : 'Lakukan presensi, bagikan konten pembelajaran, dan lihat kartu anggota.';
-  $('[name=u]').placeholder = d.r === 'admin' && !IS_PREVIEW ? 'email@sekolah.sch.id' : 'Masukkan username' };
 A.eye = (d, t) => { const i = t.parentElement.querySelector('input'); i.type = i.type === 'password' ? 'text' : 'password' };
 A.ql = d => login(d.r, d.r === 'admin' ? 'admin' : 'peserta', 'edudigital');
 A.theme = () => setTheme(app.dataset.theme === 'dark' ? 'light' : 'dark');
@@ -1482,7 +1491,7 @@ A.logout = async () => {
   await busy(async () => { try { if (!IS_PREVIEW && S.role === 'admin') await sb.auth.signOut() } catch { } try { localStorage.removeItem('mgmp_uid') } catch { } }, 'Keluar…');
   stopMedia(); S.user = null; S.role = null; bkOff(); loginView();
 };
-FM.fl = async f => { const d = fd(f); await login(d.role, d.u, d.p) };
+FM.fl = async f => { const d = fd(f), u = String(d.u || '').trim(); const adm = IS_PREVIEW ? u.toLowerCase() === 'admin' : u.includes('@'); await login(adm ? 'admin' : 'anggota', u, d.p) };
 
 app.addEventListener('click', e => { const t = e.target.closest('[data-act]'); if (!t || t.disabled) return; const f = A[t.dataset.act]; if (f) Promise.resolve().then(() => f(t.dataset, t, e)).catch(x => toast(msg(x), 'er')) });
 app.addEventListener('submit', e => { e.preventDefault(); const f = FM[e.target.getAttribute('id')]; if (f) busy(() => f(e.target)).catch(x => { snd(0); toast(msg(x), 'er') }) });
