@@ -505,18 +505,17 @@
  .thm .ic{width:18px;height:18px}
  .thm .sun{display:none}
  .lgt{position:fixed;top:16px;right:16px;z-index:5;background:#fff;box-shadow:0 2px 10px rgba(15,23,42,.18)}
- .lgk{width:48px;height:48px;margin-bottom:18px;border-radius:14px;display:grid;place-items:center;background:#dbeafe;color:#1d4ed8}
- .lgk .ic{width:22px;height:22px}
  .lgr .sub{margin:6px 0 26px;line-height:1.55}
  .iw{position:relative}
  .iw>.ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#94a3b8;pointer-events:none;z-index:1}
  .iw .in{padding-left:44px}
+ .iw:focus-within>.ic{color:#1d4ed8}
  .lgh{display:flex;gap:12px;align-items:flex-start;margin-top:22px;padding:14px 16px;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;font-size:12.5px;line-height:1.55;color:#475569}
  .lgh .ic{width:18px;height:18px;margin-top:1px;flex:none;color:#1d4ed8}
  .lgh b{color:#0f172a}
  .lgc{margin:18px 0 0;text-align:center;font-size:11.5px;color:#94a3b8}
  &[data-theme="dark"]{
-  .lgk{background:rgba(34,211,238,.15);color:#22d3ee}
+  .iw:focus-within>.ic{color:#22d3ee}
   .lgh{background:#0f172a;border-color:#1e293b;color:#94a3b8}.lgh .ic{color:#22d3ee}.lgh b{color:#f1f5f9}
   color-scheme:dark;background:#0b1220;color:#e2e8f0;--b1:#0891b2;--b2:#f1f5f9;--mu:#94a3b8;--bd:#1e293b;
   .thm{background:#1e293b;color:#fbbf24}
@@ -612,6 +611,20 @@
   .lgo{width:52px;height:52px;margin-bottom:14px}
   .fc,.lgf{display:none}
   .lgr{flex:none;padding:24px 22px 28px}
+  .lgn{padding:14px}
+  .lgw{border-radius:24px}
+  .lgl{display:grid;grid-template-columns:auto 1fr;column-gap:14px;align-items:center;padding:20px 58px 20px 18px}
+  .lgo{grid-row:1/3;width:48px;height:48px;margin:0;border-radius:14px}
+  .lgl h1{font-size:19px;line-height:1.2;margin:0}
+  .lgl .sch{margin:3px 0 0;font-size:10.5px;letter-spacing:.8px}
+  .lgl .ta,.lgl p{display:none}
+  .lgr{padding:22px 18px 24px}
+  .lgr h2{font-size:21px}
+  .lgr .sub{margin:4px 0 20px;font-size:13px}
+  .lgr .in{height:46px}
+  .lgr form>.btn{height:48px}
+  .lgh{margin-top:18px;padding:12px 14px}
+  .lgt{top:10px;right:10px;width:34px;height:34px}
   .ch{height:190px}
   .dn .ch{width:140px;height:140px}
   .bnr{flex-direction:column;align-items:flex-start}
@@ -872,7 +885,7 @@ const reload = async pg => { await busy(loadAll); go(pg || S.page) };
 function loginView() {
   stopMedia(); const lg = h(S.set.logo_url || LOGO);
   root.innerHTML = `<div class="lgn"><button type="button" class="thm lgt" data-act="theme" title="Ganti tema" aria-label="Ganti tema terang/gelap">${ic('moon', 'moon')}${ic('sun', 'sun')}</button><div class="lgw"><div class="lgl"><div class="lgo"><img src="${lg}" alt="Logo"></div><h1>${h(S.set.nama_aplikasi)}</h1><b class="sch">KOTA BANDAR LAMPUNG</b><span class="ta">Tahun Ajaran ${h(S.set.tahun_ajaran)}</span><p>Portal kolaborasi guru Informatika: presensi digital dengan pengenalan wajah dan lokasi, berbagi konten pembelajaran, serta rekap kegiatan dalam satu tempat.</p><div class="fc">${ic('camera')}<div><b>Presensi Wajah &amp; Lokasi</b><span>Sekali presensi otomatis tercatat ke rekap pertemuan.</span></div></div><div class="fc">${ic('book')}<div><b>Galeri Konten &amp; Kartu Digital</b><span>Bagikan media belajar dan tampilkan kartu anggota ber-QR.</span></div></div><div class="lgf"><em>${IS_PREVIEW ? 'Mode: Preview' : 'Mode: Produksi'}</em><span>PWA Ready v3.0</span></div></div>
-  <div class="lgr"><form id="fl"><div class="lgk">${ic('lock')}</div><h2>Masuk ke Akun Anda</h2><p class="sub">Gunakan akun yang diberikan admin untuk mengakses presensi, galeri konten, dan kartu anggota.</p>
+  <div class="lgr"><form id="fl"><h2>Masuk ke Akun Anda</h2><p class="sub">Gunakan akun yang diberikan admin untuk mengakses presensi, galeri konten, dan kartu anggota.</p>
   <div class="f"><label>Email atau Username</label><div class="iw">${ic('user')}<input class="in" name="u" required autocomplete="username" placeholder="Masukkan email atau username"></div></div>
   <div class="f"><label>Password</label><div class="pw iw">${ic('lock')}<input class="in" type="password" name="p" required autocomplete="current-password" placeholder="Masukkan password"><button type="button" data-act="eye">${ic('eye')}</button></div></div>
   <button class="btn" style="width:100%;margin-top:8px">${ic('lock')}Masuk</button></form>
