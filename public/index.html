@@ -341,6 +341,27 @@
   .st{padding:14px}
   .st b{font-size:19px}
   .dxg{grid-template-columns:1fr}
+  .bnr{padding:22px 18px;gap:18px;border-radius:24px}
+  .bt small{font-size:10.5px;padding:5px 10px}
+  .bt h2{font-size:22px;margin-top:12px}
+  .bt p{font-size:13px;line-height:1.55}
+  .bb2{width:100%}
+  .bb2 .btn{flex:1;justify-content:center;padding:0 10px}
+  .sts{gap:10px;margin:12px 0}
+  .st{padding:14px;border-radius:16px}
+  .st small{font-size:10px;letter-spacing:.3px}
+  .st b{margin-top:10px;font-size:19px}
+  .st span:not(.bb){font-size:11.5px;line-height:1.35}
+  .st .bb{width:30px;height:30px;border-radius:10px}
+  .st .bb .ic{width:16px;height:16px}
+  .dxg{gap:12px;margin-bottom:12px}
+  .dxn{font-size:15px}
+  .dxh{margin-bottom:14px}
+  .dxl{font-size:12px}
+  .dxt{flex-wrap:wrap;gap:8px}
+  .dxt b{order:3;flex:1 1 100%}
+  .dxd{margin-left:auto;padding:5px 10px;font-size:12px}
+  .dxu{padding:14px;margin-bottom:10px}
   .hd{height:60px;padding:0 14px}
   .hd .lm{display:block}
   .usr .nm,.lo span{display:none}
@@ -812,13 +833,10 @@ PG.dash = () => {
   const act = [...S.presensi.map(x => ({ t: x.waktu_presensi, i: 'check', a: 'Presensi ' + x.status, n: anm(x.anggota_id) })), ...S.izin.map(x => ({ t: x.created_at, i: 'file', a: `Ketidakhadiran (${x.jenis})`, n: anm(x.anggota_id) }))].sort((a, b) => String(b.t).localeCompare(String(a.t))).slice(0, 5);
   const tk = topK(), kt = kSort().slice(0, 4);
   const hasD = Object.values(t).some(v => v), hasP = S.pertemuan.some(p => pSt(p) !== 'Terjadwal');
-  return `<div class="bnr"><div class="bt"><small><i></i>Tahun Ajaran ${h(S.set.tahun_ajaran)} • MGMP ${h(S.set.mapel)}</small><h2>Selamat Bekerja, ${adm ? 'Administrator MGMP' : h(S.user.nama_lengkap)}.</h2><p>Satu portal bagi guru ${h(S.set.mapel)} Kota Bandar Lampung untuk berbagi media belajar, bahan ajar, video, E-Book hingga Augmented Reality, sekaligus berkolaborasi dalam kegiatan MGMP.</p></div><div class="bb2"><button class="btn ow" data-act="go" data-p="galeri">${ic('grid')}Buka Galeri Konten</button><button class="btn y" data-act="go" data-p="${adm ? 'pertemuan' : 'konten'}">${ic(adm ? 'calendar' : 'plus')}${adm ? 'Set Pertemuan' : 'Bagikan Konten'}</button></div></div>
+  return `<div class="bnr"><div class="bt"><small><i></i>Tahun Ajaran ${h(S.set.tahun_ajaran)} • MGMP ${h(S.set.mapel)}</small><h2>Selamat Bekerja, ${adm ? 'Administrator MGMP' : h(S.user.nama_lengkap)}.</h2><p>Satu portal bagi guru ${h(S.set.mapel)} Kota Bandar Lampung untuk berbagi media belajar, bahan ajar, video, E-Book hingga Augmented Reality, sekaligus berkolaborasi dalam kegiatan MGMP.</p></div><div class="bb2"><button class="btn ow" data-act="go" data-p="${adm ? 'rekap' : 'presensi'}">${ic(adm ? 'chart' : 'camera')}Presensi</button><button class="btn y" data-act="go" data-p="${adm ? 'pertemuan' : 'konten'}">${ic(adm ? 'calendar' : 'plus')}${adm ? 'Set Pertemuan' : 'Bagikan Konten'}</button></div></div>
   <div class="sts">${cards.map(c => `<div class="st st-${c[3]}"><div class="bb ${c[3]}">${ic(c[0])}</div><div><small>${c[1]}</small><b>${c[2]}</b><span class="${c[5] || ''}">${h(c[4])}</span></div></div>`).join('')}</div>
   <div class="dxg"><div class="cc"><div class="dxh"><div><h3 class="dxn">Pertemuan Mendatang</h3><p class="dxs">Jadwal, lokasi, dan seragam pertemuan MGMP terdekat</p></div><button type="button" class="dxl" data-act="go" data-p="${adm ? 'pertemuan' : 'presensi'}">${adm ? 'Kelola Semua' : 'Buka Presensi'} →</button></div>${ups.map(p => `<div class="dxu"><div class="dxt">${bg(pSt(p))}<b>${h(p.judul)}</b><span class="dxd">${p.tanggal}</span></div><p>${T5(p.jam_mulai)} - ${T5(p.jam_selesai)} WIB • ${h(p.tempat)} • Dresscode: ${h(p.dresscode || '-')}.</p></div>`).join('') || empty('Belum ada pertemuan terjadwal.')}</div>
-  <div class="cc"><h3 class="dxn">Komposisi Konten Pembelajaran</h3><p class="dxs">Jumlah konten per jenis</p><div class="dxb">${jl.map(([j, n]) => `<div><div><span>${h(j)}</span><b>${n} Konten</b></div><i><u style="width:${Math.max(6, Math.round(n / jmax * 100))}%"></u></i></div>`).join('') || empty('Belum ada konten.')}</div><h4 class="dxk">Kontributor Konten Teratas:</h4>${tk.slice(0, 3).map(x => `<div class="dxr"><b>${h(x.nama)}</b><em>${x.n}</em></div>`).join('') || empty('Belum ada konten dari anggota.')}</div></div>
-  <div class="gr"><div class="cc"><h3 class="dxn">Kehadiran per Pertemuan</h3><p class="dxs">7 pertemuan terakhir</p>${hasP ? '<div class="ch"><canvas id="c1"></canvas></div>' : empty('Belum ada pertemuan yang berlangsung.')}</div>
-  <div class="cc"><h3 class="dxn">Status Kehadiran</h3><p class="dxs">${adm ? 'Akumulasi seluruh pertemuan' : 'Rekap kehadiran Anda'}</p>${hasD ? `<div class="dn"><div class="ch"><canvas id="c2"></canvas></div><ul class="lgd">${ST.map(k => `<li><i style="background:${COL[k]}"></i>${k}<b>${t[k]}</b></li>`).join('')}</ul></div>` : empty('Belum ada data kehadiran.')}</div>
-  <div class="cc"><h3 class="dxn">Aktivitas Terbaru</h3><p class="dxs">Presensi dan ketidakhadiran terakhir</p><div class="ls">${act.map(a => `<div class="it"><div class="ib">${ic(a.i)}</div><div class="tx"><b>${h(a.a)}</b><small>${h(a.n)} • ${new Date(a.t).toLocaleString('id-ID', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</small></div></div>`).join('') || empty('Belum ada aktivitas.')}</div></div></div>`;
+  <div class="cc"><h3 class="dxn">Komposisi Konten Pembelajaran</h3><p class="dxs">Jumlah konten per jenis</p><div class="dxb">${jl.map(([j, n]) => `<div><div><span>${h(j)}</span><b>${n} Konten</b></div><i><u style="width:${Math.max(6, Math.round(n / jmax * 100))}%"></u></i></div>`).join('') || empty('Belum ada konten.')}</div><h4 class="dxk">Kontributor Konten Teratas:</h4>${tk.slice(0, 3).map(x => `<div class="dxr"><b>${h(x.nama)}</b><em>${x.n}</em></div>`).join('') || empty('Belum ada konten dari anggota.')}</div></div>`;
 };
 HK.dash = () => {
   if (!window.Chart) return; const D = Chart.defaults;
