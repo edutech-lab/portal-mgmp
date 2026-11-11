@@ -501,6 +501,91 @@
  .lgd li:last-child{border-bottom:0}
  .lgd i{width:10px;height:10px;border-radius:4px}
  .lgd b{color:#0f172a;font-weight:800}
+ .thm{width:40px;height:40px;flex:none;margin-left:auto;border:0;border-radius:50%;background:#f1f5f9;color:#475569;display:grid;place-items:center;cursor:pointer}
+ .thm .ic{width:18px;height:18px}
+ .thm .sun{display:none}
+ .lgt{position:fixed;top:16px;right:16px;z-index:5;background:#fff;box-shadow:0 2px 10px rgba(15,23,42,.18)}
+ &[data-theme="dark"]{
+  color-scheme:dark;background:#0b1220;color:#e2e8f0;--b1:#0891b2;--b2:#f1f5f9;--mu:#94a3b8;--bd:#1e293b;
+  .thm{background:#1e293b;color:#fbbf24}
+  .thm .sun{display:block}.thm .moon{display:none}
+  .lgt{background:#1e293b;box-shadow:0 2px 10px rgba(0,0,0,.5)}
+  .app,.ct{background:#0b1220}
+  .sb,.hd,.ft,.ft.m{background:#0f172a;border-color:#1e293b}
+  .sb{border-right:1px solid #1e293b}
+  .hd{border-bottom:1px solid #1e293b;color:#f1f5f9}
+  .hd small{color:#94a3b8}
+  .hd .lo{background:#1e293b;color:#e2e8f0}
+  .br{border-bottom-color:#1e293b}
+  .br b,.sbu .nm b,.ft b{color:#f1f5f9}
+  .br i,.ft{color:#94a3b8}
+  .ft{border-top:1px solid #1e293b}
+  .nv a{color:#cbd5e1}.nv a .ic{color:#94a3b8}
+  .nv a:hover{background:#1e293b}
+  .nv a.on{background:#0891b2;color:#fff;box-shadow:0 6px 14px rgba(8,145,178,.35)}
+  .nv a.on .ic{color:#fff}
+  .sbu{border-top-color:#1e293b}
+  .sbu .nm small{color:#22d3ee}
+  .sbu .pw2{background:rgba(239,68,68,.15);color:#f87171}
+  .av,.sbu .av{background:#164e63;color:#a5f3fc}
+  .cc,.st,.kc,.pop,.mb,.cfb{background:#111a2e;border-color:#1e293b;color:#e2e8f0}
+  .cc h3,.dxn,.dxk,.dxt b,.dxr,.st b,.mh,.cfb h3,.kc h4,.kc .kw b{color:#f1f5f9}
+  .cc h3 .ic,.it .ib{background:rgba(34,211,238,.15);color:#22d3ee}
+  .st small,.st span:not(.bb),.dxs,.dxu p,.em{color:#94a3b8}
+  .st span.ok{color:#34d399}
+  .st-b{background:rgba(8,145,178,.14);border-color:#0e7490}
+  .st-g,.st-p,.st-y,.st-c,.st-r{background:#111a2e;border-color:#1e293b}
+  .bb.b{background:rgba(34,211,238,.15);color:#22d3ee}
+  .bb.g{background:rgba(16,185,129,.18);color:#34d399}
+  .bb.p{background:rgba(20,184,166,.18);color:#2dd4bf}
+  .bb.y{background:rgba(245,158,11,.18);color:#fbbf24}
+  .bb.c{background:rgba(56,189,248,.18);color:#38bdf8}
+  .bb.r{background:rgba(239,68,68,.18);color:#f87171}
+  .dxl,.dxb b,.dxr em{color:#22d3ee}
+  .dxr em{background:rgba(34,211,238,.15)}
+  .dxu,.dxr,.it{background:#0f172a;border-color:#1e293b}
+  .dxd{background:#111a2e;border-color:#334155;color:#cbd5e1}
+  .dxb>div>div{color:#e2e8f0}
+  .dxb i{background:#1e293b}
+  .dxb u{background:linear-gradient(90deg,#0891b2,#22d3ee)}
+  .bnr,.gh{background:linear-gradient(100deg,#0e7490 0%,#0891b2 55%,#155e75 100%);box-shadow:0 20px 40px -14px rgba(8,145,178,.45)}
+  .bt small i{background:#a5f3fc}
+  .bb2 .btn.ow{background:#fff;color:#0e7490}
+  .btn{background:#0891b2;color:#fff}
+  .btn.y,.bnr .btn.y{background:linear-gradient(90deg,#f59e0b,#f97316);color:#fff}
+  .btn.o{background:#111a2e;color:#22d3ee;border:1px solid #155e75}
+  .btn.r{background:rgba(239,68,68,.15);color:#f87171}
+  .in,input,select,textarea{background:#0f172a;border-color:#334155;color:#e2e8f0}
+  .in:focus{border-color:#22d3ee;box-shadow:0 0 0 3px rgba(34,211,238,.18)}
+  .in::placeholder,input::placeholder,textarea::placeholder{color:#64748b}
+  .tbw th{background:#0f172a;color:#94a3b8;border-color:#1e293b}
+  .tbw td{border-color:#1e293b;color:#e2e8f0}
+  .tbw tr:hover td{background:#0f172a}
+  .bd.ok{background:rgba(16,185,129,.18);color:#34d399}
+  .bd.wn{background:rgba(245,158,11,.18);color:#fbbf24}
+  .bd.er{background:rgba(239,68,68,.18);color:#f87171}
+  .bd.bi{background:rgba(34,211,238,.15);color:#22d3ee}
+  .bd.mu{background:#1e293b;color:#94a3b8}
+  .dt{background:linear-gradient(135deg,#0891b2,#155e75)}
+  .jc button.on{background:#0891b2}
+  .mdl,.cfm{background:rgba(2,6,23,.7)}
+  .mh{border-bottom-color:#1e293b}
+  .cfb{border-top-color:#22d3ee}
+  #ld{background:rgba(11,18,32,.8);color:#e2e8f0}
+  .pop a{color:#e2e8f0}
+  .bn{background:rgba(15,23,42,.96);border-color:#1e293b}
+  .bn a{color:#94a3b8}
+  .bn a.on{background:#0891b2;color:#fff}
+  .kd{background:linear-gradient(135deg,#0e7490 0%,#164e63 100%)}
+  .lgn{background:linear-gradient(180deg,#0b1220,#0f172a)}
+  .lgw{background:#111a2e;border-color:#1e293b;box-shadow:0 30px 60px -20px rgba(0,0,0,.6)}
+  .lgl{background:linear-gradient(150deg,#0e7490 0%,#0891b2 55%,#155e75 100%)}
+  .lgr{background:#111a2e;color:#e2e8f0}
+  .lgr h2{color:#f1f5f9}.lgr .sub{color:#94a3b8}.lgr .f label{color:#cbd5e1}
+  .seg{background:#0f172a}.seg button{color:#94a3b8}.seg button.on{background:#1e293b;color:#22d3ee}
+  .pvx{background:#0f172a;border-color:#1e293b;color:#cbd5e1}
+  .lgr form>.btn{background:#0891b2;box-shadow:0 10px 20px -6px rgba(8,145,178,.5)}
+ }
  @media(max-width:860px){
   .hd{height:60px;padding:0 14px}
   .hd .usr{display:flex}.hd .lo{display:flex;background:#f1f5f9;color:#0f172a}
@@ -545,6 +630,7 @@
   .dxd{margin-left:auto;padding:5px 10px;font-size:12px}
   .dxu{padding:14px;margin-bottom:10px}
   .hd .tt{min-width:0;flex:1}
+  .thm{width:36px;height:36px}
   .hd h1{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .hd small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px}
   .ct{overflow-x:hidden}
@@ -609,12 +695,17 @@ const uid = () => crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + 
 const fd = f => Object.fromEntries(new FormData(f));
 const msg = e => { const m = e?.message || String(e); if (/duplicate|unique|sudah dipakai/i.test(m) && !/Kode anggota atau username/.test(m)) return 'Data duplikat: kode anggota atau username sudah dipakai.'; if (/row-level|permission denied/i.test(m)) return 'Akses ditolak database. Jalankan ulang SQL (RLS) di Supabase.'; if (/failed to fetch|networkerror/i.test(m)) return 'Koneksi internet bermasalah. Coba lagi.'; return m };
 const root = $('#mgmpRoot'), app = $('#mgmpApp');
+const THEME_KEY = 'mgmp_tema';
+const setTheme = t => { app.dataset.theme = t; document.documentElement.style.colorScheme = t; document.body.style.background = t === 'dark' ? '#0b1220' : '#f8fafc'; const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t === 'dark' ? '#0b1220' : '#1d4ed8'; try { localStorage.setItem(THEME_KEY, t) } catch (e) { } };
+let tema0 = 'light'; try { tema0 = localStorage.getItem(THEME_KEY) === 'dark' ? 'dark' : 'light' } catch (e) { }
+setTheme(tema0);
 const fitH = () => { app.style.height = window.innerHeight + 'px' };
 document.documentElement.style.overflow = document.body.style.overflow = 'hidden';
 fitH(); window.addEventListener('resize', fitH); window.addEventListener('orientationchange', () => setTimeout(fitH, 250));
 
 // ---------- ikon SVG ----------
 const P = {
+  sun: 'M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z M12 2v2 M12 20v2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M2 12h2 M20 12h2 M4.9 19.1l1.4-1.4 M17.7 6.3l1.4-1.4', moon: 'M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z',
   home: 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z', users: 'M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2 M10 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M21 21v-2a4 4 0 0 0-3-3.9 M16 3.1a4 4 0 0 1 0 7.8',
   calendar: 'M3 5h18v16H3z M3 10h18 M8 3v4 M16 3v4', chart: 'M4 20V10 M10 20V4 M16 20v-7 M22 20H2', file: 'M14 3H6v18h12V7z M14 3v4h4 M9 12h6 M9 16h6',
   idcard: 'M3 5h18v14H3z M7 10h4 M7 14h3 M15 9a2 2 0 1 0 0 4 2 2 0 0 0 0-4z', sliders: 'M4 6h10 M18 6h2 M4 12h4 M12 12h8 M4 18h12 M20 18h0 M14 4v4 M8 10v4 M16 16v4',
@@ -767,7 +858,7 @@ const reload = async pg => { await busy(loadAll); go(pg || S.page) };
 // ---------- login ----------
 function loginView() {
   stopMedia(); const lg = h(S.set.logo_url || LOGO);
-  root.innerHTML = `<div class="lgn"><div class="lgw"><div class="lgl"><div class="lgo"><img src="${lg}" alt="Logo"></div><h1>${h(S.set.nama_aplikasi)}</h1><b class="sch">KOTA BANDAR LAMPUNG</b><span class="ta">Tahun Ajaran ${h(S.set.tahun_ajaran)}</span><p>Portal kolaborasi guru Informatika: presensi digital dengan pengenalan wajah dan lokasi, berbagi konten pembelajaran, serta rekap kegiatan dalam satu tempat.</p><div class="fc">${ic('camera')}<div><b>Presensi Wajah &amp; Lokasi</b><span>Sekali presensi otomatis tercatat ke rekap pertemuan.</span></div></div><div class="fc">${ic('book')}<div><b>Galeri Konten &amp; Kartu Digital</b><span>Bagikan media belajar dan tampilkan kartu anggota ber-QR.</span></div></div><div class="lgf"><em>${IS_PREVIEW ? 'Mode: Preview' : 'Mode: Produksi'}</em><span>PWA Ready v3.0</span></div></div>
+  root.innerHTML = `<div class="lgn"><button type="button" class="thm lgt" data-act="theme" title="Ganti tema" aria-label="Ganti tema terang/gelap">${ic('moon', 'moon')}${ic('sun', 'sun')}</button><div class="lgw"><div class="lgl"><div class="lgo"><img src="${lg}" alt="Logo"></div><h1>${h(S.set.nama_aplikasi)}</h1><b class="sch">KOTA BANDAR LAMPUNG</b><span class="ta">Tahun Ajaran ${h(S.set.tahun_ajaran)}</span><p>Portal kolaborasi guru Informatika: presensi digital dengan pengenalan wajah dan lokasi, berbagi konten pembelajaran, serta rekap kegiatan dalam satu tempat.</p><div class="fc">${ic('camera')}<div><b>Presensi Wajah &amp; Lokasi</b><span>Sekali presensi otomatis tercatat ke rekap pertemuan.</span></div></div><div class="fc">${ic('book')}<div><b>Galeri Konten &amp; Kartu Digital</b><span>Bagikan media belajar dan tampilkan kartu anggota ber-QR.</span></div></div><div class="lgf"><em>${IS_PREVIEW ? 'Mode: Preview' : 'Mode: Produksi'}</em><span>PWA Ready v3.0</span></div></div>
   <div class="lgr"><form id="fl"><input type="hidden" name="role" id="rl" value="admin"><h2 id="lt">Masuk sebagai Admin</h2><p class="sub" id="ls">Kelola data anggota, pertemuan, konten, dan pengaturan portal.</p>
   <div class="seg"><button type="button" class="on" data-act="role" data-r="admin">Admin</button><button type="button" data-act="role" data-r="anggota">Anggota</button></div>
   <div class="f"><label id="ul">${IS_PREVIEW ? 'Username Admin' : 'Email Admin'}</label><input class="in" name="u" required autocomplete="username" placeholder="${IS_PREVIEW ? 'Masukkan username' : 'email@sekolah.sch.id'}"></div>
@@ -796,7 +887,7 @@ async function login(role, u, p) {
 function shell() {
   const nav = NAV[S.role], mob = nav.slice(0, 4), more = nav.slice(4), lg = h(S.set.logo_url || LOGO), adm = S.role === 'admin';
   return `<div class="app"><div class="shl"><aside class="sb"><div class="br"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA<br>KOTA BANDAR LAMPUNG</b><i>${MOTTO}</i></div></div><nav class="nv">${nav.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</nav><div class="sbu">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm"><b>${adm ? 'Administrator' : h(S.user.nama_lengkap)}</b><small>${adm ? 'ADMIN' : 'ANGGOTA'} • TA ${h(S.set.tahun_ajaran)}</small></div><button class="pw2" data-act="logout" title="Keluar">${ic('logout')}</button></div></aside>
-  <div class="mn"><header class="hd"><img class="lm" src="${lg}" alt=""><div class="tt"><h1 id="pgt">${h(S.set.nama_aplikasi)}</h1><small>${h(S.set.nama_aplikasi)} • Kota Bandar Lampung • TA ${h(S.set.tahun_ajaran)}</small></div>${IS_PREVIEW ? '<span class="pvb">Mode Preview Aktif</span>' : ''}<div class="usr">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm">${adm ? 'Administrator' : h(S.user.nama_lengkap)}<small>${adm ? 'Admin' : 'Anggota'}</small></div></div><button class="lo" data-act="logout">${ic('logout')}<span>Keluar</span></button></header>
+  <div class="mn"><header class="hd"><img class="lm" src="${lg}" alt=""><div class="tt"><h1 id="pgt">${h(S.set.nama_aplikasi)}</h1><small>${h(S.set.nama_aplikasi)} • Kota Bandar Lampung • TA ${h(S.set.tahun_ajaran)}</small></div>${IS_PREVIEW ? '<span class="pvb">Mode Preview Aktif</span>' : ''}<div class="usr">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm">${adm ? 'Administrator' : h(S.user.nama_lengkap)}<small>${adm ? 'Admin' : 'Anggota'}</small></div></div><button type="button" class="thm" data-act="theme" title="Ganti tema" aria-label="Ganti tema terang/gelap">${ic('moon', 'moon')}${ic('sun', 'sun')}</button><button class="lo" data-act="logout">${ic('logout')}<span>Keluar</span></button></header>
   <main class="ct" id="ct"></main><footer class="ft"><div class="l"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA KOTA BANDAR LAMPUNG</b>${MOTTO}</div></div><div class="c"><b>${h(S.set.nama_aplikasi)}</b>Berbagi • Berinovasi • Berdampak</div><div class="r">© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)}<br>TA ${h(S.set.tahun_ajaran)}</div></footer></div></div>
   <nav class="bn">${mob.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[3]}</span></a>`).join('')}${more.length ? `<a data-act="more">${ic('more')}<span>Lainnya</span></a>` : ''}</nav>
   <div class="pop" id="pop">${more.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</div></div>`;
@@ -1385,6 +1476,7 @@ A.role = (d, t) => { $$('.seg button').forEach(b => b.classList.toggle('on', b =
   $('[name=u]').placeholder = d.r === 'admin' && !IS_PREVIEW ? 'email@sekolah.sch.id' : 'Masukkan username' };
 A.eye = (d, t) => { const i = t.parentElement.querySelector('input'); i.type = i.type === 'password' ? 'text' : 'password' };
 A.ql = d => login(d.r, d.r === 'admin' ? 'admin' : 'peserta', 'edudigital');
+A.theme = () => setTheme(app.dataset.theme === 'dark' ? 'light' : 'dark');
 A.logout = async () => {
   if (!await confirmBox({ title: 'Keluar dari Aplikasi?', msg: 'Sesi Anda akan diakhiri. Anda perlu masuk kembali untuk menggunakan aplikasi ini.', ok: 'Ya, Keluar', cancel: 'Batal', icon: 'logout' })) return;
   await busy(async () => { try { if (!IS_PREVIEW && S.role === 'admin') await sb.auth.signOut() } catch { } try { localStorage.removeItem('mgmp_uid') } catch { } }, 'Keluar…');
