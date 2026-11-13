@@ -219,6 +219,8 @@
  .lgr .btn{height:48px;box-shadow:0 8px 20px rgba(254,211,3,.35)}
  .lgr .fg .f{margin:0}.lgr .fg .iw .in{width:100%}.lgr select.in{padding-right:12px}
  .lgr .lgh a{text-decoration:none}
+ .lgr .btn.sm{height:34px;padding:0 14px;box-shadow:none;font-size:12.5px;width:auto}.lgr .btn.sm .ic{width:14px;height:14px}
+ .lgk{display:flex;align-items:center;margin:0 0 18px}.lgk.lgb{justify-content:center;gap:10px;margin:14px 0 0;font-size:12.5px}
  .seg{display:grid;grid-template-columns:1fr 1fr;background:#eef2f9;border-radius:16px;padding:5px;margin:0 0 28px}
  .seg button{border:0;background:transparent;padding:11px;border-radius:12px;font-weight:700;cursor:pointer;color:var(--mu)}
  .seg button.on{background:#fff;color:var(--b1);box-shadow:0 2px 8px rgba(0,20,85,.12)}
@@ -884,11 +886,10 @@ async function loadAll() {
 const reload = async pg => { await busy(loadAll); go(pg || S.page) };
 
 // ---------- login ----------
-const lgTabs = m => `<div class="seg" role="tablist"><button type="button" role="tab" aria-selected="${m === 'masuk'}" class="${m === 'masuk' ? 'on' : ''}" data-act="lm" data-m="masuk">Masuk</button><button type="button" role="tab" aria-selected="${m === 'daftar'}" class="${m === 'daftar' ? 'on' : ''}" data-act="lm" data-m="daftar">Buat Akun</button></div>`;
 function loginPanel() {
   const m = S.lm || 'masuk';
   if (m === 'ok') return `<div style="text-align:center;padding:8px 0 4px"><div class="cfi">${ic('check')}</div><h2>Pendaftaran Berhasil</h2><p class="sub" style="margin-bottom:18px">Akun Anda sudah tersimpan dan menunggu persetujuan admin MGMP. Anda baru dapat masuk setelah akun disetujui.</p><button type="button" class="btn" style="width:100%" data-act="lm" data-m="masuk">Ke Halaman Masuk</button></div>`;
-  if (m === 'daftar') return `${lgTabs(m)}<form id="fr" autocomplete="off"><h2>Buat Akun Anggota</h2><p class="sub">Daftarkan diri Anda sebagai anggota MGMP ${h(S.set.mapel)}. Akun aktif setelah disetujui admin.</p>
+  if (m === 'daftar') return `<div class="lgk"><button type="button" class="btn o sm" data-act="lm" data-m="masuk">‹ Kembali ke Masuk</button></div><form id="fr" autocomplete="off"><h2>Buat Akun Anggota</h2><p class="sub">Daftarkan diri Anda sebagai anggota MGMP ${h(S.set.mapel)}. Akun aktif setelah disetujui admin.</p>
   <div class="fg" style="margin-bottom:14px">
   <div class="f w"><label>Nama Lengkap *</label><div class="iw">${ic('user')}<input class="in" name="nama_lengkap" required minlength="3" maxlength="100" autocomplete="name" placeholder="Nama beserta gelar"></div></div>
   <div class="f"><label>Jenis Kelamin *</label><select class="in" name="jenis_kelamin" required><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div>
@@ -902,11 +903,12 @@ function loginPanel() {
   <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
   <button class="btn" style="width:100%;margin-top:4px">${ic('check')}Buat Akun</button></form>
   <div class="lgh">${ic('info')}<span><b>Perlu persetujuan.</b> Setelah mendaftar, admin MGMP akan memeriksa data Anda. Sudah punya akun? <a href="#" data-act="lm" data-m="masuk" style="color:#1d4ed8;font-weight:700">Masuk di sini</a>.</span></div>`;
-  return `${lgTabs(m)}<form id="fl"><h2>Masuk ke Akun Anda</h2><p class="sub">Masuk untuk mengakses presensi, galeri konten, dan kartu anggota. Belum punya akun? Pilih <b>Buat Akun</b>.</p>
+  return `<form id="fl"><h2>Masuk ke Akun Anda</h2><p class="sub">Masuk untuk mengakses presensi, galeri konten, dan kartu anggota.</p>
   <div class="f"><label>Email atau Username</label><div class="iw">${ic('user')}<input class="in" name="u" required autocomplete="username" placeholder="Masukkan email atau username"></div></div>
   <div class="f"><label>Password</label><div class="pw iw">${ic('lock')}<input class="in" type="password" name="p" required autocomplete="current-password" placeholder="Masukkan password"><button type="button" data-act="eye">${ic('eye')}</button></div></div>
   <button class="btn" style="width:100%;margin-top:8px">${ic('lock')}Masuk</button></form>
-  <div class="lgh">${ic('info')}<span><b>Lupa password?</b> Hubungi admin MGMP untuk mengatur ulang password akun Anda.</span></div>`;
+  <div class="lgh">${ic('info')}<span><b>Lupa password?</b> Hubungi admin MGMP untuk mengatur ulang password akun Anda.</span></div>
+  <div class="lgk lgb"><span class="mu">Belum punya akun?</span><button type="button" class="btn o sm" data-act="lm" data-m="daftar">${ic('plus')}Buat Akun</button></div>`;
 }
 function loginView() {
   stopMedia(); const lg = h(S.set.logo_url || LOGO);

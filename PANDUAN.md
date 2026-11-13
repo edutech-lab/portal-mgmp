@@ -57,7 +57,7 @@ Catatan penting:
 - Backup bersifat manual. Biasakan mengunduh sebelum perubahan besar (awal semester, impor data, dll).
 
 ## 6. Memperbarui aplikasi
-1. Ubah file di `public/`. Naikkan `VERSION` di `public/sw.js` (sekarang `mgmp-v21`, berikutnya `mgmp-v22`, dst.).
+1. Ubah file di `public/`. Naikkan `VERSION` di `public/sw.js` (sekarang `mgmp-v22`, berikutnya `mgmp-v23`, dst.).
 2. `git commit` lalu `git push`. Vercel otomatis deploy.
 3. Pengguna membuka aplikasi dengan internet aktif; tutup lalu buka lagi bila tampilan belum berubah.
 
@@ -75,7 +75,7 @@ Catatan penting:
   Jika tampilan lama masih muncul, naikkan `VERSION` di `sw.js` lalu deploy ulang.
 
 ## 9. Buat Akun (pendaftaran mandiri anggota)
-Halaman login punya dua tab: **Masuk** dan **Buat Akun**. Calon anggota mengisi nama, jenis kelamin, asal sekolah,
+Halaman login punya tombol kecil **Buat Akun** di bawah info "Lupa password?"; setelah diklik, muncul form pendaftaran (ada tombol *Kembali ke Masuk*). Calon anggota mengisi nama, jenis kelamin, asal sekolah,
 username, dan password (NIP/NIY opsional). Akun baru berstatus **Menunggu** dan belum bisa masuk sampai admin menyetujui.
 
 **Langkah pemasangan (urutan penting):**

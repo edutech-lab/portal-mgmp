@@ -30,4 +30,4 @@ Kamera dan lokasi hanya berfungsi di `localhost` atau HTTPS.
 Lihat `PANDUAN.md`.
 
 ## Buat Akun
-Halaman login mendukung pendaftaran mandiri (tab *Buat Akun*) dengan persetujuan admin. Jalankan `supabase/migrasi-pendaftaran-akun.sql` lebih dulu; lihat `PANDUAN.md` bagian 9.
+Halaman login mendukung pendaftaran mandiri (tombol *Buat Akun*) dengan persetujuan admin. Jalankan `supabase/migrasi-pendaftaran-akun.sql` lebih dulu; lihat `PANDUAN.md` bagian 9.
