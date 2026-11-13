@@ -57,7 +57,7 @@ Catatan penting:
 - Backup bersifat manual. Biasakan mengunduh sebelum perubahan besar (awal semester, impor data, dll).
 
 ## 6. Memperbarui aplikasi
-1. Ubah file di `public/`. Naikkan `VERSION` di `public/sw.js` (sekarang `mgmp-v22`, berikutnya `mgmp-v23`, dst.).
+1. Ubah file di `public/`. Naikkan `VERSION` di `public/sw.js` (sekarang `mgmp-v23`, berikutnya `mgmp-v24`, dst.).
 2. `git commit` lalu `git push`. Vercel otomatis deploy.
 3. Pengguna membuka aplikasi dengan internet aktif; tutup lalu buka lagi bila tampilan belum berubah.
 
@@ -86,6 +86,8 @@ username, dan password (NIP/NIY opsional). Akun baru berstatus **Menunggu** dan 
 3. Unggah `public/index.html` dan `public/sw.js` baru ke GitHub; Vercel akan men-deploy otomatis.
 
 **Aturan tanggal lahir:** pendaftaran ditolak dengan pesan "Akun sudah ada" jika tanggal lahir yang diisi sudah dimiliki akun lain. Aturan ini dicek di aplikasi dan dijaga ulang oleh trigger di database (ada pada SQL migrasi; jalankan ulang file itu pada versi ini). Admin tetap bisa menambah anggota secara manual atau impor Excel walau tanggal lahirnya sama.
+
+**Notifikasi untuk Admin:** saat Admin masuk dan ada pendaftar menunggu, muncul pemberitahuan, banner di Dashboard, dan lencana merah pada menu *Data Anggota* (titik merah pada *Lainnya* di HP). Selama aplikasi terbuka, aplikasi memeriksa pendaftar baru tiap 45 detik dan saat tab kembali dibuka; bila ada, muncul pemberitahuan bersuara. Notifikasi hanya tampil di aplikasi yang sedang dibuka (bukan push ke HP yang tertutup). Pendaftar yang belum disetujui tampil di urutan teratas Data Anggota (terbaru dulu, berlatar kuning); anggota lain tetap urut nama, dan pendaftar belum disetujui tidak ikut dihitung di statistik, rekap, dan kartu.
 
 **Menyetujui pendaftar (Admin):** menu *Data Anggota* -> tampil pemberitahuan jumlah pendaftar baru dan lencana
 **Menunggu** pada barisnya -> klik tombol centang -> konfirmasi. Admin juga bisa mengubah *Status Akun*

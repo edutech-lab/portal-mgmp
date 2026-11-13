@@ -671,6 +671,17 @@
   .dxb b{white-space:nowrap}
   .dxr{padding:10px 14px}
  }
+ .nbd{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:#ef4444;color:#fff;font-size:11px;font-weight:800;display:inline-grid;place-items:center;line-height:1;flex:none}
+ .pop .nbd{margin-left:8px}.nbd[hidden],.ndot[hidden]{display:none}
+ .bn a{position:relative}.ndot{position:absolute;top:9px;left:calc(50% + 8px);width:10px;height:10px;border-radius:50%;background:#ef4444;border:2px solid #0b2a7a}
+ .pnb{display:flex;align-items:center;gap:14px;padding:14px 18px;margin-bottom:16px;border-radius:16px;background:linear-gradient(90deg,#fff8dc,#fff1b8);border:1px solid #f6d860;color:#5b4300}
+ .pnb .pni{width:42px;height:42px;border-radius:12px;background:#fed403;color:#00278a;display:grid;place-items:center;flex:none}
+ .pnb b{display:block;font-size:14px}.pnb span{font-size:12.5px;opacity:.85}.pnb .btn{margin-left:auto;flex:none}
+ .pnd td{background:#fffbeb}
+ &[data-theme="dark"] .pnb{background:linear-gradient(90deg,#2a2208,#3a2f0a);border-color:#6b5410;color:#fde68a}
+ &[data-theme="dark"] .pnd td{background:rgba(245,158,11,.09)}
+ @media(max-width:560px){.pnb{flex-wrap:wrap}.pnb .btn{margin-left:0;width:100%}}
+ @media(min-width:861px){.lgw{zoom:.9}}
 }
 </style>
 
@@ -860,11 +871,12 @@ async function cam(v) {
 const ST = ['Hadir', 'Terlambat', 'Izin', 'Alpa'], COL = { Hadir: '#1d4ed8', Terlambat: '#f59e0b', Izin: '#818cf8', Alpa: '#ef4444' };
 const bg = s => `<span class="bd ${{ Hadir: 'ok', Terlambat: 'wn', Izin: 'bi', Alpa: 'er', Belum: 'mu', Menunggu: 'wn', Disetujui: 'ok', Terjadwal: 'bi', Berlangsung: 'ok', Selesai: 'mu' }[s] || 'mu'}">${h(s)}</span>`;
 function stOf(p, aid) { const pr = S.presensi.find(x => x.pertemuan_id === p.id && x.anggota_id === aid); if (pr) return pr.status; if (S.izin.some(x => x.pertemuan_id === p.id && x.anggota_id === aid)) return 'Izin'; return pSt(p) === 'Selesai' ? 'Alpa' : 'Belum' }
-function rk(p) { const r = { Hadir: 0, Terlambat: 0, Izin: 0, Alpa: 0, Belum: 0 }; S.anggota.forEach(a => r[stOf(p, a.id)]++); return r }
+function rk(p) { const r = { Hadir: 0, Terlambat: 0, Izin: 0, Alpa: 0, Belum: 0 }; aktifA().forEach(a => r[stOf(p, a.id)]++); return r }
 function tot() { const t = { Hadir: 0, Terlambat: 0, Izin: 0, Alpa: 0 }; S.pertemuan.filter(p => pSt(p) !== 'Terjadwal').forEach(p => { const r = rk(p); ST.forEach(k => t[k] += r[k]) }); return t }
 const refP = () => S.pertemuan.find(p => pSt(p) === 'Berlangsung') || [...S.pertemuan].reverse().find(p => pSt(p) === 'Selesai') || S.pertemuan[0];
 const curP = () => S.pertemuan.find(p => pSt(p) === 'Berlangsung') || S.pertemuan.find(p => pSt(p) === 'Terjadwal');
 const anm = id => S.anggota.find(x => x.id === id)?.nama_lengkap || '-';
+const aktifA = () => S.anggota.filter(a => a.status !== 'Menunggu' && a.status !== 'Nonaktif');
 const pnm = id => { const p = S.pertemuan.find(x => x.id === id); return p ? `${tgl(p.tanggal)} • ${h(p.judul)}` : '-' };
 const av = a => a?.foto_url ? `<img class="av" src="${h(a.foto_url)}" alt="">` : `<span class="av">${h(ini(a?.nama_lengkap))}</span>`;
 const empty = (t = 'Belum ada data.') => `<div class="em">${t}</div>`;
@@ -875,7 +887,7 @@ async function loadAll() {
   S.pertemuan = (await DB.list('pertemuan')).sort((a, b) => t0(a) - t0(b));
   if (S.role === 'admin') {
     [S.anggota, S.presensi, S.izin, S.konten] = await Promise.all([DB.list('anggota'), DB.list('presensi'), DB.list('ketidakhadiran'), DB.list('konten')]);
-    S.anggota.sort((a, b) => a.nama_lengkap.localeCompare(b.nama_lengkap));
+    S.anggota.sort((a, b) => a.nama_lengkap.localeCompare(b.nama_lengkap)); updPend();
   } else {
     const f = { anggota_id: S.user.id };
     [S.presensi, S.izin, S.konten] = await Promise.all([DB.list('presensi', f), DB.list('ketidakhadiran', f), DB.list('konten')]);
@@ -941,11 +953,11 @@ async function login(role, u, p) {
 // ---------- kerangka ----------
 function shell() {
   const nav = NAV[S.role], mob = nav.slice(0, 4), more = nav.slice(4), lg = h(S.set.logo_url || LOGO), adm = S.role === 'admin';
-  return `<div class="app"><div class="shl"><aside class="sb"><div class="br"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA<br>KOTA BANDAR LAMPUNG</b><i>${MOTTO}</i></div></div><nav class="nv">${nav.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</nav><div class="sbu">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm"><b>${adm ? 'Administrator' : h(S.user.nama_lengkap)}</b><small>${adm ? 'ADMIN' : 'ANGGOTA'} • TA ${h(S.set.tahun_ajaran)}</small></div><button class="pw2" data-act="logout" title="Keluar">${ic('logout')}</button></div></aside>
+  return `<div class="app"><div class="shl"><aside class="sb"><div class="br"><img src="${lg}" alt=""><div><b>MGMP INFORMATIKA<br>KOTA BANDAR LAMPUNG</b><i>${MOTTO}</i></div></div><nav class="nv">${nav.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span>${n[0] === 'anggota' && adm ? '<b class="nbd" data-pend hidden>0</b>' : ''}</a>`).join('')}</nav><div class="sbu">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm"><b>${adm ? 'Administrator' : h(S.user.nama_lengkap)}</b><small>${adm ? 'ADMIN' : 'ANGGOTA'} • TA ${h(S.set.tahun_ajaran)}</small></div><button class="pw2" data-act="logout" title="Keluar">${ic('logout')}</button></div></aside>
   <div class="mn"><header class="hd"><img class="lm" src="${lg}" alt=""><div class="tt"><h1 id="pgt">${h(S.set.nama_aplikasi)}</h1><small>${h(S.set.nama_aplikasi)} • Kota Bandar Lampung • TA ${h(S.set.tahun_ajaran)}</small></div>${IS_PREVIEW ? '<span class="pvb">Mode Preview Aktif</span>' : ''}<div class="usr">${adm ? '<span class="av">AD</span>' : av(S.user)}<div class="nm">${adm ? 'Administrator' : h(S.user.nama_lengkap)}<small>${adm ? 'Admin' : 'Anggota'}</small></div></div><button type="button" class="thm" data-act="theme" title="Ganti tema" aria-label="Ganti tema terang/gelap">${ic('moon', 'moon')}${ic('sun', 'sun')}</button><button class="lo" data-act="logout">${ic('logout')}<span>Keluar</span></button></header>
   <main class="ct" id="ct"></main><footer class="ft"><div class="l"><div><b>MGMP INFORMATIKA KOTA BANDAR LAMPUNG</b>${MOTTO}</div></div><div class="c"><b>${h(S.set.nama_aplikasi)}</b>Berbagi • Berinovasi • Berdampak</div><div class="r">© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)}<br>TA ${h(S.set.tahun_ajaran)}</div></footer></div></div>
-  <nav class="bn">${mob.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[3]}</span></a>`).join('')}${more.length ? `<a data-act="more">${ic('more')}<span>Lainnya</span></a>` : ''}</nav>
-  <div class="pop" id="pop">${more.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span></a>`).join('')}</div></div>`;
+  <nav class="bn">${mob.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[3]}</span></a>`).join('')}${more.length ? `<a data-act="more">${ic('more')}<span>Lainnya</span>${adm ? '<i class="ndot" data-pend-dot hidden></i>' : ''}</a>` : ''}</nav>
+  <div class="pop" id="pop">${more.map(n => `<a data-act="go" data-p="${n[0]}">${ic(n[2])}<span>${n[1]}</span>${n[0] === 'anggota' && adm ? '<b class="nbd" data-pend hidden>0</b>' : ''}</a>`).join('')}</div></div>`;
 }
 const footM = () => `<footer class="ft m"><b>MGMP INFORMATIKA KOTA BANDAR LAMPUNG</b><span>${h(S.set.nama_aplikasi)} • TA ${h(S.set.tahun_ajaran)}</span><span>© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)}</span></footer>`;
 // ---------- tombol Back ala aplikasi (riwayat halaman) ----------
@@ -967,7 +979,37 @@ window.addEventListener('popstate', e => {
   toast('Tekan sekali lagi untuk keluar'); BK.armed = true; clearTimeout(BK.t);
   BK.t = setTimeout(() => { BK.armed = false; if (BK.on && history.state && history.state.mgRoot) bkPush(S.page) }, 2200);
 });
-function start() { root.innerHTML = shell(); bkInit(); go('dash') }
+// ---------- notifikasi pendaftar baru (admin) ----------
+const pendN = () => S.anggota.filter(a => a.status === 'Menunggu').length;
+function updPend() {
+  const n = S.pend = S.role === 'admin' ? pendN() : 0;
+  $$('[data-pend]').forEach(e => { e.textContent = n > 99 ? '99+' : n; e.hidden = !n });
+  $$('[data-pend-dot]').forEach(e => { e.hidden = !n });
+}
+const pendBanner = () => { const n = pendN(); return n ? `<div class="pnb"><div class="pni">${ic('users')}</div><div><b>${n} pendaftar baru menunggu persetujuan</b><span>Periksa datanya, lalu setujui agar mereka dapat masuk ke aplikasi.</span></div><button type="button" class="btn y sm" data-act="go" data-p="anggota">Tinjau Sekarang</button></div>` : '' };
+async function pendTick() {
+  if (S.role !== 'admin' || document.hidden || !$('#ct')) return;
+  let n;
+  try {
+    if (IS_PREVIEW) n = mem.anggota.filter(a => a.status === 'Menunggu').length;
+    else { const { count, error } = await sb.from('anggota').select('id', { count: 'exact', head: true }).eq('status', 'Menunggu'); if (error) return; n = count || 0 }
+  } catch { return }
+  if (n === S.pend) return;
+  const prev = S.pend || 0;
+  try { S.anggota = (await DB.list('anggota')).sort((a, b) => a.nama_lengkap.localeCompare(b.nama_lengkap)) } catch { return }
+  updPend();
+  if (S.pend > prev) { snd(1); toast(S.pend - prev === 1 ? 'Ada 1 anggota baru mendaftar dan menunggu persetujuan.' : `Ada ${S.pend - prev} anggota baru mendaftar dan menunggu persetujuan.`) }
+  if (!$('.mdl,.cfm') && !document.activeElement?.closest?.('input,select,textarea') && (S.page === 'anggota' || S.page === 'dash')) go(S.page);
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) pendTick() });
+function startPend() {
+  clearInterval(S.pti); S.pti = null; updPend();
+  if (S.role !== 'admin') return;
+  if (S.pend) toast(S.pend === 1 ? '1 anggota baru mendaftar dan menunggu persetujuan.' : `${S.pend} anggota baru mendaftar dan menunggu persetujuan.`);
+  S.pti = setInterval(pendTick, 45000);
+}
+
+function start() { root.innerHTML = shell(); bkInit(); go('dash'); startPend() }
 const PG = {}, HK = {}, A = {}, FM = {};
 function go(p) {
   if (BK.on && !BK.silent && p !== S.page) { bkGuard(S.page); bkPush(p) } BK.silent = false;
@@ -984,12 +1026,12 @@ PG.dash = () => {
   const rtot = r.Hadir + r.Terlambat + r.Izin + r.Alpa, pct = rtot ? Math.round((r.Hadir + r.Terlambat) / rtot * 100) : 0;
   const jm = new Map(); S.konten.forEach(k => jm.set(k.jenis_konten, (jm.get(k.jenis_konten) || 0) + 1)); const jl = [...jm].sort((a, b) => b[1] - a[1]).slice(0, 4), jmax = jl[0] ? jl[0][1] : 1;
   const c4 = ['calendar', 'Pertemuan Mendatang', upAll.length + ' Jadwal', 'y', upAll[0] ? 'Terdekat: ' + tgl(upAll[0].tanggal) + ' • ' + T5(upAll[0].jam_mulai) + ' WIB' : 'Belum ada jadwal'], c3 = ['grid', 'Galeri Konten', S.konten.length + ' Konten', 'p', nJenis + ' Jenis konten'];
-  const cards = adm ? [['users', 'Anggota MGMP', S.anggota.length + ' Guru', 'b', 'Mapel ' + S.set.mapel], ['check', 'Kehadiran Terakhir', r.Hadir + ' Hadir', 'g', 'Tingkat Kehadiran: ' + pct + '% (' + r.Terlambat + ' Terlambat)', 'ok'], c3, c4]
+  const cards = adm ? [['users', 'Anggota MGMP', aktifA().length + ' Guru', 'b', 'Mapel ' + S.set.mapel], ['check', 'Kehadiran Terakhir', r.Hadir + ' Hadir', 'g', 'Tingkat Kehadiran: ' + pct + '% (' + r.Terlambat + ' Terlambat)', 'ok'], c3, c4]
     : [['calendar', 'Total Pertemuan', S.pertemuan.length + ' Pertemuan', 'b', 'TA ' + S.set.tahun_ajaran], ['check', 'Kehadiran Saya', t.Hadir + ' Hadir', 'g', t.Terlambat + ' terlambat • ' + t.Izin + ' izin • ' + t.Alpa + ' alpa', 'ok'], c3, c4];
   const act = [...S.presensi.map(x => ({ t: x.waktu_presensi, i: 'check', a: 'Presensi ' + x.status, n: anm(x.anggota_id) })), ...S.izin.map(x => ({ t: x.created_at, i: 'file', a: `Ketidakhadiran (${x.jenis})`, n: anm(x.anggota_id) }))].sort((a, b) => String(b.t).localeCompare(String(a.t))).slice(0, 5);
   const tk = topK(), kt = kSort().slice(0, 4);
   const hasD = Object.values(t).some(v => v), hasP = S.pertemuan.some(p => pSt(p) !== 'Terjadwal');
-  return `<div class="bnr"><div class="bt"><small><i></i>Tahun Ajaran ${h(S.set.tahun_ajaran)} • MGMP ${h(S.set.mapel)}</small><h2>${adm ? 'Selamat Bekerja, Administrator MGMP' : 'Selamat Berkolaborasi, ' + h(S.user.nama_lengkap)}.</h2><p>Satu portal bagi guru ${h(S.set.mapel)} Kota Bandar Lampung untuk berbagi media belajar, bahan ajar, video, E-Book hingga Augmented Reality, sekaligus berkolaborasi dalam kegiatan MGMP.</p></div><div class="bb2"><button class="btn ow" data-act="go" data-p="${adm ? 'rekap' : 'presensi'}">${ic(adm ? 'chart' : 'camera')}Presensi</button><button class="btn y" data-act="go" data-p="${adm ? 'pertemuan' : 'konten'}">${ic(adm ? 'calendar' : 'plus')}${adm ? 'Set Pertemuan' : 'Bagikan Konten'}</button></div></div>
+  return `${adm ? pendBanner() : ''}<div class="bnr"><div class="bt"><small><i></i>Tahun Ajaran ${h(S.set.tahun_ajaran)} • MGMP ${h(S.set.mapel)}</small><h2>${adm ? 'Selamat Bekerja, Administrator MGMP' : 'Selamat Berkolaborasi, ' + h(S.user.nama_lengkap)}.</h2><p>Satu portal bagi guru ${h(S.set.mapel)} Kota Bandar Lampung untuk berbagi media belajar, bahan ajar, video, E-Book hingga Augmented Reality, sekaligus berkolaborasi dalam kegiatan MGMP.</p></div><div class="bb2"><button class="btn ow" data-act="go" data-p="${adm ? 'rekap' : 'presensi'}">${ic(adm ? 'chart' : 'camera')}Presensi</button><button class="btn y" data-act="go" data-p="${adm ? 'pertemuan' : 'konten'}">${ic(adm ? 'calendar' : 'plus')}${adm ? 'Set Pertemuan' : 'Bagikan Konten'}</button></div></div>
   <div class="sts">${cards.map(c => `<div class="st st-${c[3]}"><div class="bb ${c[3]}">${ic(c[0])}</div><div><small>${c[1]}</small><b>${c[2]}</b><span class="${c[5] || ''}">${h(c[4])}</span></div></div>`).join('')}</div>
   <div class="dxg"><div class="cc"><div class="dxh"><div><h3 class="dxn">Pertemuan Mendatang</h3><p class="dxs">Jadwal, lokasi, dan seragam pertemuan MGMP terdekat</p></div><button type="button" class="dxl" data-act="go" data-p="${adm ? 'pertemuan' : 'presensi'}">${adm ? 'Kelola Semua' : 'Buka Presensi'} →</button></div>${ups.map(p => `<div class="dxu"><div class="dxt">${bg(pSt(p))}<b>${h(p.judul)}</b><span class="dxd">${p.tanggal}</span></div><p>${T5(p.jam_mulai)} - ${T5(p.jam_selesai)} WIB • ${h(p.tempat)} • Dresscode: ${h(p.dresscode || '-')}.</p></div>`).join('') || empty('Belum ada pertemuan terjadwal.')}</div>
   <div class="cc"><h3 class="dxn">Komposisi Konten Pembelajaran</h3><p class="dxs">Jumlah konten per jenis</p><div class="dxb">${jl.map(([j, n]) => `<div><div><span>${h(j)}</span><b>${n} Konten</b></div><i><u style="width:${Math.max(6, Math.round(n / jmax * 100))}%"></u></i></div>`).join('') || empty('Belum ada konten.')}</div><h4 class="dxk">Kontributor Konten Teratas:</h4>${tk.slice(0, 3).map(x => `<div class="dxr"><b>${h(x.nama)}</b><em>${x.n}</em></div>`).join('') || empty('Belum ada konten dari anggota.')}</div></div>`;
@@ -1019,7 +1061,9 @@ function xl(name, aoa, widths) {
   ws['!cols'] = widths.map(w => ({ wch: w })); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Data'); XLSX.writeFile(wb, name);
 }
 PG.anggota = () => {
-  const rows = S.anggota.map((a, i) => `<tr data-s="${h([a.kode_anggota, a.nip_niy, a.nuptk, a.nama_lengkap, a.asal_sekolah, a.jabatan_mgmp, a.username].join(' ')).toLowerCase()}"><td>${i + 1}</td><td>${av(a)}</td><td>${h(a.kode_anggota)}</td><td>${h(a.nip_niy || '-')}</td><td>${h(a.nuptk || '-')}</td><td><b>${h(a.nama_lengkap)}</b> ${a.status === 'Menunggu' ? bg('Menunggu') : a.status === 'Nonaktif' ? bg('Nonaktif') : ''}<br><small class="mu">${h(a.jenis_kelamin || '')}</small></td><td>${h(a.tempat_lahir || '-')}<br><span class="mu">${tgl(a.tanggal_lahir)}</span></td><td>${h(a.asal_sekolah || '-')}</td><td>${h(a.jabatan_mgmp || '-')}</td><td>${h(a.username)}</td><td class="nw">${a.status === 'Menunggu' ? `<button class="btn sm" data-act="aOk" data-id="${a.id}" title="Setujui akun">${ic('check')}</button> ` : ''}<button class="btn sm o" data-act="aEdit" data-id="${a.id}">${ic('edit')}</button> <button class="btn sm r" data-act="aDel" data-id="${a.id}">${ic('trash')}</button></td></tr>`).join('');
+  const isP = a => a.status === 'Menunggu';
+  const list = [...S.anggota].sort((a, b) => (isP(b) - isP(a)) || (isP(a) ? String(b.created_at || '').localeCompare(String(a.created_at || '')) : 0));
+  const rows = list.map((a, i) => `<tr class="${isP(a) ? 'pnd' : ''}" data-s="${h([a.kode_anggota, a.nip_niy, a.nuptk, a.nama_lengkap, a.asal_sekolah, a.jabatan_mgmp, a.username].join(' ')).toLowerCase()}"><td>${i + 1}</td><td>${av(a)}</td><td>${h(a.kode_anggota)}</td><td>${h(a.nip_niy || '-')}</td><td>${h(a.nuptk || '-')}</td><td><b>${h(a.nama_lengkap)}</b> ${a.status === 'Menunggu' ? bg('Menunggu') : a.status === 'Nonaktif' ? bg('Nonaktif') : ''}<br><small class="mu">${h(a.jenis_kelamin || '')}</small></td><td>${h(a.tempat_lahir || '-')}<br><span class="mu">${tgl(a.tanggal_lahir)}</span></td><td>${h(a.asal_sekolah || '-')}</td><td>${h(a.jabatan_mgmp || '-')}</td><td>${h(a.username)}</td><td class="nw">${a.status === 'Menunggu' ? `<button class="btn sm" data-act="aOk" data-id="${a.id}" title="Setujui akun">${ic('check')}</button> ` : ''}<button class="btn sm o" data-act="aEdit" data-id="${a.id}">${ic('edit')}</button> <button class="btn sm r" data-act="aDel" data-id="${a.id}">${ic('trash')}</button></td></tr>`).join('');
   const pend = S.anggota.filter(a => a.status === 'Menunggu').length;
   return `${pend ? `<div class="lgh" style="margin:0 0 14px">${ic('info')}<span><b>${pend} pendaftar baru menunggu persetujuan.</b> Periksa datanya, lalu klik tombol centang pada barisnya untuk mengaktifkan akun.</span></div>` : ''}<div class="tb"><input class="in sr" data-filter placeholder="Cari nama, kode, NIP…"><div class="ac"><button class="btn y" data-act="aAdd">${ic('plus')}Tambah</button><button class="btn o" data-act="impPick">${ic('upload')}Import Excel</button><button class="btn o" data-act="tpl">${ic('download')}Template</button><button class="btn o" data-act="expA">${ic('download')}Ekspor</button><input type="file" id="fx" accept=".xlsx,.xls" data-chg="impGo" hidden></div></div>
   <div class="cc tbw"><table><thead><tr><th>No</th><th>Foto</th><th>Kode</th><th>NIP/NIY</th><th>NUPTK</th><th>Nama Lengkap</th><th>Tempat, Tgl Lahir</th><th>Asal Sekolah</th><th>Jabatan MGMP</th><th>Username</th><th></th></tr></thead><tbody>${rows || `<tr><td colspan="11">${empty('Belum ada data anggota. Tambahkan manual atau import dari Excel.')}</td></tr>`}</tbody></table></div>`;
@@ -1139,9 +1183,9 @@ FM.fp = async f => {
 
 // ---------- REKAP ----------
 function rkData() {
-  if (S.sel === 'all') { const done = S.pertemuan.filter(p => pSt(p) !== 'Terjadwal'); return { all: 1, heads: ['No', 'Kode', 'Nama', 'Hadir', 'Terlambat', 'Izin', 'Alpa', '% Hadir'], rows: S.anggota.map((m, i) => { const c = { Hadir: 0, Terlambat: 0, Izin: 0, Alpa: 0, Belum: 0 }; done.forEach(p => c[stOf(p, m.id)]++); return [i + 1, m.kode_anggota, m.nama_lengkap, c.Hadir, c.Terlambat, c.Izin, c.Alpa, (done.length ? Math.round((c.Hadir + c.Terlambat) / done.length * 100) : 0) + '%'] }) } }
+  if (S.sel === 'all') { const done = S.pertemuan.filter(p => pSt(p) !== 'Terjadwal'); return { all: 1, heads: ['No', 'Kode', 'Nama', 'Hadir', 'Terlambat', 'Izin', 'Alpa', '% Hadir'], rows: aktifA().map((m, i) => { const c = { Hadir: 0, Terlambat: 0, Izin: 0, Alpa: 0, Belum: 0 }; done.forEach(p => c[stOf(p, m.id)]++); return [i + 1, m.kode_anggota, m.nama_lengkap, c.Hadir, c.Terlambat, c.Izin, c.Alpa, (done.length ? Math.round((c.Hadir + c.Terlambat) / done.length * 100) : 0) + '%'] }) } }
   const p = S.pertemuan.find(x => x.id === S.sel);
-  return { p, heads: ['No', 'Kode', 'Nama', 'Jabatan', 'Status', 'Jam Presensi', 'Jarak (m)'], rows: S.anggota.map((m, i) => { const pr = S.presensi.find(x => x.pertemuan_id === p.id && x.anggota_id === m.id); return [i + 1, m.kode_anggota, m.nama_lengkap, m.jabatan_mgmp || '-', stOf(p, m.id), pr ? new Date(pr.waktu_presensi).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '-', pr ? Math.round(pr.jarak_meter) : '-'] }) };
+  return { p, heads: ['No', 'Kode', 'Nama', 'Jabatan', 'Status', 'Jam Presensi', 'Jarak (m)'], rows: aktifA().map((m, i) => { const pr = S.presensi.find(x => x.pertemuan_id === p.id && x.anggota_id === m.id); return [i + 1, m.kode_anggota, m.nama_lengkap, m.jabatan_mgmp || '-', stOf(p, m.id), pr ? new Date(pr.waktu_presensi).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '-', pr ? Math.round(pr.jarak_meter) : '-'] }) };
 }
 PG.rekap = () => {
   if (!S.sel || (S.sel !== 'all' && !S.pertemuan.some(p => p.id === S.sel))) S.sel = refP()?.id || 'all';
@@ -1182,7 +1226,7 @@ PG.izin = () => {
 A.iAdd = () => {
   const adm = S.role === 'admin', ps = S.pertemuan.filter(p => adm || (pSt(p) !== 'Selesai' && !S.presensi.some(x => x.pertemuan_id === p.id && x.anggota_id === S.user.id)));
   if (!ps.length) return toast('Belum ada pertemuan terjadwal yang dapat diisi.', 'er');
-  modal('Form Ketidakhadiran', `<form id="fi"><div class="fg">${adm ? `<div class="f w"><label>Anggota</label><select class="in" name="anggota_id" required>${S.anggota.map(a => `<option value="${a.id}">${h(a.nama_lengkap)}</option>`).join('')}</select></div>` : ''}
+  modal('Form Ketidakhadiran', `<form id="fi"><div class="fg">${adm ? `<div class="f w"><label>Anggota</label><select class="in" name="anggota_id" required>${aktifA().map(a => `<option value="${a.id}">${h(a.nama_lengkap)}</option>`).join('')}</select></div>` : ''}
   <div class="f w"><label>Pertemuan</label><select class="in" name="pertemuan_id" required>${ps.map(p => `<option value="${p.id}">${pnm(p.id)}</option>`).join('')}</select></div>
   <div class="f"><label>Jenis</label><select class="in" name="jenis"><option>Sakit</option><option>Izin</option><option>Dinas</option><option>Lainnya</option></select></div>
   ${adm ? '<div class="f"><label>Status</label><select class="in" name="status"><option>Disetujui</option><option>Menunggu</option></select></div>' : ''}
@@ -1216,7 +1260,7 @@ function paint(scope = document) {
 }
 const fit = () => $$('.cdw').forEach(w => { const k = w.querySelector('.kd'); if (k) k.style.zoom = Math.min(1, (w.clientWidth - 2) / 428) });
 window.addEventListener('resize', fit);
-PG.kartu = () => { const adm = S.role === 'admin'; return `<div class="tb">${adm ? '<input class="in sr" data-filter placeholder="Cari anggota…">' : '<div></div>'}<div class="ac"><select class="in" style="width:auto" data-chg="mode"><option value="qr" ${S.mode === 'qr' ? 'selected' : ''}>Kode QR</option><option value="bc" ${S.mode === 'bc' ? 'selected' : ''}>Barcode</option></select><button class="btn y" data-act="print">${ic('print')}Cetak${adm ? ' Semua' : ''}</button></div></div><div class="cg">${S.anggota.map(a => `<div class="cdw" data-s="${h(a.nama_lengkap + ' ' + a.kode_anggota).toLowerCase()}">${card(a)}<button class="btn o sm" data-act="png" data-id="${a.id}">${ic('download')}Unduh PNG</button></div>`).join('') || empty('Belum ada anggota.')}</div>` };
+PG.kartu = () => { const adm = S.role === 'admin'; return `<div class="tb">${adm ? '<input class="in sr" data-filter placeholder="Cari anggota…">' : '<div></div>'}<div class="ac"><select class="in" style="width:auto" data-chg="mode"><option value="qr" ${S.mode === 'qr' ? 'selected' : ''}>Kode QR</option><option value="bc" ${S.mode === 'bc' ? 'selected' : ''}>Barcode</option></select><button class="btn y" data-act="print">${ic('print')}Cetak${adm ? ' Semua' : ''}</button></div></div><div class="cg">${aktifA().map(a => `<div class="cdw" data-s="${h(a.nama_lengkap + ' ' + a.kode_anggota).toLowerCase()}">${card(a)}<button class="btn o sm" data-act="png" data-id="${a.id}">${ic('download')}Unduh PNG</button></div>`).join('') || empty('Belum ada anggota.')}</div>` };
 HK.kartu = () => { paint(); fit() };
 A.mode = (d, t) => { S.mode = t.value; go('kartu') };
 A.print = () => {
@@ -1535,7 +1579,7 @@ A.theme = () => setTheme(app.dataset.theme === 'dark' ? 'light' : 'dark');
 A.logout = async () => {
   if (!await confirmBox({ title: 'Keluar dari Aplikasi?', msg: 'Sesi Anda akan diakhiri. Anda perlu masuk kembali untuk menggunakan aplikasi ini.', ok: 'Ya, Keluar', cancel: 'Batal', icon: 'logout' })) return;
   await busy(async () => { try { if (!IS_PREVIEW && S.role === 'admin') await sb.auth.signOut() } catch { } try { localStorage.removeItem('mgmp_uid') } catch { } }, 'Keluar…');
-  stopMedia(); S.user = null; S.role = null; bkOff(); loginView();
+  stopMedia(); clearInterval(S.pti); S.pti = null; S.user = null; S.role = null; bkOff(); loginView();
 };
 A.lm = (d, t, e) => { e?.preventDefault?.(); S.lm = d.m; loginView() };
 FM.fr = async f => {
