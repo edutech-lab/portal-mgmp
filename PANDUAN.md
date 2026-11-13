@@ -75,7 +75,7 @@ Catatan penting:
   Jika tampilan lama masih muncul, naikkan `VERSION` di `sw.js` lalu deploy ulang.
 
 ## 9. Buat Akun (pendaftaran mandiri anggota)
-Halaman login punya dua tab di bagian atas, **Masuk** dan **Buat Akun**, serta tautan **Lupa password?** di sebelah kolom password.
+Halaman login punya tautan **Lupa password?** di sebelah kolom password dan tautan **Buat Akun** tepat di bawah tombol Masuk.
 Calon anggota mengisi nama, jenis kelamin, asal sekolah, NIP/NIY (jika ada), NUPTK (jika ada, 16 digit), tempat lahir, dan tanggal lahir.
 Jabatan di MGMP otomatis **Anggota**. Username dan password **otomatis sama dengan tanggal lahir** format HHBBTTTT
 (contoh: lahir 1992-04-25 -> username `25041992`, password `25041992`). Akun baru berstatus **Menunggu** dan belum bisa masuk sampai admin menyetujui.

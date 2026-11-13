@@ -520,6 +520,10 @@
  .lgc{margin:18px 0 0;text-align:center;font-size:11.5px;color:#94a3b8}
  .seg button{display:flex;align-items:center;justify-content:center;gap:8px}.seg button .ic{width:16px;height:16px}
  .seg button:focus-visible,.lnk:focus-visible{outline:2px solid #1d4ed8;outline-offset:2px}
+ .lgdv{display:flex;align-items:center;gap:12px;margin:22px 0 14px;color:#94a3b8;font-size:12px}
+ .lgdv:before,.lgdv:after{content:"";flex:1;height:1px;background:#e2e8f0}
+ .lgreg{margin:0;text-align:center;font-size:13.5px;color:#475569}
+ .lgreg .lnk{font-size:13.5px}
  .fgt{display:flex;justify-content:space-between;align-items:center;gap:12px}
  .fgt label{margin:0}
  .lnk{background:none;border:0;padding:0;font:inherit;font-size:12.5px;font-weight:700;color:#1d4ed8;cursor:pointer}
@@ -536,7 +540,7 @@
  &[data-theme="dark"]{
   .iw:focus-within>.ic{color:#22d3ee}
   .lgh{background:#0f172a;border-color:#1e293b;color:#94a3b8}.lgh .ic{color:#22d3ee}.lgh b{color:#f1f5f9}
-  .lgh code,.crd code{background:#1e293b;color:#f1f5f9}.crd{background:#0f172a;border-color:#1e293b}.crd .rw+.rw{border-color:#1e293b}.lnk{color:#22d3ee}.lgi{background:rgba(34,211,238,.15);color:#22d3ee}
+  .lgh code,.crd code{background:#1e293b;color:#f1f5f9}.crd{background:#0f172a;border-color:#1e293b}.crd .rw+.rw{border-color:#1e293b}.lnk{color:#22d3ee}.lgdv:before,.lgdv:after{background:#1e293b}.lgreg{color:#94a3b8}.lgi{background:rgba(34,211,238,.15);color:#22d3ee}
   color-scheme:dark;background:#0b1220;color:#e2e8f0;--b1:#0891b2;--b2:#f1f5f9;--mu:#94a3b8;--bd:#1e293b;
   .thm{background:#1e293b;color:#fbbf24}
   .thm .sun{display:block}.thm .moon{display:none}
@@ -915,7 +919,6 @@ const reload = async pg => { await busy(loadAll); go(pg || S.page) };
 
 // ---------- login ----------
 const ddmmyyyy = t => `${t.slice(8, 10)}${t.slice(5, 7)}${t.slice(0, 4)}`;
-const lgTabs = m => `<div class="seg" role="tablist"><button type="button" role="tab" class="${m === 'masuk' ? 'on' : ''}" aria-selected="${m === 'masuk'}" data-act="lm" data-m="masuk">${ic('lock')}Masuk</button><button type="button" role="tab" class="${m === 'daftar' ? 'on' : ''}" aria-selected="${m === 'daftar'}" data-act="lm" data-m="daftar">${ic('plus')}Buat Akun</button></div>`;
 function loginPanel() {
   const m = S.lm || 'masuk';
   if (m === 'ok') { const un = S.rg?.un; return `<div style="text-align:center;padding:8px 0 4px"><div class="cfi">${ic('check')}</div><h2>Pendaftaran Berhasil</h2><p class="sub" style="margin-bottom:18px">Akun Anda sudah tersimpan dan menunggu persetujuan admin MGMP. Anda baru dapat masuk setelah akun disetujui.</p>${un ? `<div class="crd" style="text-align:left"><div class="rw"><div><small>Username</small><code>${h(un)}</code></div></div><div class="rw"><div><small>Password</small><code>${h(un)}</code></div></div></div><p class="sub" style="margin:-4px 0 18px">Simpan data ini. Setelah masuk, Anda dapat mengganti password di menu Pengaturan.</p>` : ''}<button type="button" class="btn" style="width:100%" data-act="lm" data-m="masuk">Ke Halaman Masuk</button></div>` }
@@ -924,7 +927,7 @@ function loginPanel() {
   <button class="btn" style="width:100%;margin-top:8px">${ic('check')}Pulihkan Akun</button></form>
   <div class="lgh">${ic('info')}<span><b>Password dikembalikan ke bawaan.</b> Password akan diatur ulang sama dengan tanggal lahir (format HHBBTTTT). Setelah masuk, segera ganti di menu Pengaturan.</span></div>`;
   if (m === 'lupa_ok') { const r = S.rec || {}; return `<div style="padding:8px 0 4px"><div class="cfi">${ic('check')}</div><h2 style="text-align:center">Akun Ditemukan</h2><p class="sub" style="text-align:center;margin-bottom:18px">Halo, <b>${h(r.nama || '')}</b>. Password Anda sudah diatur ulang. Gunakan data berikut untuk masuk.</p><div class="crd"><div class="rw"><div><small>Username</small><code>${h(r.username || '')}</code></div><button type="button" class="btn o sm" data-act="cp" data-v="${h(r.username || '')}">Salin</button></div><div class="rw"><div><small>Password</small><code>${h(r.password || '')}</code></div><button type="button" class="btn o sm" data-act="cp" data-v="${h(r.password || '')}">Salin</button></div></div><button type="button" class="btn" style="width:100%" data-act="lm" data-m="masuk">Masuk Sekarang</button><p class="sub" style="margin:14px 0 0;text-align:center">Demi keamanan, ganti password di menu <b>Pengaturan</b> setelah masuk.</p></div>` }
-  if (m === 'daftar') return `${lgTabs(m)}<form id="fr" autocomplete="off"><h2>Buat Akun Anggota</h2><p class="sub">Daftarkan diri Anda sebagai anggota MGMP ${h(S.set.mapel)}. Akun aktif setelah disetujui admin.</p>
+  if (m === 'daftar') return `<div class="lgk"><button type="button" class="btn o sm" data-act="lm" data-m="masuk">‹ Kembali ke Masuk</button></div><form id="fr" autocomplete="off"><h2>Buat Akun Anggota</h2><p class="sub">Daftarkan diri Anda sebagai anggota MGMP ${h(S.set.mapel)}. Akun aktif setelah disetujui admin.</p>
   <div class="fg" style="margin-bottom:14px">
   <div class="f w"><label>Nama Lengkap *</label><div class="iw">${ic('user')}<input class="in" name="nama_lengkap" required minlength="3" maxlength="100" autocomplete="name" placeholder="Nama beserta gelar"></div></div>
   <div class="f"><label>Jenis Kelamin *</label><select class="in" name="jenis_kelamin" required><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div>
@@ -938,11 +941,12 @@ function loginPanel() {
   <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
   <button class="btn" style="width:100%;margin-top:4px">${ic('check')}Buat Akun</button></form>
   <div class="lgh">${ic('info')}<span><b>Perlu persetujuan.</b> Setelah mendaftar, admin MGMP akan memeriksa data Anda sebelum akun dapat dipakai masuk.</span></div>`;
-  return `${lgTabs('masuk')}<form id="fl"><h2>Masuk ke Akun Anda</h2><p class="sub">Masuk untuk mengakses presensi, galeri konten, dan kartu anggota.</p>
+  return `<form id="fl"><h2>Masuk ke Akun Anda</h2><p class="sub">Masuk untuk mengakses presensi, galeri konten, dan kartu anggota.</p>
   <div class="f"><label>Email atau Username</label><div class="iw">${ic('user')}<input class="in" name="u" required autocomplete="username" placeholder="Masukkan email atau username" value="${h(S.pre || '')}"></div></div>
   <div class="f"><div class="fgt"><label>Password</label><button type="button" class="lnk" data-act="lm" data-m="lupa">Lupa password?</button></div><div class="pw iw">${ic('lock')}<input class="in" type="password" name="p" required autocomplete="current-password" placeholder="Masukkan password"><button type="button" data-act="eye" aria-label="Tampilkan password">${ic('eye')}</button></div></div>
   <button class="btn" style="width:100%;margin-top:8px">${ic('lock')}Masuk</button></form>
-  <div class="lgh">${ic('info')}<span><b>Anggota baru?</b> Pilih tab <b>Buat Akun</b> di atas. Username dan password Anda otomatis berupa tanggal lahir (HHBBTTTT).</span></div>`;
+  <div class="lgdv"><span>atau</span></div>
+  <p class="lgreg">Belum punya akun? <button type="button" class="lnk" data-act="lm" data-m="daftar">Buat Akun</button></p>`;
 }
 function loginView() {
   stopMedia(); const lg = h(S.set.logo_url || LOGO);
