@@ -75,8 +75,15 @@ Catatan penting:
   Jika tampilan lama masih muncul, naikkan `VERSION` di `sw.js` lalu deploy ulang.
 
 ## 9. Buat Akun (pendaftaran mandiri anggota)
-Halaman login punya tombol kecil **Buat Akun** di bawah info "Lupa password?"; setelah diklik, muncul form pendaftaran (ada tombol *Kembali ke Masuk*). Calon anggota mengisi nama, jenis kelamin, asal sekolah,
-username, dan password (NIP/NIY opsional). Akun baru berstatus **Menunggu** dan belum bisa masuk sampai admin menyetujui.
+Halaman login punya dua tab di bagian atas, **Masuk** dan **Buat Akun**, serta tautan **Lupa password?** di sebelah kolom password.
+Calon anggota mengisi nama, jenis kelamin, asal sekolah, NIP/NIY (jika ada), NUPTK (jika ada, 16 digit), tempat lahir, dan tanggal lahir.
+Jabatan di MGMP otomatis **Anggota**. Username dan password **otomatis sama dengan tanggal lahir** format HHBBTTTT
+(contoh: lahir 1992-04-25 -> username `25041992`, password `25041992`). Akun baru berstatus **Menunggu** dan belum bisa masuk sampai admin menyetujui.
+
+**Lupa Password (pemulihan mandiri):** anggota membuka *Lupa password?*, memasukkan tanggal lahir yang pernah didaftarkan, lalu username dan password
+ditampilkan. Pada saat itu password diatur ulang menjadi tanggal lahir (HHBBTTTT). Pemulihan ditolak jika tanggal lahir tidak ditemukan, akun masih
+*Menunggu* / *Nonaktif*, atau ada lebih dari satu akun dengan tanggal lahir yang sama (anggota diarahkan ke admin). Setelah 5 kali gagal, form dikunci 60 detik
+(pembatasan di sisi aplikasi). Tidak ada SQL baru untuk fitur ini: kolom `tempat_lahir` dan `nuptk` sudah ada pada tabel `anggota`.
 
 **Langkah pemasangan (urutan penting):**
 1. Supabase -> SQL Editor -> jalankan `supabase/migrasi-pendaftaran-akun.sql`. Ini menambah kolom `status` pada tabel
@@ -94,7 +101,8 @@ username, dan password (NIP/NIY opsional). Akun baru berstatus **Menunggu** dan 
 (Aktif / Menunggu / Nonaktif) lewat tombol ubah. Anggota yang dinonaktifkan tidak bisa masuk.
 
 **Catatan keamanan:**
-- Username tidak boleh berisi `@` (karena `@` dikenali sebagai login Admin) dan tidak boleh `admin`.
+- Username anggota otomatis berupa angka tanggal lahir, jadi tidak pernah berisi `@` dan tidak bisa menjadi `admin`.
+- Karena username dan password awal sama dengan tanggal lahir, siapa pun yang tahu tanggal lahir seorang anggota dapat menebak akunnya, dan menu Lupa password juga hanya meminta tanggal lahir. Anjurkan anggota mengganti password di menu Pengaturan setelah masuk.
 - Pendaftaran tidak memakai Supabase Authentication, sehingga tidak ada pendaftar yang bisa menjadi Admin.
 - Aplikasi ini (sejak versi sebelumnya) menyimpan password anggota apa adanya di tabel `anggota`. Itu bukan praktik aman;
   pertimbangkan migrasi login anggota ke Supabase Auth atau Edge Function pada pembaruan berikutnya.
