@@ -29,9 +29,35 @@ create policy "Pendaftaran mandiri anggota"
   with check (
     status = 'Menunggu'
     and jabatan_mgmp = 'Anggota'
+    and tanggal_lahir is not null
     and foto_url is null
     and face_descriptor is null
   );
+
+-- 2b. Tolak pendaftaran mandiri jika tanggal lahir sudah terdaftar (pelindung di database).
+--     Hanya berlaku untuk INSERT berstatus 'Menunggu' (pendaftaran mandiri). Penambahan oleh admin,
+--     impor Excel, dan data lama yang kebetulan sama tidak terpengaruh.
+create index if not exists anggota_tanggal_lahir_idx on public.anggota (tanggal_lahir);
+
+create or replace function public.tolak_pendaftaran_ganda()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if new.status = 'Menunggu' and new.tanggal_lahir is not null
+     and exists (select 1 from public.anggota a where a.tanggal_lahir = new.tanggal_lahir) then
+    raise exception 'AKUN_SUDAH_ADA' using errcode = 'P0001';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists trg_tolak_pendaftaran_ganda on public.anggota;
+create trigger trg_tolak_pendaftaran_ganda
+  before insert on public.anggota
+  for each row execute function public.tolak_pendaftaran_ganda();
 
 -- 3. PERIKSA (wajib): daftar kebijakan yang berlaku pada tabel anggota.
 --    Jika ada kebijakan untuk anon/public dengan cmd = 'ALL' atau 'INSERT'

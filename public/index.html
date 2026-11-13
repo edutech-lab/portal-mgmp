@@ -892,9 +892,10 @@ function loginPanel() {
   <div class="fg" style="margin-bottom:14px">
   <div class="f w"><label>Nama Lengkap *</label><div class="iw">${ic('user')}<input class="in" name="nama_lengkap" required minlength="3" maxlength="100" autocomplete="name" placeholder="Nama beserta gelar"></div></div>
   <div class="f"><label>Jenis Kelamin *</label><select class="in" name="jenis_kelamin" required><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div>
-  <div class="f"><label>NIP/NIY (jika ada)</label><input class="in" name="nip_niy" inputmode="numeric" maxlength="25" placeholder="Opsional"></div>
+  <div class="f"><label>Tanggal Lahir *</label><input class="in" type="date" name="tanggal_lahir" required min="1940-01-01" max="${fmtD(new Date())}" autocomplete="bday"></div>
   <div class="f w"><label>Asal Sekolah *</label><input class="in" name="asal_sekolah" required maxlength="120" placeholder="Contoh: SMP Negeri 1 Bandar Lampung"></div>
-  <div class="f w"><label>Username *</label><div class="iw">${ic('user')}<input class="in" name="username" required minlength="4" maxlength="30" pattern="[A-Za-z0-9._\\-]{4,30}" autocomplete="username" placeholder="Huruf, angka, titik, garis bawah (min. 4)"></div></div>
+  <div class="f"><label>NIP/NIY (jika ada)</label><input class="in" name="nip_niy" inputmode="numeric" maxlength="25" placeholder="Opsional"></div>
+  <div class="f"><label>Username *</label><div class="iw">${ic('user')}<input class="in" name="username" required minlength="4" maxlength="30" pattern="[A-Za-z0-9._\\-]{4,30}" autocomplete="username" placeholder="Min. 4 karakter"></div></div>
   <div class="f"><label>Password *</label><div class="pw iw">${ic('lock')}<input class="in" type="password" name="p1" required minlength="6" maxlength="64" autocomplete="new-password" placeholder="Min. 6 karakter"><button type="button" data-act="eye" aria-label="Tampilkan password">${ic('eye')}</button></div></div>
   <div class="f"><label>Ulangi Password *</label><div class="pw iw">${ic('lock')}<input class="in" type="password" name="p2" required minlength="6" maxlength="64" autocomplete="new-password" placeholder="Ketik ulang password"><button type="button" data-act="eye" aria-label="Tampilkan password">${ic('eye')}</button></div></div>
   </div>
@@ -1545,15 +1546,22 @@ FM.fr = async f => {
   if (un === 'admin') throw new Error('Username tersebut tidak dapat digunakan.');
   if (d.p1.length < 6) throw new Error('Password minimal 6 karakter.');
   if (d.p1 !== d.p2) throw new Error('Konfirmasi password tidak sama.');
+  const tl = String(d.tanggal_lahir || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(tl) || isNaN(new Date(tl).getTime())) throw new Error('Tanggal lahir wajib diisi dengan benar.');
+  if (tl > fmtD(new Date()) || tl < '1940-01-01') throw new Error('Tanggal lahir tidak valid.');
+  const ADA = 'Akun sudah ada: tanggal lahir tersebut sudah terdaftar, sehingga pendaftaran tidak dapat dilanjutkan. Silakan masuk dengan akun Anda atau hubungi admin MGMP.';
+  if (IS_PREVIEW) { if (mem.anggota.some(x => x.tanggal_lahir === tl)) throw new Error(ADA) }
+  else { const { data: dp, error: de } = await sb.from('anggota').select('id').eq('tanggal_lahir', tl).limit(1); if (!de && dp && dp.length) throw new Error(ADA) }
   const nip = (d.nip_niy || '').trim();
   if (nip && !/^\d{8,25}$/.test(nip)) throw new Error('NIP/NIY hanya berisi angka (8-25 digit), atau kosongkan.');
-  const row = { kode_anggota: 'REG-' + Date.now().toString(36).toUpperCase().slice(-6) + Math.random().toString(36).slice(2, 4).toUpperCase(), nip_niy: nip || null, nuptk: null, nama_lengkap: nama, jenis_kelamin: d.jenis_kelamin, tempat_lahir: '', tanggal_lahir: null, asal_sekolah: d.asal_sekolah.trim(), jabatan_mgmp: 'Anggota', username: un, password: d.p1, status: 'Menunggu' };
+  const row = { kode_anggota: 'REG-' + Date.now().toString(36).toUpperCase().slice(-6) + Math.random().toString(36).slice(2, 4).toUpperCase(), nip_niy: nip || null, nuptk: null, nama_lengkap: nama, jenis_kelamin: d.jenis_kelamin, tempat_lahir: '', tanggal_lahir: tl, asal_sekolah: d.asal_sekolah.trim(), jabatan_mgmp: 'Anggota', username: un, password: d.p1, status: 'Menunggu' };
   try {
     if (IS_PREVIEW) { chk('anggota', row); mem.anggota.push({ id: uid(), created_at: new Date().toISOString(), ...row }) }
     else { const { error } = await sb.from('anggota').insert(row); if (error) throw error }
   } catch (x) {
     const m = String(x?.message || x);
     if (/status/i.test(m) && /column|schema/i.test(m)) throw new Error('Fitur pendaftaran belum aktif di database. Admin perlu menjalankan SQL migrasi pendaftaran di Supabase.');
+    if (/AKUN_SUDAH_ADA/.test(m)) throw new Error(ADA);
     if (/row-level|permission denied/i.test(m)) throw new Error('Pendaftaran belum diizinkan oleh database. Admin perlu menjalankan SQL migrasi pendaftaran di Supabase.');
     if (/duplicate|unique|sudah dipakai/i.test(m)) throw new Error('Username atau NIP/NIY sudah terdaftar. Gunakan username lain atau hubungi admin.');
     throw x;
