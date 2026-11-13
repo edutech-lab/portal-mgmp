@@ -217,6 +217,8 @@
  .lgr .in:focus{border-color:var(--b1);box-shadow:0 0 0 3px rgba(1,71,172,.16)}
  .lgr .pw .in{padding-right:44px}
  .lgr .btn{height:48px;box-shadow:0 8px 20px rgba(254,211,3,.35)}
+ .lgr .fg .f{margin:0}.lgr .fg .iw .in{width:100%}.lgr select.in{padding-right:12px}
+ .lgr .lgh a{text-decoration:none}
  .seg{display:grid;grid-template-columns:1fr 1fr;background:#eef2f9;border-radius:16px;padding:5px;margin:0 0 28px}
  .seg button{border:0;background:transparent;padding:11px;border-radius:12px;font-weight:700;cursor:pointer;color:var(--mu)}
  .seg button.on{background:#fff;color:var(--b1);box-shadow:0 2px 8px rgba(0,20,85,.12)}
@@ -875,22 +877,45 @@ async function loadAll() {
   } else {
     const f = { anggota_id: S.user.id };
     [S.presensi, S.izin, S.konten] = await Promise.all([DB.list('presensi', f), DB.list('ketidakhadiran', f), DB.list('konten')]);
-    const me = (await DB.list('anggota', { id: S.user.id }))[0]; if (!me) throw new Error('Akun anggota tidak ditemukan');
+    const me = (await DB.list('anggota', { id: S.user.id }))[0]; if (!me) throw new Error('Akun anggota tidak ditemukan'); cekStatus(me);
     S.user = me; S.anggota = [me];
   }
 }
 const reload = async pg => { await busy(loadAll); go(pg || S.page) };
 
 // ---------- login ----------
-function loginView() {
-  stopMedia(); const lg = h(S.set.logo_url || LOGO);
-  root.innerHTML = `<div class="lgn"><button type="button" class="thm lgt" data-act="theme" title="Ganti tema" aria-label="Ganti tema terang/gelap">${ic('moon', 'moon')}${ic('sun', 'sun')}</button><div class="lgw"><div class="lgl"><div class="lgo"><img src="${lg}" alt="Logo"></div><h1>${h(S.set.nama_aplikasi)}</h1><b class="sch">KOTA BANDAR LAMPUNG</b><span class="ta">Tahun Ajaran ${h(S.set.tahun_ajaran)}</span><p>Portal kolaborasi guru Informatika: presensi digital dengan pengenalan wajah dan lokasi, berbagi konten pembelajaran, serta rekap kegiatan dalam satu tempat.</p><div class="fc">${ic('camera')}<div><b>Presensi Wajah &amp; Lokasi</b><span>Sekali presensi otomatis tercatat ke rekap pertemuan.</span></div></div><div class="fc">${ic('book')}<div><b>Galeri Konten &amp; Kartu Digital</b><span>Bagikan media belajar dan tampilkan kartu anggota ber-QR.</span></div></div><div class="lgf"><em>${IS_PREVIEW ? 'Mode: Preview' : 'Mode: Produksi'}</em><span>PWA Ready v3.0</span></div></div>
-  <div class="lgr"><form id="fl"><h2>Masuk ke Akun Anda</h2><p class="sub">Gunakan akun yang diberikan admin untuk mengakses presensi, galeri konten, dan kartu anggota.</p>
+const lgTabs = m => `<div class="seg" role="tablist"><button type="button" role="tab" aria-selected="${m === 'masuk'}" class="${m === 'masuk' ? 'on' : ''}" data-act="lm" data-m="masuk">Masuk</button><button type="button" role="tab" aria-selected="${m === 'daftar'}" class="${m === 'daftar' ? 'on' : ''}" data-act="lm" data-m="daftar">Buat Akun</button></div>`;
+function loginPanel() {
+  const m = S.lm || 'masuk';
+  if (m === 'ok') return `<div style="text-align:center;padding:8px 0 4px"><div class="cfi">${ic('check')}</div><h2>Pendaftaran Berhasil</h2><p class="sub" style="margin-bottom:18px">Akun Anda sudah tersimpan dan menunggu persetujuan admin MGMP. Anda baru dapat masuk setelah akun disetujui.</p><button type="button" class="btn" style="width:100%" data-act="lm" data-m="masuk">Ke Halaman Masuk</button></div>`;
+  if (m === 'daftar') return `${lgTabs(m)}<form id="fr" autocomplete="off"><h2>Buat Akun Anggota</h2><p class="sub">Daftarkan diri Anda sebagai anggota MGMP ${h(S.set.mapel)}. Akun aktif setelah disetujui admin.</p>
+  <div class="fg" style="margin-bottom:14px">
+  <div class="f w"><label>Nama Lengkap *</label><div class="iw">${ic('user')}<input class="in" name="nama_lengkap" required minlength="3" maxlength="100" autocomplete="name" placeholder="Nama beserta gelar"></div></div>
+  <div class="f"><label>Jenis Kelamin *</label><select class="in" name="jenis_kelamin" required><option value="">Pilih</option><option>Laki-laki</option><option>Perempuan</option></select></div>
+  <div class="f"><label>NIP/NIY (jika ada)</label><input class="in" name="nip_niy" inputmode="numeric" maxlength="25" placeholder="Opsional"></div>
+  <div class="f w"><label>Asal Sekolah *</label><input class="in" name="asal_sekolah" required maxlength="120" placeholder="Contoh: SMP Negeri 1 Bandar Lampung"></div>
+  <div class="f w"><label>Username *</label><div class="iw">${ic('user')}<input class="in" name="username" required minlength="4" maxlength="30" pattern="[A-Za-z0-9._\\-]{4,30}" autocomplete="username" placeholder="Huruf, angka, titik, garis bawah (min. 4)"></div></div>
+  <div class="f"><label>Password *</label><div class="pw iw">${ic('lock')}<input class="in" type="password" name="p1" required minlength="6" maxlength="64" autocomplete="new-password" placeholder="Min. 6 karakter"><button type="button" data-act="eye" aria-label="Tampilkan password">${ic('eye')}</button></div></div>
+  <div class="f"><label>Ulangi Password *</label><div class="pw iw">${ic('lock')}<input class="in" type="password" name="p2" required minlength="6" maxlength="64" autocomplete="new-password" placeholder="Ketik ulang password"><button type="button" data-act="eye" aria-label="Tampilkan password">${ic('eye')}</button></div></div>
+  </div>
+  <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+  <button class="btn" style="width:100%;margin-top:4px">${ic('check')}Buat Akun</button></form>
+  <div class="lgh">${ic('info')}<span><b>Perlu persetujuan.</b> Setelah mendaftar, admin MGMP akan memeriksa data Anda. Sudah punya akun? <a href="#" data-act="lm" data-m="masuk" style="color:#1d4ed8;font-weight:700">Masuk di sini</a>.</span></div>`;
+  return `${lgTabs(m)}<form id="fl"><h2>Masuk ke Akun Anda</h2><p class="sub">Masuk untuk mengakses presensi, galeri konten, dan kartu anggota. Belum punya akun? Pilih <b>Buat Akun</b>.</p>
   <div class="f"><label>Email atau Username</label><div class="iw">${ic('user')}<input class="in" name="u" required autocomplete="username" placeholder="Masukkan email atau username"></div></div>
   <div class="f"><label>Password</label><div class="pw iw">${ic('lock')}<input class="in" type="password" name="p" required autocomplete="current-password" placeholder="Masukkan password"><button type="button" data-act="eye">${ic('eye')}</button></div></div>
   <button class="btn" style="width:100%;margin-top:8px">${ic('lock')}Masuk</button></form>
-  <div class="lgh">${ic('info')}<span><b>Lupa password?</b> Hubungi admin MGMP untuk mengatur ulang password akun Anda.</span></div>
+  <div class="lgh">${ic('info')}<span><b>Lupa password?</b> Hubungi admin MGMP untuk mengatur ulang password akun Anda.</span></div>`;
+}
+function loginView() {
+  stopMedia(); const lg = h(S.set.logo_url || LOGO);
+  root.innerHTML = `<div class="lgn"><button type="button" class="thm lgt" data-act="theme" title="Ganti tema" aria-label="Ganti tema terang/gelap">${ic('moon', 'moon')}${ic('sun', 'sun')}</button><div class="lgw"><div class="lgl"><div class="lgo"><img src="${lg}" alt="Logo"></div><h1>${h(S.set.nama_aplikasi)}</h1><b class="sch">KOTA BANDAR LAMPUNG</b><span class="ta">Tahun Ajaran ${h(S.set.tahun_ajaran)}</span><p>Portal kolaborasi guru Informatika: presensi digital dengan pengenalan wajah dan lokasi, berbagi konten pembelajaran, serta rekap kegiatan dalam satu tempat.</p><div class="fc">${ic('camera')}<div><b>Presensi Wajah &amp; Lokasi</b><span>Sekali presensi otomatis tercatat ke rekap pertemuan.</span></div></div><div class="fc">${ic('book')}<div><b>Galeri Konten &amp; Kartu Digital</b><span>Bagikan media belajar dan tampilkan kartu anggota ber-QR.</span></div></div><div class="lgf"><em>${IS_PREVIEW ? 'Mode: Preview' : 'Mode: Produksi'}</em><span>PWA Ready v3.0</span></div></div>
+  <div class="lgr">${loginPanel()}
   ${IS_PREVIEW ? `<div class="pvx"><b>Mode Preview Aktif</b> (data dummy)<br>Admin: <code>admin / edudigital</code><br>Anggota: <code>peserta / edudigital</code><div><button class="btn y sm" data-act="ql" data-r="admin">Quick Login Admin</button><button class="btn o sm" data-act="ql" data-r="anggota">Quick Login Anggota</button></div></div>` : ''}<p class="lgc">© ${new Date().getFullYear()} MGMP ${h(S.set.mapel)} Kota Bandar Lampung</p></div></div></div>`;
+}
+function cekStatus(r) {
+  if (r.status === 'Menunggu') throw new Error('Akun Anda belum disetujui admin MGMP. Silakan coba lagi setelah akun disetujui.');
+  if (r.status === 'Nonaktif') throw new Error('Akun Anda dinonaktifkan. Hubungi admin MGMP.');
 }
 async function login(role, u, p) {
   await busy(async () => {
@@ -902,6 +927,7 @@ async function login(role, u, p) {
       if (IS_PREVIEW) r = mem.anggota.find(x => x.username === u && x.password === p);
       else { const { data, error } = await sb.from('anggota').select('*').eq('username', u).eq('password', p).maybeSingle(); if (error) throw error; r = data }
       if (!r) throw new Error('Email/username atau password salah');
+      cekStatus(r);
       S.user = r; try { localStorage.setItem('mgmp_uid', r.id) } catch { }
     }
     S.role = role; await loadAll();
@@ -990,8 +1016,9 @@ function xl(name, aoa, widths) {
   ws['!cols'] = widths.map(w => ({ wch: w })); const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Data'); XLSX.writeFile(wb, name);
 }
 PG.anggota = () => {
-  const rows = S.anggota.map((a, i) => `<tr data-s="${h([a.kode_anggota, a.nip_niy, a.nuptk, a.nama_lengkap, a.asal_sekolah, a.jabatan_mgmp, a.username].join(' ')).toLowerCase()}"><td>${i + 1}</td><td>${av(a)}</td><td>${h(a.kode_anggota)}</td><td>${h(a.nip_niy || '-')}</td><td>${h(a.nuptk || '-')}</td><td><b>${h(a.nama_lengkap)}</b><br><small class="mu">${h(a.jenis_kelamin || '')}</small></td><td>${h(a.tempat_lahir || '-')}<br><span class="mu">${tgl(a.tanggal_lahir)}</span></td><td>${h(a.asal_sekolah || '-')}</td><td>${h(a.jabatan_mgmp || '-')}</td><td>${h(a.username)}</td><td class="nw"><button class="btn sm o" data-act="aEdit" data-id="${a.id}">${ic('edit')}</button> <button class="btn sm r" data-act="aDel" data-id="${a.id}">${ic('trash')}</button></td></tr>`).join('');
-  return `<div class="tb"><input class="in sr" data-filter placeholder="Cari nama, kode, NIP…"><div class="ac"><button class="btn y" data-act="aAdd">${ic('plus')}Tambah</button><button class="btn o" data-act="impPick">${ic('upload')}Import Excel</button><button class="btn o" data-act="tpl">${ic('download')}Template</button><button class="btn o" data-act="expA">${ic('download')}Ekspor</button><input type="file" id="fx" accept=".xlsx,.xls" data-chg="impGo" hidden></div></div>
+  const rows = S.anggota.map((a, i) => `<tr data-s="${h([a.kode_anggota, a.nip_niy, a.nuptk, a.nama_lengkap, a.asal_sekolah, a.jabatan_mgmp, a.username].join(' ')).toLowerCase()}"><td>${i + 1}</td><td>${av(a)}</td><td>${h(a.kode_anggota)}</td><td>${h(a.nip_niy || '-')}</td><td>${h(a.nuptk || '-')}</td><td><b>${h(a.nama_lengkap)}</b> ${a.status === 'Menunggu' ? bg('Menunggu') : a.status === 'Nonaktif' ? bg('Nonaktif') : ''}<br><small class="mu">${h(a.jenis_kelamin || '')}</small></td><td>${h(a.tempat_lahir || '-')}<br><span class="mu">${tgl(a.tanggal_lahir)}</span></td><td>${h(a.asal_sekolah || '-')}</td><td>${h(a.jabatan_mgmp || '-')}</td><td>${h(a.username)}</td><td class="nw">${a.status === 'Menunggu' ? `<button class="btn sm" data-act="aOk" data-id="${a.id}" title="Setujui akun">${ic('check')}</button> ` : ''}<button class="btn sm o" data-act="aEdit" data-id="${a.id}">${ic('edit')}</button> <button class="btn sm r" data-act="aDel" data-id="${a.id}">${ic('trash')}</button></td></tr>`).join('');
+  const pend = S.anggota.filter(a => a.status === 'Menunggu').length;
+  return `${pend ? `<div class="lgh" style="margin:0 0 14px">${ic('info')}<span><b>${pend} pendaftar baru menunggu persetujuan.</b> Periksa datanya, lalu klik tombol centang pada barisnya untuk mengaktifkan akun.</span></div>` : ''}<div class="tb"><input class="in sr" data-filter placeholder="Cari nama, kode, NIP…"><div class="ac"><button class="btn y" data-act="aAdd">${ic('plus')}Tambah</button><button class="btn o" data-act="impPick">${ic('upload')}Import Excel</button><button class="btn o" data-act="tpl">${ic('download')}Template</button><button class="btn o" data-act="expA">${ic('download')}Ekspor</button><input type="file" id="fx" accept=".xlsx,.xls" data-chg="impGo" hidden></div></div>
   <div class="cc tbw"><table><thead><tr><th>No</th><th>Foto</th><th>Kode</th><th>NIP/NIY</th><th>NUPTK</th><th>Nama Lengkap</th><th>Tempat, Tgl Lahir</th><th>Asal Sekolah</th><th>Jabatan MGMP</th><th>Username</th><th></th></tr></thead><tbody>${rows || `<tr><td colspan="11">${empty('Belum ada data anggota. Tambahkan manual atau import dari Excel.')}</td></tr>`}</tbody></table></div>`;
 };
 function aForm(a) {
@@ -1008,17 +1035,20 @@ function aForm(a) {
   <div class="f w"><label>Jabatan di MGMP</label><input class="in" name="jabatan_mgmp" list="jbt" value="${h(a.jabatan_mgmp || 'Anggota')}"><datalist id="jbt"><option>Ketua</option><option>Wakil Ketua</option><option>Sekretaris</option><option>Bendahara</option><option>Anggota</option></datalist></div>
   <div class="f"><label>Username Login * (nama / NIP)</label><input class="in" name="username" required value="${h(a.username || '')}"></div>
   <div class="f"><label>Password *</label><input class="in" name="password" required value="${h(a.password || '')}"></div>
+  ${'status' in a ? `<div class="f w"><label>Status Akun</label><select class="in" name="status">${['Aktif', 'Menunggu', 'Nonaktif'].map(x => `<option ${a.status === x ? 'selected' : ''}>${x}</option>`).join('')}</select></div>` : ''}
   <div class="f w"><label>Foto Anggota (opsional)</label><input class="in" type="file" name="foto" accept="image/*"></div></div>
   <div class="mf"><button type="button" class="btn o" data-act="mclose">Batal</button><button class="btn">Simpan</button></div></form>`);
 }
 FM.fa = async f => {
   const d = fd(f), key = d.kode_anggota.trim().replace(/[^\w.-]/g, '_');
   const row = { kode_anggota: d.kode_anggota.trim(), nip_niy: d.nip_niy.trim() || null, nuptk: d.nuptk.trim() || null, nama_lengkap: d.nama_lengkap.trim(), jenis_kelamin: d.jenis_kelamin, tempat_lahir: d.tempat_lahir.trim(), tanggal_lahir: d.tanggal_lahir || null, asal_sekolah: (d.asal_sekolah || '').trim() || null, jabatan_mgmp: d.jabatan_mgmp.trim() || 'Anggota', username: d.username.trim().toLowerCase(), password: d.password };
+  if (d.status) row.status = d.status;
   const file = f.foto.files[0]; let warn = '';
   if (file) { const b = await toBlob(file); row.foto_url = await upFile('foto-anggota', `foto/${key}.jpg`, b); const ds = await descFromBlob(b); if (ds) row.face_descriptor = ds; else warn = ' (wajah pada foto tidak terdeteksi, anggota perlu merekam wajah saat presensi)' }
   d.id ? await DB.set('anggota', d.id, row) : await DB.add('anggota', row);
   closeM(); await loadAll(); go('anggota'); toast('Data anggota tersimpan' + warn);
 };
+A.aOk = async d => { const a = S.anggota.find(x => x.id === d.id); if (!a) return; if (!await confirmBox({ title: 'Setujui Akun?', msg: `Akun "${a.nama_lengkap}" (${a.username}) akan diaktifkan dan dapat masuk ke aplikasi.`, ok: 'Ya, Setujui', icon: 'check' })) return; await busy(() => DB.set('anggota', d.id, { status: 'Aktif' }), 'Menyetujui…'); await reload('anggota'); toast('Akun disetujui') };
 A.aAdd = () => aForm(); A.aEdit = d => aForm(S.anggota.find(x => x.id === d.id));
 A.aDel = async d => { const a = S.anggota.find(x => x.id === d.id); if (!await confirmBox({ title: 'Hapus Anggota?', msg: `Data anggota "${a.nama_lengkap}" beserta seluruh riwayat presensinya akan dihapus permanen dan tidak dapat dikembalikan.`, ok: 'Ya, Hapus', danger: true })) return; await busy(() => DB.del('anggota', d.id), 'Menghapus…'); await reload(); toast('Anggota dihapus') };
 A.impPick = () => $('#fx').click();
@@ -1503,6 +1533,32 @@ A.logout = async () => {
   if (!await confirmBox({ title: 'Keluar dari Aplikasi?', msg: 'Sesi Anda akan diakhiri. Anda perlu masuk kembali untuk menggunakan aplikasi ini.', ok: 'Ya, Keluar', cancel: 'Batal', icon: 'logout' })) return;
   await busy(async () => { try { if (!IS_PREVIEW && S.role === 'admin') await sb.auth.signOut() } catch { } try { localStorage.removeItem('mgmp_uid') } catch { } }, 'Keluar…');
   stopMedia(); S.user = null; S.role = null; bkOff(); loginView();
+};
+A.lm = (d, t, e) => { e?.preventDefault?.(); S.lm = d.m; loginView() };
+FM.fr = async f => {
+  const d = fd(f); if (d.website) { S.lm = 'ok'; return loginView() } // honeypot: bot
+  const nama = d.nama_lengkap.trim().replace(/\s+/g, ' '), un = d.username.trim().toLowerCase();
+  if (nama.length < 3) throw new Error('Nama lengkap minimal 3 karakter.');
+  if (!d.jenis_kelamin) throw new Error('Pilih jenis kelamin.');
+  if (!(d.asal_sekolah || '').trim()) throw new Error('Asal sekolah wajib diisi.');
+  if (!/^[a-z0-9._-]{4,30}$/.test(un)) throw new Error('Username 4-30 karakter: huruf, angka, titik, garis bawah, atau strip. Tanpa spasi dan tanpa @.');
+  if (un === 'admin') throw new Error('Username tersebut tidak dapat digunakan.');
+  if (d.p1.length < 6) throw new Error('Password minimal 6 karakter.');
+  if (d.p1 !== d.p2) throw new Error('Konfirmasi password tidak sama.');
+  const nip = (d.nip_niy || '').trim();
+  if (nip && !/^\d{8,25}$/.test(nip)) throw new Error('NIP/NIY hanya berisi angka (8-25 digit), atau kosongkan.');
+  const row = { kode_anggota: 'REG-' + Date.now().toString(36).toUpperCase().slice(-6) + Math.random().toString(36).slice(2, 4).toUpperCase(), nip_niy: nip || null, nuptk: null, nama_lengkap: nama, jenis_kelamin: d.jenis_kelamin, tempat_lahir: '', tanggal_lahir: null, asal_sekolah: d.asal_sekolah.trim(), jabatan_mgmp: 'Anggota', username: un, password: d.p1, status: 'Menunggu' };
+  try {
+    if (IS_PREVIEW) { chk('anggota', row); mem.anggota.push({ id: uid(), created_at: new Date().toISOString(), ...row }) }
+    else { const { error } = await sb.from('anggota').insert(row); if (error) throw error }
+  } catch (x) {
+    const m = String(x?.message || x);
+    if (/status/i.test(m) && /column|schema/i.test(m)) throw new Error('Fitur pendaftaran belum aktif di database. Admin perlu menjalankan SQL migrasi pendaftaran di Supabase.');
+    if (/row-level|permission denied/i.test(m)) throw new Error('Pendaftaran belum diizinkan oleh database. Admin perlu menjalankan SQL migrasi pendaftaran di Supabase.');
+    if (/duplicate|unique|sudah dipakai/i.test(m)) throw new Error('Username atau NIP/NIY sudah terdaftar. Gunakan username lain atau hubungi admin.');
+    throw x;
+  }
+  snd(1); S.lm = 'ok'; loginView();
 };
 FM.fl = async f => { const d = fd(f), u = String(d.u || '').trim(); const adm = IS_PREVIEW ? u.toLowerCase() === 'admin' : u.includes('@'); await login(adm ? 'admin' : 'anggota', u, d.p) };
 

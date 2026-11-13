@@ -12,6 +12,7 @@ ketidakhadiran, galeri/data konten, kartu anggota, dan rekap. Database: Supabase
 │   ├── sw.js                <- naikkan VERSION setiap index.html berubah
 │   ├── manifest.webmanifest
 │   └── icons/
+├── supabase/                <- SQL migrasi (jalankan di Supabase SQL Editor)
 ├── vercel.json              <- output directory + header keamanan/cache
 ├── package.json
 ├── .gitignore
@@ -27,3 +28,6 @@ Kamera dan lokasi hanya berfungsi di `localhost` atau HTTPS.
 
 ## Deploy
 Lihat `PANDUAN.md`.
+
+## Buat Akun
+Halaman login mendukung pendaftaran mandiri (tab *Buat Akun*) dengan persetujuan admin. Jalankan `supabase/migrasi-pendaftaran-akun.sql` lebih dulu; lihat `PANDUAN.md` bagian 9.

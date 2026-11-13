@@ -57,7 +57,7 @@ Catatan penting:
 - Backup bersifat manual. Biasakan mengunduh sebelum perubahan besar (awal semester, impor data, dll).
 
 ## 6. Memperbarui aplikasi
-1. Ubah file di `public/`. Naikkan `VERSION` di `public/sw.js` (sekarang `mgmp-v3`, berikutnya `mgmp-v4`, dst.).
+1. Ubah file di `public/`. Naikkan `VERSION` di `public/sw.js` (sekarang `mgmp-v20`, berikutnya `mgmp-v21`, dst.).
 2. `git commit` lalu `git push`. Vercel otomatis deploy.
 3. Pengguna membuka aplikasi dengan internet aktif; tutup lalu buka lagi bila tampilan belum berubah.
 
@@ -73,3 +73,24 @@ Catatan penting:
 - Ikon masih sementara; ganti 4 file di `public/icons/` dengan logo (192, 512, maskable 512, apple-touch 180).
 - Pemecahan masalah: jika Vercel menampilkan 404, pastikan Output Directory = `public` dan `index.html` ada di dalamnya.
   Jika tampilan lama masih muncul, naikkan `VERSION` di `sw.js` lalu deploy ulang.
+
+## 9. Buat Akun (pendaftaran mandiri anggota)
+Halaman login punya dua tab: **Masuk** dan **Buat Akun**. Calon anggota mengisi nama, jenis kelamin, asal sekolah,
+username, dan password (NIP/NIY opsional). Akun baru berstatus **Menunggu** dan belum bisa masuk sampai admin menyetujui.
+
+**Langkah pemasangan (urutan penting):**
+1. Supabase -> SQL Editor -> jalankan `supabase/migrasi-pendaftaran-akun.sql`. Ini menambah kolom `status` pada tabel
+   `anggota` (anggota lama otomatis `Aktif`) dan satu kebijakan RLS yang hanya mengizinkan pendaftaran dengan status `Menunggu`.
+2. Lihat hasil query terakhir pada SQL itu (daftar kebijakan tabel `anggota`). Jika ada kebijakan untuk `anon` dengan
+   `cmd = ALL` atau `INSERT` dan kondisi `true`, pendaftar dapat melewati persetujuan. Ubah kebijakan itu agar tidak mencakup INSERT.
+3. Unggah `public/index.html` dan `public/sw.js` baru ke GitHub; Vercel akan men-deploy otomatis.
+
+**Menyetujui pendaftar (Admin):** menu *Data Anggota* -> tampil pemberitahuan jumlah pendaftar baru dan lencana
+**Menunggu** pada barisnya -> klik tombol centang -> konfirmasi. Admin juga bisa mengubah *Status Akun*
+(Aktif / Menunggu / Nonaktif) lewat tombol ubah. Anggota yang dinonaktifkan tidak bisa masuk.
+
+**Catatan keamanan:**
+- Username tidak boleh berisi `@` (karena `@` dikenali sebagai login Admin) dan tidak boleh `admin`.
+- Pendaftaran tidak memakai Supabase Authentication, sehingga tidak ada pendaftar yang bisa menjadi Admin.
+- Aplikasi ini (sejak versi sebelumnya) menyimpan password anggota apa adanya di tabel `anggota`. Itu bukan praktik aman;
+  pertimbangkan migrasi login anggota ke Supabase Auth atau Edge Function pada pembaruan berikutnya.
