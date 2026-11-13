@@ -1,7 +1,7 @@
 # Portal MGMP Informatika (PWA)
 
 Aplikasi Portal MGMP Informatika Kota Bandar Lampung: presensi (wajah + lokasi), pertemuan,
-ketidakhadiran, galeri/data konten, kartu anggota, dan rekap. Database: Supabase. Hosting: Vercel (via GitHub).
+ketidakhadiran, galeri media pembelajaran, berbagi media pembelajaran, kartu anggota, dan rekap. Database: Supabase. Hosting: Vercel (via GitHub).
 
 ## Struktur
 ```

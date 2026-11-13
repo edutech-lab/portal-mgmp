@@ -37,7 +37,7 @@ lalu buat record DNS (CNAME) sesuai instruksi Vercel.
 ## 5. Backup & Restore Database (menu Pengaturan, khusus Admin)
 **Unduh backup:** Masuk sebagai Admin -> Pengaturan -> *Backup & Restore Database* -> **Unduh Backup Sekarang**.
 Hasilnya satu file `backup-portal-mgmp-TANGGAL-JAM.json` berisi tabel: pengaturan, anggota, pertemuan, presensi,
-ketidakhadiran, konten.
+ketidakhadiran, media pembelajaran (menu Berbagi Media Pembelajaran; tabel `konten` tidak berubah).
 
 **Pulihkan:** pilih file backup -> aplikasi memeriksa file dan menampilkan jumlah data di file vs saat ini -> pilih mode:
 - **Gabungkan (disarankan):** menambah data yang belum ada dan menimpa data dengan id yang sama. Tidak menghapus apa pun.
